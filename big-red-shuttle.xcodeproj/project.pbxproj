@@ -1,0 +1,608 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC51DAEF4E300B07EBF /* AppDelegate.swift */; };
+		44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC71DAEF4E300B07EBF /* StopsViewController.swift */; };
+		44929BCB1DAEF4E300B07EBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44929BC91DAEF4E300B07EBF /* Main.storyboard */; };
+		44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44929BCC1DAEF4E300B07EBF /* Assets.xcassets */; };
+		44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */; };
+		44929BDB1DAEF4E300B07EBF /* big_red_shuttleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BDA1DAEF4E300B07EBF /* big_red_shuttleTests.swift */; };
+		44929BE61DAEF4E300B07EBF /* big_red_shuttleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BE51DAEF4E300B07EBF /* big_red_shuttleUITests.swift */; };
+		F58D8654CD021242161FAC93 /* libPods-big-red-shuttle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B64E6D7E8592B629EACC329 /* libPods-big-red-shuttle.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		44929BD71DAEF4E300B07EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44929BBA1DAEF4E300B07EBF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 44929BC11DAEF4E300B07EBF;
+			remoteInfo = "big-red-shuttle";
+		};
+		44929BE21DAEF4E300B07EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44929BBA1DAEF4E300B07EBF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 44929BC11DAEF4E300B07EBF;
+			remoteInfo = "big-red-shuttle";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.debug.xcconfig"; sourceTree = "<group>"; };
+		44929BC21DAEF4E300B07EBF /* big-red-shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "big-red-shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44929BC51DAEF4E300B07EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		44929BC71DAEF4E300B07EBF /* StopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsViewController.swift; sourceTree = "<group>"; };
+		44929BCA1DAEF4E300B07EBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		44929BCC1DAEF4E300B07EBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		44929BCF1DAEF4E300B07EBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		44929BD11DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44929BD61DAEF4E300B07EBF /* big-red-shuttleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "big-red-shuttleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44929BDA1DAEF4E300B07EBF /* big_red_shuttleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = big_red_shuttleTests.swift; sourceTree = "<group>"; };
+		44929BDC1DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44929BE11DAEF4E300B07EBF /* big-red-shuttleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "big-red-shuttleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44929BE51DAEF4E300B07EBF /* big_red_shuttleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = big_red_shuttleUITests.swift; sourceTree = "<group>"; };
+		44929BE71DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B64E6D7E8592B629EACC329 /* libPods-big-red-shuttle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-big-red-shuttle.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		44929BBF1DAEF4E300B07EBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F58D8654CD021242161FAC93 /* libPods-big-red-shuttle.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44929BD31DAEF4E300B07EBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44929BDE1DAEF4E300B07EBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		44929BB91DAEF4E300B07EBF = {
+			isa = PBXGroup;
+			children = (
+				44929BC41DAEF4E300B07EBF /* big-red-shuttle */,
+				44929BD91DAEF4E300B07EBF /* big-red-shuttleTests */,
+				44929BE41DAEF4E300B07EBF /* big-red-shuttleUITests */,
+				44929BC31DAEF4E300B07EBF /* Products */,
+				AE72D96E63DB91E09022713C /* Pods */,
+				CFB47E522262E51010823767 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		44929BC31DAEF4E300B07EBF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				44929BC21DAEF4E300B07EBF /* big-red-shuttle.app */,
+				44929BD61DAEF4E300B07EBF /* big-red-shuttleTests.xctest */,
+				44929BE11DAEF4E300B07EBF /* big-red-shuttleUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		44929BC41DAEF4E300B07EBF /* big-red-shuttle */ = {
+			isa = PBXGroup;
+			children = (
+				44929BC51DAEF4E300B07EBF /* AppDelegate.swift */,
+				44929BC71DAEF4E300B07EBF /* StopsViewController.swift */,
+				44929BC91DAEF4E300B07EBF /* Main.storyboard */,
+				44929BCC1DAEF4E300B07EBF /* Assets.xcassets */,
+				44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */,
+				44929BD11DAEF4E300B07EBF /* Info.plist */,
+			);
+			path = "big-red-shuttle";
+			sourceTree = "<group>";
+		};
+		44929BD91DAEF4E300B07EBF /* big-red-shuttleTests */ = {
+			isa = PBXGroup;
+			children = (
+				44929BDA1DAEF4E300B07EBF /* big_red_shuttleTests.swift */,
+				44929BDC1DAEF4E300B07EBF /* Info.plist */,
+			);
+			path = "big-red-shuttleTests";
+			sourceTree = "<group>";
+		};
+		44929BE41DAEF4E300B07EBF /* big-red-shuttleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				44929BE51DAEF4E300B07EBF /* big_red_shuttleUITests.swift */,
+				44929BE71DAEF4E300B07EBF /* Info.plist */,
+			);
+			path = "big-red-shuttleUITests";
+			sourceTree = "<group>";
+		};
+		AE72D96E63DB91E09022713C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */,
+				96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CFB47E522262E51010823767 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6B64E6D7E8592B629EACC329 /* libPods-big-red-shuttle.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		44929BC11DAEF4E300B07EBF /* big-red-shuttle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 44929BEA1DAEF4E300B07EBF /* Build configuration list for PBXNativeTarget "big-red-shuttle" */;
+			buildPhases = (
+				0E4FC69ABB41FC546A0264A8 /* [CP] Check Pods Manifest.lock */,
+				44929BBE1DAEF4E300B07EBF /* Sources */,
+				44929BBF1DAEF4E300B07EBF /* Frameworks */,
+				44929BC01DAEF4E300B07EBF /* Resources */,
+				2C8EDCE9F1151EEE1807F43E /* [CP] Embed Pods Frameworks */,
+				677157F5163417FE2B03BBEB /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "big-red-shuttle";
+			productName = "big-red-shuttle";
+			productReference = 44929BC21DAEF4E300B07EBF /* big-red-shuttle.app */;
+			productType = "com.apple.product-type.application";
+		};
+		44929BD51DAEF4E300B07EBF /* big-red-shuttleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 44929BED1DAEF4E300B07EBF /* Build configuration list for PBXNativeTarget "big-red-shuttleTests" */;
+			buildPhases = (
+				44929BD21DAEF4E300B07EBF /* Sources */,
+				44929BD31DAEF4E300B07EBF /* Frameworks */,
+				44929BD41DAEF4E300B07EBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				44929BD81DAEF4E300B07EBF /* PBXTargetDependency */,
+			);
+			name = "big-red-shuttleTests";
+			productName = "big-red-shuttleTests";
+			productReference = 44929BD61DAEF4E300B07EBF /* big-red-shuttleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		44929BE01DAEF4E300B07EBF /* big-red-shuttleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 44929BF01DAEF4E300B07EBF /* Build configuration list for PBXNativeTarget "big-red-shuttleUITests" */;
+			buildPhases = (
+				44929BDD1DAEF4E300B07EBF /* Sources */,
+				44929BDE1DAEF4E300B07EBF /* Frameworks */,
+				44929BDF1DAEF4E300B07EBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				44929BE31DAEF4E300B07EBF /* PBXTargetDependency */,
+			);
+			name = "big-red-shuttleUITests";
+			productName = "big-red-shuttleUITests";
+			productReference = 44929BE11DAEF4E300B07EBF /* big-red-shuttleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		44929BBA1DAEF4E300B07EBF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = cuappdev;
+				TargetAttributes = {
+					44929BC11DAEF4E300B07EBF = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+					44929BD51DAEF4E300B07EBF = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 44929BC11DAEF4E300B07EBF;
+					};
+					44929BE01DAEF4E300B07EBF = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 44929BC11DAEF4E300B07EBF;
+					};
+				};
+			};
+			buildConfigurationList = 44929BBD1DAEF4E300B07EBF /* Build configuration list for PBXProject "big-red-shuttle" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 44929BB91DAEF4E300B07EBF;
+			productRefGroup = 44929BC31DAEF4E300B07EBF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				44929BC11DAEF4E300B07EBF /* big-red-shuttle */,
+				44929BD51DAEF4E300B07EBF /* big-red-shuttleTests */,
+				44929BE01DAEF4E300B07EBF /* big-red-shuttleUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		44929BC01DAEF4E300B07EBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */,
+				44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */,
+				44929BCB1DAEF4E300B07EBF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44929BD41DAEF4E300B07EBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44929BDF1DAEF4E300B07EBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E4FC69ABB41FC546A0264A8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		2C8EDCE9F1151EEE1807F43E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		677157F5163417FE2B03BBEB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		44929BBE1DAEF4E300B07EBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */,
+				44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44929BD21DAEF4E300B07EBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				44929BDB1DAEF4E300B07EBF /* big_red_shuttleTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44929BDD1DAEF4E300B07EBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				44929BE61DAEF4E300B07EBF /* big_red_shuttleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		44929BD81DAEF4E300B07EBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 44929BC11DAEF4E300B07EBF /* big-red-shuttle */;
+			targetProxy = 44929BD71DAEF4E300B07EBF /* PBXContainerItemProxy */;
+		};
+		44929BE31DAEF4E300B07EBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 44929BC11DAEF4E300B07EBF /* big-red-shuttle */;
+			targetProxy = 44929BE21DAEF4E300B07EBF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		44929BC91DAEF4E300B07EBF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				44929BCA1DAEF4E300B07EBF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				44929BCF1DAEF4E300B07EBF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		44929BE81DAEF4E300B07EBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		44929BE91DAEF4E300B07EBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		44929BEB1DAEF4E300B07EBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "big-red-shuttle/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		44929BEC1DAEF4E300B07EBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "big-red-shuttle/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		44929BEE1DAEF4E300B07EBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "big-red-shuttleTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttleTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/big-red-shuttle.app/big-red-shuttle";
+			};
+			name = Debug;
+		};
+		44929BEF1DAEF4E300B07EBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "big-red-shuttleTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttleTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/big-red-shuttle.app/big-red-shuttle";
+			};
+			name = Release;
+		};
+		44929BF11DAEF4E300B07EBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = "big-red-shuttleUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "big-red-shuttle";
+			};
+			name = Debug;
+		};
+		44929BF21DAEF4E300B07EBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = "big-red-shuttleUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "big-red-shuttle";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		44929BBD1DAEF4E300B07EBF /* Build configuration list for PBXProject "big-red-shuttle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				44929BE81DAEF4E300B07EBF /* Debug */,
+				44929BE91DAEF4E300B07EBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		44929BEA1DAEF4E300B07EBF /* Build configuration list for PBXNativeTarget "big-red-shuttle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				44929BEB1DAEF4E300B07EBF /* Debug */,
+				44929BEC1DAEF4E300B07EBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		44929BED1DAEF4E300B07EBF /* Build configuration list for PBXNativeTarget "big-red-shuttleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				44929BEE1DAEF4E300B07EBF /* Debug */,
+				44929BEF1DAEF4E300B07EBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		44929BF01DAEF4E300B07EBF /* Build configuration list for PBXNativeTarget "big-red-shuttleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				44929BF11DAEF4E300B07EBF /* Debug */,
+				44929BF21DAEF4E300B07EBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 44929BBA1DAEF4E300B07EBF /* Project object */;
+}
