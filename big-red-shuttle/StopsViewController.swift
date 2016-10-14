@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class StopsViewController: UIViewController {
 
+    override func loadView() {
+        let camera = GMSCameraPosition.camera(withLatitude: 42.4474, longitude: -76.4855, zoom: 15.5)
+        let mapView = GMSMapView.map(withFrame: .zero, camera: camera)
+        self.view = mapView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {

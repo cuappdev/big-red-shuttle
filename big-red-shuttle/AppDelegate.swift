@@ -7,15 +7,25 @@
 //
 
 import UIKit
+import GoogleMaps
+import SwiftyJSON
+
+enum FileReadingError : Error { case fileNotFound }
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let json = try! JSON(data: Data(contentsOf: Bundle.main.url(forResource: "config", withExtension: "json")!))
+        GMSServices.provideAPIKey(json["google-maps"].stringValue)
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window!.makeKeyAndVisible()
+        window?.rootViewController = StopsViewController()
+        
         return true
     }
 

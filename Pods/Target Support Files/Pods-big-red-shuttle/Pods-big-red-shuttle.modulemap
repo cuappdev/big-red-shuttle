@@ -1,0 +1,6 @@
+framework module Pods_big_red_shuttle {
+  umbrella header "Pods-big-red-shuttle-umbrella.h"
+
+  export *
+  module * { export * }
+}
