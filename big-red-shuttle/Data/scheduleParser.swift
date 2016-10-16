@@ -6,6 +6,12 @@
 //  Copyright © 2016 cuappdev. All rights reserved.
 //
 
-import UIKit
+import Foundation
+
+class ScheduleParser: NSObject{
+    
+    
+    
+}
 
 
