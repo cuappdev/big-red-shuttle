@@ -10,22 +10,29 @@ import Foundation
 import SwiftyJSON
 
 
-public func getStops() ->  [String] {
+public func getStops() ->  [Stop] {
     let stopJsonString = "https://raw.githubusercontent.com/cuappdev/big-red-shuttle-stack/master/big-red-shuttle.json"
     var stops = [Stop]()
     if let url = URL(string: stopJsonString) {
         if let data = try? Data(contentsOf: url) {
             let json = JSON(data: data)
-            print(json)
             for stop in json["stops"].arrayValue {
-                let name = stop[0]
-                print("name is: \(name)")
+                var dayArray = [Days]()
+                let name = stop["name"].stringValue
+                let lat = stop["lat"].floatValue
+                let long = stop["long"].floatValue
+                let days = stop["days"].arrayObject!
+                
+                for day in days {
+                    
+                    dayArray.append(Days(rawValue: day as! String)!)
+                }
+                
+                let times = stop["times"].arrayObject!
+                stops.append(Stop(name: name, lat: lat, long: long, days: dayArray, times: times as! [String]))
+  
             }
-            
-            
-            
-            
-            }
+        }
     }
-return ["Test"]
+    return stops
 }
