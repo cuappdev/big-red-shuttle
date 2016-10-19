@@ -15,10 +15,12 @@ class StopsViewController: UIViewController {
         let camera = GMSCameraPosition.camera(withLatitude: 42.4474, longitude: -76.4855, zoom: 15.5)
         let mapView = GMSMapView.map(withFrame: .zero, camera: camera)
         self.view = mapView
+        print("getting stops!: \(getStops())")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
 
     override func didReceiveMemoryWarning() {

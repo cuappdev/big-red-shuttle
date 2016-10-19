@@ -18,7 +18,7 @@ public enum Days: String{
     case Sunday = "Sunday"
 }
 
-class Stop: NSObject {
+public class Stop: NSObject {
     
     public var name: String
     public var lat: Float
