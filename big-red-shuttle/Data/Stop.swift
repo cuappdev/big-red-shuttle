@@ -26,7 +26,6 @@ class Stop: NSObject {
     public var days: [Days]
     public var times: [String]
     
-    
     public init(name: String, lat: Float, long: Float, days: [Days], times: [String]){
         self.name = name
         self.lat = lat
@@ -35,9 +34,8 @@ class Stop: NSObject {
         self.times = times
     }
     
-    public func getLocation() -> (Float,Float){
-        return (lat, long)
+    public func getLocation() -> (lat: Float,long: Float){
+        return (lat: lat, long: long)
     }
     
-
 }
