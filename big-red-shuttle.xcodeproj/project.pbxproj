@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		440A995F1DB03DC800838CDB /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 440A995E1DB03DC800838CDB /* config.json */; };
 		44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC51DAEF4E300B07EBF /* AppDelegate.swift */; };
 		44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC71DAEF4E300B07EBF /* StopsViewController.swift */; };
 		44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44929BCC1DAEF4E300B07EBF /* Assets.xcassets */; };
@@ -15,6 +14,8 @@
 		44929BDB1DAEF4E300B07EBF /* big_red_shuttleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BDA1DAEF4E300B07EBF /* big_red_shuttleTests.swift */; };
 		44929BE61DAEF4E300B07EBF /* big_red_shuttleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BE51DAEF4E300B07EBF /* big_red_shuttleUITests.swift */; };
 		7C158D5F3005ED65924F1821 /* Pods_big_red_shuttle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */; };
+		DD9A176F1DB828AA002EDC65 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = DD9A176E1DB828AA002EDC65 /* config.json */; };
+		DD9A17711DB82E40002EDC65 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9A17701DB82E40002EDC65 /* Network.swift */; };
 		DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE8FD211DB40B01006EDB5C /* Stop.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,7 +38,6 @@
 
 /* Begin PBXFileReference section */
 		127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.debug.xcconfig"; sourceTree = "<group>"; };
-		440A995E1DB03DC800838CDB /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		44929BC21DAEF4E300B07EBF /* big-red-shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "big-red-shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44929BC51DAEF4E300B07EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44929BC71DAEF4E300B07EBF /* StopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsViewController.swift; sourceTree = "<group>"; };
@@ -52,6 +52,8 @@
 		44929BE71DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_big_red_shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
+		DD9A176E1DB828AA002EDC65 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = SOURCE_ROOT; };
+		DD9A17701DB82E40002EDC65 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		DDE8FD211DB40B01006EDB5C /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = Data/Stop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,8 +108,9 @@
 		44929BC41DAEF4E300B07EBF /* big-red-shuttle */ = {
 			isa = PBXGroup;
 			children = (
-				440A995E1DB03DC800838CDB /* config.json */,
+				DD9A176E1DB828AA002EDC65 /* config.json */,
 				44929BC51DAEF4E300B07EBF /* AppDelegate.swift */,
+				DD9A17701DB82E40002EDC65 /* Network.swift */,
 				DDE8FD211DB40B01006EDB5C /* Stop.swift */,
 				44929BC71DAEF4E300B07EBF /* StopsViewController.swift */,
 				44929BCC1DAEF4E300B07EBF /* Assets.xcassets */,
@@ -264,7 +267,7 @@
 			files = (
 				44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */,
 				44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */,
-				440A995F1DB03DC800838CDB /* config.json in Resources */,
+				DD9A176F1DB828AA002EDC65 /* config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +342,7 @@
 			files = (
 				44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */,
 				44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */,
+				DD9A17711DB82E40002EDC65 /* Network.swift in Sources */,
 				DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
