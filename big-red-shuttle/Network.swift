@@ -24,7 +24,6 @@ public func getStops() ->  [Stop] {
                 let days = stop["days"].arrayObject!
                 
                 for day in days {
-                    
                     dayArray.append(Days(rawValue: day as! String)!)
                 }
                 
