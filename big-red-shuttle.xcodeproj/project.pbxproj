@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		440A995F1DB03DC800838CDB /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 440A995E1DB03DC800838CDB /* config.json */; };
 		44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC51DAEF4E300B07EBF /* AppDelegate.swift */; };
 		44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC71DAEF4E300B07EBF /* StopsViewController.swift */; };
 		44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44929BCC1DAEF4E300B07EBF /* Assets.xcassets */; };
 		44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */; };
 		44929BDB1DAEF4E300B07EBF /* big_red_shuttleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BDA1DAEF4E300B07EBF /* big_red_shuttleTests.swift */; };
 		44929BE61DAEF4E300B07EBF /* big_red_shuttleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BE51DAEF4E300B07EBF /* big_red_shuttleUITests.swift */; };
+		503421A01DB8239F00560DB6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034219F1DB8239F00560DB6 /* Network.swift */; };
+		50C8B5A91DB8284900455EBE /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50C8B5A81DB8284900455EBE /* config.json */; };
 		7C158D5F3005ED65924F1821 /* Pods_big_red_shuttle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */; };
+		DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE8FD211DB40B01006EDB5C /* Stop.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +38,6 @@
 
 /* Begin PBXFileReference section */
 		127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.debug.xcconfig"; sourceTree = "<group>"; };
-		440A995E1DB03DC800838CDB /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		44929BC21DAEF4E300B07EBF /* big-red-shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "big-red-shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44929BC51DAEF4E300B07EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44929BC71DAEF4E300B07EBF /* StopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsViewController.swift; sourceTree = "<group>"; };
@@ -49,8 +50,11 @@
 		44929BE11DAEF4E300B07EBF /* big-red-shuttleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "big-red-shuttleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44929BE51DAEF4E300B07EBF /* big_red_shuttleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = big_red_shuttleUITests.swift; sourceTree = "<group>"; };
 		44929BE71DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5034219F1DB8239F00560DB6 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		50C8B5A81DB8284900455EBE /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_big_red_shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
+		DDE8FD211DB40B01006EDB5C /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = Data/Stop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,9 +108,11 @@
 		44929BC41DAEF4E300B07EBF /* big-red-shuttle */ = {
 			isa = PBXGroup;
 			children = (
-				440A995E1DB03DC800838CDB /* config.json */,
+				50C8B5A81DB8284900455EBE /* config.json */,
 				44929BC51DAEF4E300B07EBF /* AppDelegate.swift */,
+				DDE8FD211DB40B01006EDB5C /* Stop.swift */,
 				44929BC71DAEF4E300B07EBF /* StopsViewController.swift */,
+				5034219F1DB8239F00560DB6 /* Network.swift */,
 				44929BCC1DAEF4E300B07EBF /* Assets.xcassets */,
 				44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */,
 				44929BD11DAEF4E300B07EBF /* Info.plist */,
@@ -261,7 +267,7 @@
 			files = (
 				44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */,
 				44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */,
-				440A995F1DB03DC800838CDB /* config.json in Resources */,
+				50C8B5A91DB8284900455EBE /* config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +342,8 @@
 			files = (
 				44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */,
 				44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */,
+				503421A01DB8239F00560DB6 /* Network.swift in Sources */,
+				DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,7 +488,9 @@
 			baseConfigurationReference = 127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "big-red-shuttle/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -493,7 +503,9 @@
 			baseConfigurationReference = 96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "big-red-shuttle/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
