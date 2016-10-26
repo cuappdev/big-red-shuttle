@@ -376,7 +376,7 @@
 				503421A01DB8239F00560DB6 /* Network.swift in Sources */,
 				DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */,
 				500FA3161DC164ED00F9CD59 /* EmergencyViewController.swift in Sources */,
-				505DC3961DD3F82A00774077 /* Location.swift in Sources */,
+				505DC3961DD3F82A00774077 /* Location.swift in Sources */
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

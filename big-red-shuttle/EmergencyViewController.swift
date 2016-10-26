@@ -40,6 +40,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
+
     /*phoneNumberToFormattedString takes in an integer and converts it to a (XXX) YYY-YYYY string */
     func phoneNumberToFormattedString(phoneNumber: Int) -> String {
         var stringOfPhoneNumber = String(describing: phoneNumber)
@@ -58,10 +59,11 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    
+
     //MARK: tableview functions
     
     func numberOfSections(in tableView: UITableView) -> Int {
+
         return 2
     }
     
