@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-big-red-shuttle.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>5E448D3A98706DDC5CE418C1E00A8228</key>
+		<key>369BD7EEED765216D8A49AD37411421F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7A07849E8C022A34EF7F734412AE51DA</key>
+		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D2FED637295E5D73B7887AD61EC7538F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

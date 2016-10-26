@@ -84,8 +84,10 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-big-red-shuttle/Alamofire.framework"
   install_framework "Pods-big-red-shuttle/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-big-red-shuttle/Alamofire.framework"
   install_framework "Pods-big-red-shuttle/SwiftyJSON.framework"
 fi
