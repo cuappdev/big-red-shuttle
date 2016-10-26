@@ -393,7 +393,7 @@
 				500FA3161DC164ED00F9CD59 /* EmergencyViewController.swift in Sources */,
 				505DC3961DD3F82A00774077 /* Location.swift in Sources */,
 				DD1F26941DD3EE09005358ED /* UIColor+Shared.swift in Sources */,
-				DD2907611DCA733F00E1C316 /* ScheduleTableViewCell.swift in Sources */,
+				DD2907611DCA733F00E1C316 /* ScheduleTableViewCell.swift in Sources */
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
