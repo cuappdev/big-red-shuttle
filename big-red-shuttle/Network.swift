@@ -10,6 +10,26 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+class API {
+    
+    static let sharedAPI = API()
+    
+    /// registers a user to log location using an authentication key
+    func registerUserToLogLocation(uid: String, key: String) {
+        
+    }
+    
+    /// logs the location of the shuttle
+    func logLocation(uid: String, longitude: String, latitude: String) {
+        
+    }
+    
+    /// fetches the last logged location of the shuttle
+    func getLocation(uid: String, completion: (String, String) -> ()) {
+        
+    }
+}
+
 
 public func getStops() ->  [Stop] {
     let stopJsonString = "https://raw.githubusercontent.com/cuappdev/big-red-shuttle-stack/master/big-red-shuttle.json"
