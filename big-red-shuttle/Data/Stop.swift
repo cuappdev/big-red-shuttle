@@ -24,9 +24,9 @@ public class Stop: NSObject {
     public var lat: Float
     public var long: Float
     public var days: [Days]
-    public var times: [String]
+    public var times: [Time]
     
-    public init(name: String, lat: Float, long: Float, days: [Days], times: [String]){
+    public init(name: String, lat: Float, long: Float, days: [Days], times: [Time]){
         self.name = name
         self.lat = lat
         self.long = long
