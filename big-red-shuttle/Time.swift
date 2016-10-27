@@ -9,6 +9,21 @@
 //Note: stores time using 24-hour system
 import Foundation
 
+//Sort by descending times
+public func timeCompare(_ t1: Time, _ t2:Time) -> Bool{
+    if t1.hour > t2.hour{
+        return false
+    } else if t1.hour < t2.hour {
+        return true
+    } else{
+        if t1.minute > t2.minute{
+            return false
+        }else{
+            return true
+        }
+    }
+}
+
 public class Time: NSObject {
     public var hour: Int //in 24 hours
     public var minute: Int
@@ -18,24 +33,6 @@ public class Time: NSObject {
         self.minute = minute
     }
     
-    /* Creates time from JSON string
-     * Time string must have format:
-     * H:mm a
-    */
-    public init(time: String){
-        var hourArr = time.components(separatedBy: ":") //["h","mm a"]
-        let minArr = hourArr[1].components(separatedBy: " ") //["mm","a"]
-        let timeArr = [hourArr[0]] + minArr //["h","mm","a"]
-        
-        self.minute = Int(timeArr[1])!
-        
-        let hour12 = Int(hourArr[0])!
-        
-        let aa = timeArr[2].lowercased()
-        if(aa=="am" && hour12 == 12){ //12:xx am = 0:xx
-            self.hour = 0
-        }else if(aa=="pm" && hour12 != 12){ //12:xx pm = 12:xx
-            self.hour = hour + 12 //h:xx pm = (h+12):xx
-        }
-    }
+
+
 }

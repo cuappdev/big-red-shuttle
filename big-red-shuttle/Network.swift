@@ -28,11 +28,43 @@ public func getStops() ->  [Stop] {
                     dayArray.append(Days(rawValue: day as! String)!)
                 }
                 
-                let times = stop["times"].arrayObject!
-                stops.append(Stop(name: name, lat: lat, long: long, days: dayArray, times: times as! [String]))
+                let timeStrings = stop["times"].arrayObject! as! [String]
+                var times:[Time] = []
+                for tStr in timeStrings {
+                    times.append(getTime(time: tStr))
+                }
+                times = times.sorted(by: timeCompare)
+                stops.append(Stop(name: name, lat: lat, long: long, days: dayArray, times: times))
   
             }
         }
     }
     return stops
+
+}
+
+/* Creates time from JSON string
+ * Time string must have format:
+ * H:mm a
+ */
+public func getTime(time: String) -> Time{
+    var hourArr = time.components(separatedBy: ":") //["h","mm a"]
+    let minArr = hourArr[1].components(separatedBy: " ") //["mm","a"]
+    let timeArr = [hourArr[0]] + minArr //["h","mm","a"]
+    
+    let minute = Int(timeArr[1])!
+    
+    let hour12 = Int(hourArr[0])!
+    
+    var hour = 0
+    let aa = timeArr[2].lowercased()
+    if(aa=="am" && hour12 == 12){ //12:xx am = 0:xx
+        hour = 0
+    }else if(aa=="pm" && hour12 != 12){ //12:xx pm = 12:xx
+        hour = hour12 + 12 //h:xx pm = (h+12):xx
+    }else{
+        hour = hour12
+    }
+    
+    return Time(hour: hour, minute: minute)
 }

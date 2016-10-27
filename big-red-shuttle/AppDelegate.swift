@@ -12,6 +12,10 @@ import SwiftyJSON
 
 enum FileReadingError : Error { case fileNotFound }
 
+struct colorPalette{
+    static var red = UIColor(red: 0.98, green: 0.28, blue: 0.26, alpha: 1.0)
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -22,9 +26,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let json = try! JSON(data: Data(contentsOf: Bundle.main.url(forResource: "config", withExtension: "json")!))
         GMSServices.provideAPIKey(json["google-maps"].stringValue)
         
+        //Set up tab bar & VCs
+        let tabBarController = UITabBarController()
+        let navigationVC = StopsViewController() //fill in w/ actual VCs
+        let scheduleVC = StopsViewController()
+        let emergencyVC = StopsViewController()
+        
+        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "magnifying-glass"), tag: 0)
+        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "calendar"), tag: 0)
+        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "eye"), tag: 0)
+        
+        navigationVC.tabBarItem = navigationIcon
+        scheduleVC.tabBarItem = scheduleIcon
+        emergencyVC.tabBarItem = emergencyIcon
+        
+        tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
+        tabBarController.selectedViewController = navigationVC
+        tabBarController.tabBar.tintColor = colorPalette.red
+            //get rid of top line of tab bar
+        tabBarController.tabBar.clipsToBounds = true
+        
+        //Set up window
         window = UIWindow(frame: UIScreen.main.bounds)
         window!.makeKeyAndVisible()
-        window?.rootViewController = StopsViewController()
+        window?.rootViewController = tabBarController
         
         return true
     }
