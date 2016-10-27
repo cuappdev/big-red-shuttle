@@ -17,6 +17,7 @@
 		7C158D5F3005ED65924F1821 /* Pods_big_red_shuttle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */; };
 		DD184ECF1DC170A90098D5F7 /* System.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD184ECD1DC170A90098D5F7 /* System.swift */; };
 		DD184ED01DC170A90098D5F7 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD184ECE1DC170A90098D5F7 /* Time.swift */; };
+		DD184ED41DC181DA0098D5F7 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = DD184ED31DC181DA0098D5F7 /* config.json */; };
 		DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE8FD211DB40B01006EDB5C /* Stop.swift */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		DD184ECD1DC170A90098D5F7 /* System.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = System.swift; sourceTree = "<group>"; };
 		DD184ECE1DC170A90098D5F7 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		DD184ED31DC181DA0098D5F7 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = SOURCE_ROOT; };
 		DDE8FD211DB40B01006EDB5C /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = Data/Stop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +112,7 @@
 		44929BC41DAEF4E300B07EBF /* big-red-shuttle */ = {
 			isa = PBXGroup;
 			children = (
+				DD184ED31DC181DA0098D5F7 /* config.json */,
 				DD184ECD1DC170A90098D5F7 /* System.swift */,
 				DD184ECE1DC170A90098D5F7 /* Time.swift */,
 				44929BC51DAEF4E300B07EBF /* AppDelegate.swift */,
@@ -269,6 +272,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD184ED41DC181DA0098D5F7 /* config.json in Resources */,
 				44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */,
 				44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */,
 			);
