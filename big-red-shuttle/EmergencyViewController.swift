@@ -48,7 +48,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         return stringOfPhoneNumber
     }
     
-    
+
     //MARK: tableview functions
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -91,6 +91,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.addSubview(safetyLabelDetail)
             cell.isUserInteractionEnabled = false
             
+
         } else {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "emergencyCell")
             cell.textLabel?.text = emergencyArray[indexPath.row].service
@@ -109,9 +110,10 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
         return section == 0 ? 1.0 : 30.0
     }
-    
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return indexPath.section == 0 ? 170.0 : 80.0
