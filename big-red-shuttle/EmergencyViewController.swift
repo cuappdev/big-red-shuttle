@@ -29,8 +29,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         view.addSubview(tableView)
     }
     
-    
-    override func didReceiveMemoryWarning() {
+        override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
@@ -41,6 +40,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         if stringOfPhoneNumber.characters.count == 10 {
             let startIndex = stringOfPhoneNumber.startIndex
             stringOfPhoneNumber.insert("(", at: startIndex)
+
             stringOfPhoneNumber.insert(")", at: stringOfPhoneNumber.index(startIndex, offsetBy: 4))
             stringOfPhoneNumber.insert(" ", at: stringOfPhoneNumber.index(startIndex, offsetBy: 5))
             stringOfPhoneNumber.insert("-", at: stringOfPhoneNumber.index(startIndex, offsetBy: 9))
