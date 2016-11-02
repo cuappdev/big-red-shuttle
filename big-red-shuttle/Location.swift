@@ -1,18 +1,28 @@
-//
-//  LocationManager.swift
-//  big-red-shuttle
-//
-//  Created by Dennis Fedorko on 10/26/16.
-//  Copyright © 2016 cuappdev. All rights reserved.
-//
-
 import UIKit
 import CoreLocation
+
+class Coordinate {
+    
+    let latitude: Double
+    let longitude: Double
+    
+    init(latitude: Double, longitude: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+    
+    init(location: CLLocationCoordinate2D) {
+        latitude = location.latitude
+        longitude = location.longitude
+    }
+}
 
 class Location: NSObject, CLLocationManagerDelegate {
     
     static let sharedLocation = Location()
     let locationManager = CLLocationManager()
+    var currentUserLocation: Coordinate?
+    var currentBusLocation: Coordinate?
     
     override init() {
         super.init()
@@ -30,6 +40,7 @@ class Location: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = manager.location?.coordinate {
             print("longitude: \(location.longitude), latitude: \(location.latitude)")
+            currentUserLocation = Coordinate(location: location)
         }
     }
 
