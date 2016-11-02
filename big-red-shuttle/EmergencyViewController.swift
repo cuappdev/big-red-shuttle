@@ -11,12 +11,14 @@ import UIKit
 class EmergencyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView!
+
     let emergencyArray = [(service: "Call Cornell University Police",number: 6072551111), (service:"Call Emergency Services",number: 911), (service:"Call Blue Light Escorts",number:6072557373), (service:"Call Gannett Health Services",number: 6072555155)]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Emergency"
+
         let tableViewFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - (tabBarController?.tabBar.frame.height)!)
         
         tableView = UITableView(frame: tableViewFrame, style: .grouped)
@@ -47,7 +49,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         return stringOfPhoneNumber
     }
 
-
+    
     //MARK: tableview functions
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -84,7 +86,6 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             safetyLabelDetail.numberOfLines = 2
             safetyLabelDetail.sizeToFit()
             safetyLabelDetail.center = CGPoint(x: view.frame.midX, y: 130)
-
             cell.addSubview(imageView)
             cell.addSubview(safetyLabel)
             cell.addSubview(safetyLabelDetail)
@@ -110,7 +111,6 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         return section == 0 ? 1.0 : 30.0
     }
 
-
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return indexPath.section == 0 ? 170.0 : 80.0
@@ -124,7 +124,6 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         let alertController = UIAlertController(title: parsedName, message: "" , preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "Call", style: .default, handler: { result in
-            
             if let phoneCallNumber = URL(string: "tel://\(phoneNumber)") {
                 if (UIApplication.shared.canOpenURL(phoneCallNumber)) {
                     
@@ -140,6 +139,5 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

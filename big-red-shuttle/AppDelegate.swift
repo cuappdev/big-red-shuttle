@@ -21,6 +21,7 @@ extension UINavigationController{
     }
 }
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -33,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Set up tab bar & VCs
         let tabBarController = UITabBarController()
-        
         let navigationVC = StopsViewController() //fill in w/ actual VCs
         let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
         let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
@@ -102,7 +102,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

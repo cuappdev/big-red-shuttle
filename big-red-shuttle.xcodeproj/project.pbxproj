@@ -24,6 +24,7 @@
 		DD2907611DCA733F00E1C316 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */; };
 		DD428E781DCB7D9F0063BCE5 /* ScheduleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */; };
 		DD7C33D31DC6722700281E0A /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */; };
+
 		DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE8FD211DB40B01006EDB5C /* Stop.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		5034219F1DB8239F00560DB6 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		505DC3951DD3F82A00774077 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+
 		50F631EE1DC66A25002B6926 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_big_red_shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 		DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleBar.swift; sourceTree = "<group>"; };
 		DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+
 		DDE8FD211DB40B01006EDB5C /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = Data/Stop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
