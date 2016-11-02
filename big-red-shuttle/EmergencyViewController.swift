@@ -11,18 +11,16 @@ import UIKit
 class EmergencyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView!
-    let emergencyArray = [("Cornell Univeristy Police", 6072551111), ("Emergency Services", 911), ("Blue Light Escorts", 6072557373), ("Gannett Health Services", 6072555155)] //add more later
+    let emergencyArray = [("Call Cornell Univeristy Police", 6072551111), ("Call Emergency Services", 911), ("Call Blue Light Escorts", 6072557373), ("Call Gannett Health Services", 6072555155)] //add more later
     var heightForCalculations: CGFloat = 0.0
     
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let navItem = UINavigationItem(title: "Emergency")
-        navigationController?.navigationBar.setItems([navItem], animated: false)
-        
         // Do any additional setup after loading the view.
+        self.title = "Emergency"
         let tableViewFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - (tabBarController?.tabBar.frame.height)!)
         
         self.tableView = UITableView(frame: tableViewFrame, style: .plain)
@@ -30,12 +28,10 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.0)
-        
-        tabBarController?.tabBar.backgroundColor = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.0)
-
+    
         self.view.addSubview(self.tableView)
         
-        heightForCalculations = view.bounds.height - (tabBarController?.tabBar.frame.height)!
+        heightForCalculations = view.bounds.height - (tabBarController?.tabBar.frame.height)! - (navigationController?.navigationBar.frame.height)!
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,19 +59,6 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
-    /* draws the outer eye shape. Still needs refinement*/
-    func drawOuterEye(eyeShapePath: UIBezierPath, cellHeight: CGFloat) {
-        
-        eyeShapePath.move(to: CGPoint(x: view.frame.midX - ((view.frame.maxX * 0.12333)/2), y: 0.30 * cellHeight))
-        
-        eyeShapePath.addCurve(to: CGPoint(x: view.frame.midX + ((view.frame.maxX * 0.12333)/2), y: 0.30 * cellHeight), controlPoint1: CGPoint(x: view.frame.midX, y: ((0.30 * cellHeight) - 20)), controlPoint2: CGPoint(x: view.frame.midX, y: ((0.30 * cellHeight) - 20)))
-        
-        eyeShapePath.move(to: CGPoint(x: view.frame.midX + ((view.frame.maxX * 0.12333)/2), y: 0.30 * cellHeight))
-        
-        eyeShapePath.addCurve(to: CGPoint(x: view.frame.midX - ((view.frame.maxX * 0.12333)/2), y: 0.30 * cellHeight), controlPoint1:  CGPoint(x: view.frame.midX, y: ((0.30 * cellHeight) + 20)), controlPoint2: CGPoint(x: view.frame.midX, y: ((0.30 * cellHeight) + 20)))
-        
-    }
-    
     //MARK: tableview functions
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -92,37 +75,24 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //create everything for first cell 
-        //MARK: TODO - make drawing functions separate and call them to keep this concise
+        //create everything for first cell
         if indexPath.section == 0 {
             let cell = UITableViewCell()
             let cellHeight = heightForCalculations * 0.36
             
-            //small red circle
-            let littleRedCirlcePath = UIBezierPath()
-            littleRedCirlcePath.addArc(withCenter: CGPoint(x: view.frame.midX, y:(0.30 * cellHeight)), radius: 6, startAngle: 0, endAngle: 2.0*3.14, clockwise: true)
-        
-            //outer eye shape
-            let eyeShapePath = UIBezierPath()
-            drawOuterEye(eyeShapePath: eyeShapePath, cellHeight: cellHeight)
             
-            //color layers
-            let innerCircleLayer = CAShapeLayer()
-            innerCircleLayer.path = littleRedCirlcePath.cgPath
-            innerCircleLayer.strokeColor = UIColor(red:0.83, green:0.29, blue:0.24, alpha:1.0).cgColor
-            innerCircleLayer.lineWidth = 4
-            innerCircleLayer.fillColor = UIColor.clear.cgColor
-
-            let eyeShapeLayer = CAShapeLayer()
-            eyeShapeLayer.path = eyeShapePath.cgPath
-            eyeShapeLayer.strokeColor = UIColor(red:0.83, green:0.29, blue:0.24, alpha:1.0).cgColor
-            eyeShapeLayer.lineWidth = 4
-            eyeShapeLayer.fillColor = UIColor.clear.cgColor
+            //imageView
+            let imageView = UIImageView()
+            imageView.image = UIImage(named: "eye")
+            //117 width 63 height
+            imageView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+            imageView.center = CGPoint(x: view.frame.midX, y: (0.30 * cellHeight))
+            imageView.tintColor = UIColor(red:0.83, green:0.29, blue:0.24, alpha:1.0)
             
             //Safety Label
             let safetyLabel = UILabel()
             safetyLabel.text = "Safety is our mission"
-            safetyLabel.font = UIFont.boldSystemFont(ofSize: 20)
+            safetyLabel.font = UIFont.boldSystemFont(ofSize: 18)
             safetyLabel.sizeToFit()
             safetyLabel.center = CGPoint(x: view.frame.midX, y: cellHeight * 0.50)
             
@@ -130,15 +100,15 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             let safetyLabelDetail = UILabel(frame: CGRect(x: safetyLabel.frame.minX - 15, y: cellHeight * 70, width: safetyLabel.frame.maxX + 30, height: 10))
             safetyLabelDetail.textAlignment = .center
             safetyLabelDetail.text = "If there is an emergency, please call the appropriate service."
-            safetyLabelDetail.font = UIFont.systemFont(ofSize: 17)
+            safetyLabelDetail.font = UIFont.systemFont(ofSize: 16)
             safetyLabelDetail.textColor = UIColor.lightGray
             safetyLabelDetail.numberOfLines = 2
             safetyLabelDetail.sizeToFit()
             safetyLabelDetail.center = CGPoint(x: view.frame.midX, y: cellHeight * 0.70)
             
             //add layers/views to cell
-            cell.layer.addSublayer(innerCircleLayer)
-            cell.layer.addSublayer(eyeShapeLayer)
+            
+            cell.addSubview(imageView)
             cell.addSubview(safetyLabel)
             cell.addSubview(safetyLabelDetail)
             
@@ -174,35 +144,19 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         print("IN viewForHeaderSction")
         if section == 1 {
-        let headerFrame = tableView.frame
-        let title = UILabel()
-        title.frame = CGRect(x: 10, y: 25, width: headerFrame.width, height: 20)
-        title.font = UIFont.systemFont(ofSize: 12)
-        title.text = self.tableView(tableView, titleForHeaderInSection: section)
-        title.textColor = UIColor.lightGray
-        title.sizeToFit()
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: headerFrame.width, height: headerFrame.height))
-        headerView.addSubview(title)
-        return headerView
+            let headerFrame = tableView.frame
+            let title = UILabel()
+            title.frame = CGRect(x: 10, y: 25, width: headerFrame.width, height: 20)
+            title.font = UIFont.systemFont(ofSize: 12)
+            title.text = self.tableView(tableView, titleForHeaderInSection: section)
+            title.textColor = UIColor.lightGray
+            title.sizeToFit()
+            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: headerFrame.width, height: headerFrame.height))
+            headerView.addSubview(title)
+            return headerView
         }
         return UIView()
     }
-    
-    /*func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if section == 1 {
-            let title = UILabel()
-            let header = view as! UITableViewHeaderFooterView
-            title.frame = CGRect(x: header.frame.minX, y: header.frame.maxY - 5, width: 20, height: 10)
-            title.font = UIFont.systemFont(ofSize: 12)
-            title.text = "EMERGENCY CONTACTS"
-            title.sizeToFit()
-            title.textColor = UIColor.lightGray
-            header.textLabel?.font = title.font
-            header.textLabel?.textColor = title.textColor
-            header.textLabel?.text = title.text
-            header.textLabel?.frame = title.frame
-        }
-    } */
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -214,20 +168,38 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-   
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //eventually fetch from cell
         let phoneNumber = emergencyArray[indexPath.row].1
-        if let phoneCallNumber = URL(string: "tel://\(phoneNumber)") {
-            if (UIApplication.shared.canOpenURL(phoneCallNumber)) {
-                
-                if #available(iOS 10.0, *) {
-                UIApplication.shared.open(phoneCallNumber, options: [:], completionHandler: nil)
-                }
-                else {
-                    UIApplication.shared.openURL(phoneCallNumber)
+        let serviceName = emergencyArray[indexPath.row].0
+        let parsedName = serviceName.substring(from: serviceName.index(serviceName.startIndex, offsetBy: 4))
+        
+        
+        
+        let alertController = UIAlertController(title: parsedName, message: "" , preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (result: UIAlertAction) -> Void in
+            
+        })
+        let okAction = UIAlertAction(title: "Call", style: .default, handler: { (result: UIAlertAction) -> Void in
+            
+            if let phoneCallNumber = URL(string: "tel://\(phoneNumber)") {
+                if (UIApplication.shared.canOpenURL(phoneCallNumber)) {
+                    
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(phoneCallNumber, options: [:], completionHandler: nil)
+                    }
+                    else {
+                        UIApplication.shared.openURL(phoneCallNumber)
+                    }
                 }
             }
-        }
+            
+        })
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
