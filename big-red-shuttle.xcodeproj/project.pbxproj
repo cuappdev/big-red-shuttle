@@ -18,6 +18,7 @@
 		9534DC401DC1268F00C590A7 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 9534DC3F1DC1268F00C590A7 /* config.json */; };
 		95BA14DE1DC9CDE600BD7D06 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA14DD1DC9CDE600BD7D06 /* Location.swift */; };
 		95BA14E01DC9CDF400BD7D06 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA14DF1DC9CDF400BD7D06 /* UIViewControllerExtensions.swift */; };
+		95BA14E21DC9CF9900BD7D06 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA14E11DC9CF9900BD7D06 /* Time.swift */; };
 		DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE8FD211DB40B01006EDB5C /* Stop.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		9534DC3F1DC1268F00C590A7 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		95BA14DD1DC9CDE600BD7D06 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		95BA14DF1DC9CDF400BD7D06 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		95BA14E11DC9CF9900BD7D06 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		DDE8FD211DB40B01006EDB5C /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = Data/Stop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -118,6 +120,7 @@
 				44929BC71DAEF4E300B07EBF /* StopsViewController.swift */,
 				5034219F1DB8239F00560DB6 /* Network.swift */,
 				95BA14DD1DC9CDE600BD7D06 /* Location.swift */,
+				95BA14E11DC9CF9900BD7D06 /* Time.swift */,
 				95BA14DF1DC9CDF400BD7D06 /* UIViewControllerExtensions.swift */,
 				44929BCC1DAEF4E300B07EBF /* Assets.xcassets */,
 				44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */,
@@ -364,6 +367,7 @@
 			files = (
 				44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */,
 				44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */,
+				95BA14E21DC9CF9900BD7D06 /* Time.swift in Sources */,
 				95BA14DE1DC9CDE600BD7D06 /* Location.swift in Sources */,
 				503421A01DB8239F00560DB6 /* Network.swift in Sources */,
 				95BA14E01DC9CDF400BD7D06 /* UIViewControllerExtensions.swift in Sources */,
