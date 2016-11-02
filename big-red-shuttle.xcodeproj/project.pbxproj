@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		442D87171DC98B040075BBCA /* StopSearchTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 442D87161DC98B040075BBCA /* StopSearchTableViewHeaderView.xib */; };
+		442D87191DC992D30075BBCA /* StopSearchTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D87181DC992D30075BBCA /* StopSearchTableViewHeaderView.swift */; };
+		442D871B1DC9A52F0075BBCA /* StopSearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 442D871A1DC9A52F0075BBCA /* StopSearchTableViewCell.xib */; };
+		442D871D1DC9A71D0075BBCA /* StopSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442D871C1DC9A71D0075BBCA /* StopSearchTableViewCell.swift */; };
 		44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC51DAEF4E300B07EBF /* AppDelegate.swift */; };
 		44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC71DAEF4E300B07EBF /* StopsViewController.swift */; };
 		44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44929BCC1DAEF4E300B07EBF /* Assets.xcassets */; };
@@ -40,6 +44,10 @@
 
 /* Begin PBXFileReference section */
 		127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.debug.xcconfig"; sourceTree = "<group>"; };
+		442D87161DC98B040075BBCA /* StopSearchTableViewHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StopSearchTableViewHeaderView.xib; path = Cells/StopSearchTableViewHeaderView.xib; sourceTree = "<group>"; };
+		442D87181DC992D30075BBCA /* StopSearchTableViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StopSearchTableViewHeaderView.swift; path = Cells/StopSearchTableViewHeaderView.swift; sourceTree = "<group>"; };
+		442D871A1DC9A52F0075BBCA /* StopSearchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StopSearchTableViewCell.xib; path = Cells/StopSearchTableViewCell.xib; sourceTree = "<group>"; };
+		442D871C1DC9A71D0075BBCA /* StopSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StopSearchTableViewCell.swift; path = Cells/StopSearchTableViewCell.swift; sourceTree = "<group>"; };
 		44929BC21DAEF4E300B07EBF /* big-red-shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "big-red-shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44929BC51DAEF4E300B07EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44929BC71DAEF4E300B07EBF /* StopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +95,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		442D87151DC963070075BBCA /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				442D87161DC98B040075BBCA /* StopSearchTableViewHeaderView.xib */,
+				442D87181DC992D30075BBCA /* StopSearchTableViewHeaderView.swift */,
+				442D871A1DC9A52F0075BBCA /* StopSearchTableViewCell.xib */,
+				442D871C1DC9A71D0075BBCA /* StopSearchTableViewCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		44929BB91DAEF4E300B07EBF = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +131,7 @@
 		44929BC41DAEF4E300B07EBF /* big-red-shuttle */ = {
 			isa = PBXGroup;
 			children = (
+				442D87151DC963070075BBCA /* Cells */,
 				DD184ED31DC181DA0098D5F7 /* config.json */,
 				DD184ECD1DC170A90098D5F7 /* System.swift */,
 				DD184ECE1DC170A90098D5F7 /* Time.swift */,
@@ -274,6 +294,8 @@
 			files = (
 				DD184ED41DC181DA0098D5F7 /* config.json in Resources */,
 				44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */,
+				442D87171DC98B040075BBCA /* StopSearchTableViewHeaderView.xib in Resources */,
+				442D871B1DC9A52F0075BBCA /* StopSearchTableViewCell.xib in Resources */,
 				44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,11 +385,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD184ED01DC170A90098D5F7 /* Time.swift in Sources */,
+				442D87191DC992D30075BBCA /* StopSearchTableViewHeaderView.swift in Sources */,
 				DD184ECF1DC170A90098D5F7 /* System.swift in Sources */,
 				44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */,
 				44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */,
 				503421A01DB8239F00560DB6 /* Network.swift in Sources */,
 				DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */,
+				442D871D1DC9A71D0075BBCA /* StopSearchTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

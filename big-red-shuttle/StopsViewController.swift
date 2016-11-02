@@ -9,14 +9,24 @@
 import UIKit
 import GoogleMaps
 
-class StopsViewController: UIViewController, GMSMapViewDelegate {
+class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,
+                           StopSearchTableViewHeaderViewDelegate, GMSMapViewDelegate {
     
     // MARK: Properties
+    
+    let kBoundPadding: CGFloat = 40
+    let kSearchTablePadding: CGFloat = 10
+    let kSearchTableClosedHeight: CGFloat = 45
 
+    var searchTableView: UITableView!
+    var searchTableClosedFrame: CGRect!
+    var searchTableOpenFrame: CGRect!
+    var searchTableExpanded = false
+    
+    var stops: [Stop]!
     var mapView: GMSMapView!
     var panBounds: GMSCoordinateBounds!
-    let kBoundPadding: CGFloat = 40
-    
+
     // MARK: UIViewController
 
     override func loadView() {
@@ -26,16 +36,41 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
         self.mapView = mapView
         view = mapView
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let locations = getStops()
+        stops = getStops()
+        setupSearchTable()
+        let locations = stops
                             .map { $0.getLocation() }
                             .map { CLLocationCoordinate2DMake(CLLocationDegrees($0.lat), CLLocationDegrees($0.long))}
         setLocations(locations: locations)
     }
     
     // MARK: Custom Functions
+    
+    func setupSearchTable() {
+        searchTableClosedFrame = CGRect(x: kSearchTablePadding, y: 20+kSearchTablePadding,
+                                        width: view.frame.width-kSearchTablePadding*2, height: kSearchTableClosedHeight)
+        searchTableOpenFrame = CGRect(x: kSearchTablePadding, y: 20+kSearchTablePadding,
+                                      width: view.frame.width-kSearchTablePadding*2,
+                                      height: view.frame.height-kSearchTablePadding-98) //todo: find correct tab bar height
+        
+        searchTableView = UITableView(frame: searchTableClosedFrame)
+        searchTableView.register(UINib(nibName: "StopSearchTableViewHeaderView", bundle: nil),
+                                 forHeaderFooterViewReuseIdentifier: "HeaderView")
+        searchTableView.register(UINib(nibName: "StopSearchTableViewCell", bundle: nil),
+                                 forCellReuseIdentifier: "Cell")
+        searchTableView.delegate = self
+        searchTableView.dataSource = self
+        
+        searchTableView.layer.cornerRadius = 3
+        searchTableView.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
+        searchTableView.layer.borderWidth = 0.5
+        searchTableView.showsVerticalScrollIndicator = false
+        
+        view.addSubview(searchTableView)
+    }
     
     func setLocations(locations: [CLLocationCoordinate2D]) {
         let (north, south, east, west) =
@@ -74,6 +109,45 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
         let newLat = min(max(center.latitude, panBounds.southWest.latitude), panBounds.northEast.latitude)
         let update = GMSCameraUpdate.setTarget(CLLocationCoordinate2DMake(newLat, newLong))
         mapView.animate(with: update)
+    }
+    
+    // MARK: UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view =  tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! StopSearchTableViewHeaderView
+        view.setupView()
+        view.delegate = self
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return kSearchTableClosedHeight
+    }
+    
+    // MARK: UITableViewDataSource
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return stops.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! StopSearchTableViewCell
+        cell.setupCell()
+        return cell
+    }
+    
+    // MARK: StopSearchTableViewHeaderViewDelegate
+    
+    func didTapSearchBar() {
+        searchTableExpanded = !searchTableExpanded
+        let finalFrame = (searchTableExpanded ? searchTableOpenFrame : searchTableClosedFrame)!
+        UIView.animate(withDuration: 0.25) {
+            self.searchTableView.frame = finalFrame
+        }
     }
 }
 
