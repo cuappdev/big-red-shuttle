@@ -12,15 +12,19 @@ import GoogleMaps
 class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: Properties
-
+    
     var mapView: GMSMapView!
     var panBounds: GMSCoordinateBounds!
     let kBoundPadding: CGFloat = 40
     let polyline = Polyline()
     let maxWayPoints = 8
+    var currentMarker: GMSMarker? = nil
+    
+    var popUpView = UIView()
+
     
     // MARK: UIViewController
-
+    
     override func loadView() {
         let camera = GMSCameraPosition.camera(withLatitude: 42.4474, longitude: -76.4855, zoom: 15.5) // Random cornell location
         let mapView = GMSMapView.map(withFrame: .zero, camera: camera)
@@ -33,10 +37,12 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        mapView.isMyLocationEnabled = true
         let locations = getStops()
-                            .map { $0.getLocation() }
-                            .map { CLLocationCoordinate2DMake(CLLocationDegrees($0.lat), CLLocationDegrees($0.long))}
+            .map { $0.getLocation() }
+            .map { CLLocationCoordinate2DMake(CLLocationDegrees($0.lat), CLLocationDegrees($0.long))}
         setLocations(locations: locations)
+        
         //popUp()
     }
     
@@ -49,10 +55,10 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
                         min(nextLocation.latitude, prevResult.1),
                         max(nextLocation.longitude, prevResult.2),
                         min(nextLocation.longitude, prevResult.3))
-        })
+            })
         
         panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
-                                         coordinate: CLLocationCoordinate2DMake(south, west))
+                                        coordinate: CLLocationCoordinate2DMake(south, west))
         let cameraUpdate = GMSCameraUpdate.fit(panBounds, withPadding: kBoundPadding)
         mapView.moveCamera(cameraUpdate)
         mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
@@ -103,10 +109,55 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         let update = GMSCameraUpdate.setTarget(CLLocationCoordinate2DMake(newLat, newLong))
         mapView.animate(with: update)
     }
-    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-        popUp()
-        return nil
+    
+    
+    /*
+     This function displays/hides the popUpView.
+     */
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        if(currentMarker != marker) {
+            currentMarker = marker
+            popUp()
+        }
+        else {
+            
+            //animate down
+            UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.popUpView.frame = CGRect(x: 12, y: self.view.bounds.height , width: self.view.bounds.width - 24, height: 130)
+                self.collectionView.frame = CGRect(x: 14, y: self.view.bounds.height + 30, width: self.view.bounds.width - 4, height: 60)
+            }, completion: {
+                (value: Bool) in
+                //remove from view after they animate off screen
+                if let popUpTagView = self.view.viewWithTag(100), let collectionTagView = self.view.viewWithTag(101) {
+                    popUpTagView.removeFromSuperview()
+                    collectionTagView.removeFromSuperview()
+                    self.currentMarker = nil
+                    
+                }
+            })
+        }
+        return true
     }
+    
+    
+    //keeping for now
+    /* func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+     print("CLICKED MARKER")
+     if(currentMarker != marker) {
+     currentMarker = marker
+     popUp()
+     }
+     else {
+     //animate down
+     UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+     self.popUpView.frame = CGRect(x: 12, y: self.view.bounds.height , width: self.view.bounds.width - 24, height: 130)
+     self.collectionView.frame = CGRect(x: 14, y: self.view.bounds.height + 30, width: self.view.bounds.width - 4, height: 60)
+     }, completion: nil)
+     currentMarker = nil
+     }
+     
+     return nil
+     } */
     
     func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
         if let viewWithTag = view.viewWithTag(100) {
@@ -121,9 +172,9 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         let viewHeight = mapView.bounds.height
         let viewWidth = view.bounds.width
         
-        let popUpViewFrame = CGRect(x: 12, y: viewHeight - 150 , width: viewWidth - 24, height: 130)
+        let popUpViewFrame = CGRect(x: 12, y: viewHeight, width: viewWidth - 24, height: 130)
         
-        let popUpView = UIView(frame: popUpViewFrame)
+        popUpView.frame = popUpViewFrame
         
         print("adding view")
         popUpView.backgroundColor = UIColor.white
@@ -134,7 +185,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 70, height: 30)
-        let collectionView = UICollectionView(frame: CGRect(x: 14, y: popUpViewFrame.midY - 30, width: popUpViewFrame.width - 4, height: 60), collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: CGRect(x: 14, y: popUpViewFrame.midY - 30, width: popUpViewFrame.width - 4, height: 60), collectionViewLayout: layout)
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -143,11 +194,16 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         collectionView.showsHorizontalScrollIndicator = false
         
         popUpView.tag = 100
-        collectionView.tag = 100
-        UIView.transition(with: self.view, duration: 2, options: .curveEaseInOut, animations: {self.view.addSubview(popUpView);self.view.addSubview(collectionView)}, completion: nil)
-        //view.addSubview(popUpView)
-        //view.addSubview(collectionView)
+        collectionView.tag = 101
         
+        view.addSubview(popUpView)
+        view.addSubview(collectionView)
+        
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.popUpView.frame = CGRect(x: 12, y: viewHeight - 150 , width: viewWidth - 24, height: 130)
+            self.collectionView.frame = CGRect(x: 14, y: viewHeight - 120, width: popUpViewFrame.width - 4, height: 60)
+        }, completion: nil)
         
     }
     
@@ -171,7 +227,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         cell.addSubview(label)
         return cell
         
-    
+        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
