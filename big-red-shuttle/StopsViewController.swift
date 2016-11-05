@@ -9,7 +9,7 @@
 import UIKit
 import GoogleMaps
 
-class StopsViewController: UIViewController, GMSMapViewDelegate {
+class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: Properties
 
@@ -27,6 +27,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
         mapView.delegate = self
         self.mapView = mapView
         view = mapView
+
         initPolyline()
     }
     
@@ -36,6 +37,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
                             .map { $0.getLocation() }
                             .map { CLLocationCoordinate2DMake(CLLocationDegrees($0.lat), CLLocationDegrees($0.long))}
         setLocations(locations: locations)
+        //popUp()
     }
     
     // MARK: Custom Functions
@@ -100,6 +102,84 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
         let newLat = min(max(center.latitude, panBounds.southWest.latitude), panBounds.northEast.latitude)
         let update = GMSCameraUpdate.setTarget(CLLocationCoordinate2DMake(newLat, newLong))
         mapView.animate(with: update)
+    }
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        popUp()
+        return nil
+    }
+    
+    func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
+        if let viewWithTag = view.viewWithTag(100) {
+            viewWithTag.removeFromSuperview()
+        }
+    }
+    
+    //MARK: Pop Up View
+    
+    func popUp() {
+        
+        let viewHeight = mapView.bounds.height
+        let viewWidth = view.bounds.width
+        
+        let popUpViewFrame = CGRect(x: 12, y: viewHeight - 150 , width: viewWidth - 24, height: 130)
+        
+        let popUpView = UIView(frame: popUpViewFrame)
+        
+        print("adding view")
+        popUpView.backgroundColor = UIColor.white
+        
+        
+        //collectionView
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 70, height: 30)
+        let collectionView = UICollectionView(frame: CGRect(x: 14, y: popUpViewFrame.midY - 30, width: popUpViewFrame.width - 4, height: 60), collectionViewLayout: layout)
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "timeCell")
+        collectionView.backgroundColor = UIColor.clear
+        collectionView.showsHorizontalScrollIndicator = false
+        
+        popUpView.tag = 100
+        collectionView.tag = 100
+        UIView.transition(with: self.view, duration: 2, options: .curveEaseInOut, animations: {self.view.addSubview(popUpView);self.view.addSubview(collectionView)}, completion: nil)
+        //view.addSubview(popUpView)
+        //view.addSubview(collectionView)
+        
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "timeCell", for: indexPath)
+        
+        let label = UILabel(frame: CGRect(x: cell.frame.minX + 4, y: cell.frame.midY - 10, width: cell.frame.maxX - 8, height: 8))
+        print("Populating cell")
+        label.text = "12:08 AM"
+        label.textAlignment = .center
+        label.textColor = UIColor.lightGray
+        label.sizeToFit()
+        label.center = CGPoint(x: cell.frame.midX, y: cell.frame.minY)
+        
+        cell.backgroundColor = UIColor(red: 243/255, green: 244/255, blue: 244/255, alpha: 1.0)
+        
+        cell.layer.cornerRadius = 2.0
+        cell.layer.borderWidth = 1.0
+        cell.layer.borderColor = UIColor.clear.cgColor
+        cell.layer.masksToBounds = true
+        cell.addSubview(label)
+        return cell
+        
+    
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 9
     }
 }
 
