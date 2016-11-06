@@ -28,7 +28,7 @@ class Location: NSObject, CLLocationManagerDelegate {
         super.init()
         
         // Ask for Authorisation from the User.
-        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self

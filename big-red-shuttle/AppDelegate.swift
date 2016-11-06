@@ -51,6 +51,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.makeKeyAndVisible()
         window?.rootViewController = tabBarController
         
+        
+        //Test API
+        api().registerUserToLogLocation(key: "fedorko") {
+            //success
+            print("Did successfully register user to log location")
+            
+            api().logLocation(completion: { 
+                print("Did successfully register user to log location")
+                
+                api().getLocation(completion: { (coordinate: Coordinate) in
+                    print("bus is at latitude: \(coordinate.latitude), longitude: \(coordinate.longitude)")
+                })
+            })
+        }
+        
         return true
     }
 

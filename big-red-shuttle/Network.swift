@@ -34,55 +34,83 @@ class System {
 class API {
     
     static let sharedAPI = API()
-    let baseURLString = "..."
+    let baseURLString = "http://10.132.0.190:6001"
     
     /// registers a user to log location using an authentication key
-    func registerUserToLogLocation(uid: String, key: String, completion: (() -> ())?) {
+    func registerUserToLogLocation(key: String, completion: (() -> ())?) {
+        
+        guard let uid = system().uid() else {
+            showErrorAlert(title: "Error", message: "Could not get user id")
+            return
+        }
         
         let parameters = ["uid": uid, "key": key]
         
-        request(parameters: parameters) { (response: JSON) in
+        request(endpoint: "/register", parameters: parameters, method: .post, encoding: JSONEncoding.default) { (response: JSON) in
             completion?()
         }
     }
     
     /// logs the location of the shuttle
-    func logLocation(uid: String, longitude: String, latitude: String) {
+    func logLocation(completion: (() -> ())?) {
         
+        guard let uid = system().uid() else {
+            showErrorAlert(title: "Error", message: "Could not get user id")
+            return
+        }
+
         guard let userLocation = system().userLocation() else {
             showErrorAlert(title: "Error", message: "Could not get user location")
             return
         }
         
-        let parameters = ["uid": uid, "longitude": "\(userLocation.longitude)", "latitude": "\(userLocation.latitude)"]
+        let parameters = ["uid": uid, "latitude": "\(userLocation.latitude)", "longitude": "\(userLocation.longitude)"]
         
-        request(parameters: parameters, completion: nil)
+        request(endpoint: "/log", parameters: parameters, method: .post, encoding: JSONEncoding.default) { (json: JSON) in
+            completion?()
+        }
     }
     
     /// fetches the last logged location of the shuttle
-    func getLocation(uid: String, completion: ((Coordinate) -> ())?) {
+    func getLocation(completion: ((Coordinate) -> ())?) {
+        
+        guard let uid = system().uid() else {
+            showErrorAlert(title: "Error", message: "Could not get user id")
+            return
+        }
         
         let parameters = ["uid": uid]
         
-        request(parameters: parameters) { (response: JSON) in
+        request(endpoint: "/latest", parameters: parameters, method: .get, encoding: URLEncoding.default) { (response: JSON) in
             let latitude = CLLocationDegrees(response["latitude"].floatValue)
             let longitude = CLLocationDegrees(response["longitude"].floatValue)
             let coordinate = Coordinate(latitude: latitude, longitude: longitude)
+            let timestamp = response["date"].stringValue
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
+            let date = dateFormatter.date(from: timestamp)
             
             Location.sharedLocation.currentBusLocation = coordinate
             completion?(coordinate)
         }
     }
     
-    func request(parameters: [String: Any], completion: ((JSON) -> ())?) {
+    func request(endpoint: String, parameters: [String: Any], method: HTTPMethod, encoding: ParameterEncoding, completion: ((JSON) -> ())?) {
         
-        Alamofire.request(baseURLString, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: [:]).responseData { (response: DataResponse<Data>) in
+        let headers = ["Content-Type":"application/json"]
+        
+        Alamofire.request(baseURLString + endpoint, method: method, parameters: parameters, encoding: encoding, headers: headers).responseData { (response: DataResponse<Data>) in
             
             switch response.result {
                 
             case .success(let data):
                 let responseJSON = JSON(data: data)
-                completion?(responseJSON)
+                
+                if responseJSON["result"].stringValue == "success" {
+                     completion?(responseJSON)
+                } else {
+                    self.showErrorAlert(title: "Error", message: responseJSON["result"].stringValue)
+                }
                 
             case .failure(let error):
                 if let url = response.response?.url?.absoluteURL {
