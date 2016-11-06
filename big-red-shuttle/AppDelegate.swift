@@ -18,6 +18,15 @@ struct colorPalette{
     static var tableViewBG = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.0)
 }
 
+extension UINavigationController{
+
+    override open func viewDidLoad() {
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.brsblack, NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium" , size: 18.0)!]
+        navigationBar.barTintColor = .brslightgrey
+        navigationBar.isTranslucent = false
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -30,9 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Set up tab bar & VCs
         let tabBarController = UITabBarController()
+        
         let navigationVC = StopsViewController() //fill in w/ actual VCs
-        let scheduleVC = StopsViewController()
         let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
+        let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
         
         let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "magnifying-glass"), tag: 0)
         let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "calendar"), tag: 0)
@@ -44,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
         tabBarController.selectedViewController = navigationVC
-        tabBarController.tabBar.tintColor = colorPalette.red
+        tabBarController.tabBar.tintColor = Color.red
             //get rid of top line of tab bar
         tabBarController.tabBar.clipsToBounds = true
         tabBarController.tabBar.isTranslucent = false
@@ -56,7 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window!.makeKeyAndVisible()
         window?.rootViewController = tabBarController
-        
         
         //Test API
         api().registerUserToLogLocation(key: "fedorko") {
@@ -72,6 +81,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
         
+        //Light status bar
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
 
         return true
     }
