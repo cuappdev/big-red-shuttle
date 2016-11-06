@@ -12,8 +12,21 @@ import SwiftyJSON
 
 enum FileReadingError : Error { case fileNotFound }
 
-struct colorPalette{
-    static var red = UIColor(red: 0.98, green: 0.28, blue: 0.26, alpha: 1.0)
+struct Color{
+    static var red = UIColor(red:0.84, green:0.29, blue:0.21, alpha:1.0)
+    static var black = UIColor(red:0.35, green:0.35, blue:0.45, alpha:1.0)
+    static var grey = UIColor(red:0.85, green:0.86, blue:0.87, alpha:1.0)
+    static var lightgrey = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+
+}
+
+extension UINavigationController{
+    
+    override open func viewDidLoad() {
+        self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: Color.black, NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium" , size: 18.0)!]
+        self.navigationBar.barTintColor = Color.lightgrey
+        self.navigationBar.isTranslucent = false
+    }
 }
 
 @UIApplicationMain
@@ -28,9 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Set up tab bar & VCs
         let tabBarController = UITabBarController()
+        
         let navigationVC = StopsViewController() //fill in w/ actual VCs
-        let scheduleVC = StopsViewController()
-        let emergencyVC = StopsViewController()
+        let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
+        let emergencyVC = UINavigationController(rootViewController: StopsViewController())
         
         let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "magnifying-glass"), tag: 0)
         let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "calendar"), tag: 0)
@@ -42,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
         tabBarController.selectedViewController = navigationVC
-        tabBarController.tabBar.tintColor = colorPalette.red
+        tabBarController.tabBar.tintColor = Color.red
             //get rid of top line of tab bar
         tabBarController.tabBar.clipsToBounds = true
         
@@ -51,6 +65,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.makeKeyAndVisible()
         window?.rootViewController = tabBarController
         
+        //Light status bar
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         return true
     }
 
