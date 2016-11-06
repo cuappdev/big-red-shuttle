@@ -14,10 +14,13 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // MARK: Properties
     
+    let kMaxBoundPadding: Double = 0.01
     let kBoundPadding: CGFloat = 40
     let kSearchTablePadding: CGFloat = 10
     let kSearchTableClosedHeight: CGFloat = 45
+    let kStopZoom: Float = 16
 
+    var viewIsSetup = false
     var searchTableView: UITableView!
     var searchTableClosedFrame: CGRect!
     var searchTableOpenFrame: CGRect!
@@ -39,12 +42,14 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if viewIsSetup {
+            return
+        }
         stops = getStops()
         setupSearchTable()
-        let locations = stops
-                            .map { $0.getLocation() }
-                            .map { CLLocationCoordinate2DMake(CLLocationDegrees($0.lat), CLLocationDegrees($0.long))}
+        let locations = stops.map { $0.getCoordinate() }
         setLocations(locations: locations)
+        viewIsSetup = true
     }
     
     // MARK: Custom Functions
@@ -64,10 +69,11 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         searchTableView.delegate = self
         searchTableView.dataSource = self
         
-        searchTableView.layer.cornerRadius = 3
+        searchTableView.layer.cornerRadius = 4
         searchTableView.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
         searchTableView.layer.borderWidth = 0.5
         searchTableView.showsVerticalScrollIndicator = false
+        searchTableView.bounces = false
         
         view.addSubview(searchTableView)
     }
@@ -80,10 +86,11 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         max(nextLocation.longitude, prevResult.2),
                         min(nextLocation.longitude, prevResult.3))
         })
-        
-        panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
-                                         coordinate: CLLocationCoordinate2DMake(south, west))
-        let cameraUpdate = GMSCameraUpdate.fit(panBounds, withPadding: kBoundPadding)
+        let startBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
+                                        coordinate: CLLocationCoordinate2DMake(south, west))
+        panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north+kMaxBoundPadding, east+kMaxBoundPadding),
+                                         coordinate: CLLocationCoordinate2DMake(south-kMaxBoundPadding, west-kMaxBoundPadding))
+        let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
         mapView.moveCamera(cameraUpdate)
         mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
         drawPins(withLocations: locations)
@@ -124,6 +131,14 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return kSearchTableClosedHeight
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let stop = stops[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
+        didTapSearchBar()
+        let cameraUpdate = GMSCameraUpdate.setTarget(stop.getCoordinate(), zoom: kStopZoom)
+        mapView.animate(with: cameraUpdate)
+    }
+    
     // MARK: UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -136,7 +151,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! StopSearchTableViewCell
-        cell.setupCell()
+        cell.setupCell(stop: stops[indexPath.row])
         return cell
     }
     
@@ -145,6 +160,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func didTapSearchBar() {
         searchTableExpanded = !searchTableExpanded
         let finalFrame = (searchTableExpanded ? searchTableOpenFrame : searchTableClosedFrame)!
+        
         UIView.animate(withDuration: 0.25) {
             self.searchTableView.frame = finalFrame
         }
