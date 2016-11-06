@@ -236,6 +236,7 @@
 				TargetAttributes = {
 					44929BC11DAEF4E300B07EBF = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = ZGMCXU7X3U;
 						ProvisioningStyle = Automatic;
 					};
 					44929BD51DAEF4E300B07EBF = {
@@ -516,13 +517,14 @@
 			baseConfigurationReference = 127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				INFOPLIST_FILE = "big-red-shuttle/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -531,13 +533,14 @@
 			baseConfigurationReference = 96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				INFOPLIST_FILE = "big-red-shuttle/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
