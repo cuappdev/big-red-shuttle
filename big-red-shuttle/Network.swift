@@ -154,24 +154,25 @@ public func getStops() ->  [Stop] {
                 let lat = stop["lat"].floatValue
                 let long = stop["long"].floatValue
                 let days = stop["days"].arrayObject!
-                
-                for day in days {
-                    dayArray.append(Days(rawValue: day as! String)!)
-                }
-                
                 let timeStrings = stop["times"].arrayObject! as! [String]
+                
                 var times:[Time] = []
-                for tStr in timeStrings {
-                    times.append(getTime(time: tStr))
+                for day in days {
+                    let dayObject = Days(rawValue: day as! String)!
+                    dayArray.append(Days(rawValue: day as! String)!)
+                    for tStr in timeStrings {
+                        times.append(Time(time: tStr, day: dayObject.number))
+                    }
                 }
-                times = times.sorted(by: timeCompare)
+                
+                //                times = times.sorted(by: timeCompare)
                 stops.append(Stop(name: name, lat: lat, long: long, days: dayArray, times: times))
-  
+                
             }
         }
     }
     return stops
-
+    
 }
 
 
@@ -233,7 +234,7 @@ class Polyline: NSObject {
  * Time string must have format:
  * H:mm a
  */
-public func getTime(time: String) -> Time{
+public func getTime(time: String) -> (Int, Int) {
     var hourArr = time.components(separatedBy: ":") //["h","mm a"]
     let minArr = hourArr[1].components(separatedBy: " ") //["mm","a"]
     let timeArr = [hourArr[0]] + minArr //["h","mm","a"]
@@ -252,5 +253,5 @@ public func getTime(time: String) -> Time{
         hour = hour12
     }
     
-    return Time(hour: hour, minute: minute)
+    return (hour, minute)
 }

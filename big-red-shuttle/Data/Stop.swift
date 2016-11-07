@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 public enum Days: String{
     case Monday = "Monday"
@@ -16,6 +17,46 @@ public enum Days: String{
     case Friday = "Friday"
     case Saturday = "Saturday"
     case Sunday = "Sunday"
+    
+    var number: Int {
+        switch self {
+        case .Sunday:
+            return 1
+        case .Monday:
+            return 2
+        case .Tuesday:
+            return 3
+        case .Wednesday:
+            return 4
+        case .Thursday:
+            return 5
+        case .Friday:
+            return 6
+        case .Saturday:
+            return 7
+        }
+    }
+    
+    static func fromNumber(num: Int) -> Days? {
+        switch num {
+        case 1:
+            return .Sunday
+        case 2:
+            return .Monday
+        case 3:
+            return .Tuesday
+        case 4:
+            return .Wednesday
+        case 5:
+            return .Thursday
+        case 6:
+            return .Friday
+        case 7:
+            return .Saturday
+        default:
+            return nil
+        }
+    }
 }
 
 public class Stop: NSObject {
@@ -38,4 +79,24 @@ public class Stop: NSObject {
         return (lat: lat, long: long)
     }
     
+    public func getCoordinate() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2DMake(CLLocationDegrees(lat), CLLocationDegrees(long))
+    }
+    
+    public func nextArrival() -> String {
+        let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
+        guard let currentHour = components.hour else { return "––" }
+        guard let currentMinute = components.minute else { return "––" }
+        guard let currentDay = components.weekday else { return "––" }
+        let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
+        for time in times {
+            if currentTime.isEarlier(than: time) {
+                if time.day == currentTime.day {
+                    return time.shortDescription
+                }
+                return time.description
+            }
+        }
+        return times.first!.description
+    }
 }
