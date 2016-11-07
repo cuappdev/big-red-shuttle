@@ -85,13 +85,13 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
             cell = ScheduleTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identifier)
         }
         
-        var anchor: Bool
+        var loopBeginning: Bool
         if stops[indexPath.row] == "Jessup & Program House Drive"{
-            anchor = true
+            loopBeginning = true
         }else{
-            anchor = false
+            loopBeginning = false
         }
-        cell?.configDot(filled: anchor)
+        cell?.configLoopBegin(loop: loopBeginning)
         cell?.time.text = times[indexPath.row]
         cell?.stop.text = stops[indexPath.row]
         cell?.time.sizeToFit()

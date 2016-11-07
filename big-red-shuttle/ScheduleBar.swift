@@ -36,26 +36,33 @@ class ScheduleBar: UIScrollView {
         for time in buttonsData{ //set up buttons
             let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: self.bounds.height))
             button.setTitle(time, for: UIControlState.normal)
-            button.setTitleColor(Color.black, for: UIControlState.normal)
+            button.setTitleColor(Color.greyedout, for: UIControlState.normal)
             button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 13.0)
             button.sizeToFit()
+            var frameRect: CGRect = button.frame
             buttonWidth = button.bounds.width + buttonPadding
+            frameRect.size.width = buttonWidth
+            button.frame = frameRect
+            button.layer.cornerRadius = button.bounds.height/2
+            button.clipsToBounds = true
             button.addTarget(self, action: #selector(self.buttonPressed(button:)), for: UIControlEvents.touchUpInside)
             buttons.append(button)
         }
+        print("Button width: \(buttonWidth)")
         for i in 0...(buttons.count-1){ //place buttons
             if i == 0 {
-                buttons[i].frame = buttons[i].frame.offsetBy(dx:buttonPadding, dy: 0)
+                buttons[i].frame = buttons[i].frame.offsetBy(dx:buttonPadding/2, dy: 0)
             }
             else{
-              buttons[i].frame = buttons[i].frame.offsetBy(dx: CGFloat(i) * buttonWidth + buttonPadding, dy: 0)
+            buttons[i].frame = buttons[i].frame.offsetBy(dx: buttons[i-1].frame.maxX + buttonPadding/2, dy: 0) //CGFloat(i) * buttonWidth + buttonPadding
             }
+            print("\(i): \(buttons[i].frame)")
             buttons[i].center.y = (self.bounds.height/2)
             buttons[i].tag = i //tag represents index
             self.addSubview(buttons[i])
         }
         
-        self.contentSize = CGSize(width: CGFloat(buttons.count) * buttonWidth + buttonPadding, height: -self.bounds.height - 3.0)
+        self.contentSize = CGSize(width: CGFloat(buttons.count) * (buttons[0].bounds.width + buttonPadding/2) + buttonPadding/2, height: -self.bounds.height - 3.0)
         self.bounces = false
         self.alwaysBounceHorizontal = true
         self.showsVerticalScrollIndicator = false
@@ -77,14 +84,17 @@ class ScheduleBar: UIScrollView {
             bar.frame.origin.x = button.frame.minX - buttonPadding/2
         }
         func changeButton() -> Void{
-            selectedButton.setTitleColor(Color.black, for: UIControlState.normal)
-            button.setTitleColor(Color.red, for: UIControlState.normal)
+            selectedButton.setTitleColor(Color.greyedout, for: UIControlState.normal)
+            selectedButton.backgroundColor = UIColor.white
+            button.setTitleColor(UIColor.white, for: UIControlState.normal)
             selectedButton = button
+            button.backgroundColor = Color.red
         }
         if animation {
-            UIView.animate(withDuration: 0.5, animations: {moveBar()})
-            UIView.transition(with: button, duration: 2.0, animations: {
-                changeButton()})
+            UIView.animate(withDuration: 0.5, animations: {
+                moveBar()
+                changeButton()
+            })
         }else{
             moveBar()
             changeButton()

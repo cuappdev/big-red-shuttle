@@ -15,7 +15,7 @@ enum FileReadingError : Error { case fileNotFound }
 struct Color{
     static var red = UIColor(red:0.84, green:0.29, blue:0.21, alpha:1.0)
     static var black = UIColor(red:0.35, green:0.35, blue:0.45, alpha:1.0)
-    static var grey = UIColor(red:0.85, green:0.86, blue:0.87, alpha:1.0)
+    static var greyedout = UIColor(red:0.56, green:0.58, blue:0.63, alpha:1.0)
     static var lightgrey = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
 
 }
@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         emergencyVC.tabBarItem = emergencyIcon
         
         tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
-        tabBarController.selectedViewController = navigationVC
+        tabBarController.selectedViewController = scheduleVC
         tabBarController.tabBar.tintColor = Color.red
             //get rid of top line of tab bar
         tabBarController.tabBar.clipsToBounds = true
