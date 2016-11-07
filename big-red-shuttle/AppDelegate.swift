@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         emergencyVC.tabBarItem = emergencyIcon
         
         tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
-        tabBarController.selectedViewController = navigationVC
+        tabBarController.selectedViewController = scheduleVC
         tabBarController.tabBar.tintColor = Color.red
             //get rid of top line of tab bar
         tabBarController.tabBar.clipsToBounds = true
