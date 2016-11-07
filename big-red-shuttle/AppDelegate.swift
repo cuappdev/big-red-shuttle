@@ -44,9 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
         let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
         
-        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "magnifying-glass"), tag: 0)
-        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "calendar"), tag: 0)
-        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "eye"), tag: 0)
+        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "navigation"), tag: 0)
+        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "schedule"), tag: 0)
+        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "emergency"), tag: 0)
         
         navigationVC.tabBarItem = navigationIcon
         scheduleVC.tabBarItem = scheduleIcon
