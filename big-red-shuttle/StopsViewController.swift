@@ -208,9 +208,12 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         let viewHeight = mapView.bounds.height
         let viewWidth = view.bounds.width
         
-        let popUpViewFrame = CGRect(x: 12, y: viewHeight, width: viewWidth - 24, height: 130)
+        
+        let popUpViewFrame = CGRect(x: 12, y: viewHeight, width: viewWidth - 24, height: 90)
         popUpView.frame = popUpViewFrame
         popUpView.backgroundColor = UIColor.white
+        
+        let popUpWidth = popUpView.bounds.width
         
         //shadow on pop up view
         popUpView.layer.shadowColor = UIColor.lightGray.cgColor
@@ -219,47 +222,77 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         popUpView.layer.shadowRadius = 0.3
         
         //get directions button
-        let getDirectionsButton = UIButton(frame: CGRect(x: 30, y: 100, width: 120, height: 20))
-        getDirectionsButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightSemibold)
+        let getDirectionsButton = UIButton(frame: CGRect(x: popUpWidth - popUpWidth * 0.3 - 25, y: 14.25, width: popUpWidth * 0.3, height: 16.5))
+        getDirectionsButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightRegular)
         getDirectionsButton.setTitle("Get Directions", for: .normal)
+        getDirectionsButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        getDirectionsButton.titleLabel?.minimumScaleFactor = 0.6
         getDirectionsButton.setTitleColor(UIColor.lightGray, for: .normal)
-        getDirectionsButton.titleLabel?.sizeToFit()
+        //getDirectionsButton.titleLabel?.sizeToFit()
         getDirectionsButton.addTarget(self, action: #selector(directionsButtonPressed), for: .touchUpInside)
         
+        //direction image
+        let directionImage = UIImageView()
+        directionImage.image = UIImage(cgImage: #imageLiteral(resourceName: "arrow").cgImage!, scale: 1.0, orientation: UIImageOrientation.left)
+        directionImage.frame = CGRect(x: popUpWidth - 25, y: 14.25, width: 9, height: 16)
+        
         //location label
-        let locationLabelFrame = CGRect(x: 40, y: 10, width: 120, height: 20)
+        let locationLabelFrame = CGRect(x: 35, y: 11.75, width: popUpWidth * 0.52, height: 19)
         let locationLabel = UILabel(frame: locationLabelFrame)
         locationLabel.text = selectedStop.name
-        locationLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightSemibold)
-        locationLabel.sizeToFit()
+        locationLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightSemibold)
+        locationLabel.adjustsFontSizeToFitWidth = true
+        locationLabel.minimumScaleFactor = 0.6
+        print(locationLabel.font)
+        print(locationLabel.bounds.height)
+        //locationLabel.sizeToFit()
+        
+        //location image
+        let locationImage = UIImageView(image: #imageLiteral(resourceName: "location"))
+        locationImage.frame = CGRect(x: 10, y: 10, width: 18, height: 23.5)
+        
+       
+        
         
         //set up collectionView
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 70, height: 30)
         
-        let collectionView = UICollectionView(frame: CGRect(x: 4, y: 35, width: popUpViewFrame.width - 8, height: 60), collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: CGRect(x: 8, y: 50, width: popUpViewFrame.width - 16, height: 40), collectionViewLayout: layout)
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "timeCell")
+        collectionView.register(CustomTimeCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.backgroundColor = UIColor.clear
         collectionView.showsHorizontalScrollIndicator = false
+        
+        let middleBorder = CALayer()
+        middleBorder.frame = CGRect(x: 0, y: 50, width: popUpViewFrame.width, height: 1)
+        middleBorder.backgroundColor = UIColor(red: 227/255, green: 229/255, blue: 233/255, alpha: 1.0).cgColor
+       
+
         
         //tag views to be able to dismiss later
         popUpView.tag = 100
         collectionView.tag = 101
         locationLabel.tag = 102
+        locationImage.tag = 103
+        getDirectionsButton.tag = 104
+        directionImage.tag = 105
         
         popUpView.addSubview(collectionView)
         popUpView.addSubview(getDirectionsButton)
+        popUpView.addSubview(directionImage)
         popUpView.addSubview(locationLabel)
+        popUpView.addSubview(locationImage)
+        popUpView.layer.addSublayer(middleBorder)
         view.addSubview(popUpView)
         
         //animate view up
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
             
-        self.popUpView.frame = CGRect(x: 12, y: viewHeight - 150 , width: viewWidth - 24, height: 130)
+        self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: viewWidth - 24, height: 90)
         }, completion: nil)
     }
     
@@ -274,10 +307,13 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         }, completion: {
             (value: Bool) in
             //remove from view after they animate off screen
-            if let popUpTagView = self.view.viewWithTag(100), let collectionTagView = self.popUpView.viewWithTag(101), let locationLabelTag = self.view.viewWithTag(102) {
+            if let popUpTagView = self.view.viewWithTag(100), let collectionTagView = self.popUpView.viewWithTag(101), let locationLabelTag = self.view.viewWithTag(102), let locationImageTag = self.view.viewWithTag(103), let getDirectionsTag = self.view.viewWithTag(104), let directionImageTag = self.view.viewWithTag(105) {
                 popUpTagView.removeFromSuperview()
                 collectionTagView.removeFromSuperview()
                 locationLabelTag.removeFromSuperview()
+                locationImageTag.removeFromSuperview()
+                getDirectionsTag.removeFromSuperview()
+                directionImageTag.removeFromSuperview()
                 
                 if fullyDismissed {
                 self.currentMarker = nil
@@ -293,24 +329,11 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
     //MARK: collectionView Datasource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "timeCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
         
-        let timeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 58, height: 20.5))
+        cell.textLabel.text = selectedStop.times[indexPath.row].shortDescription
+        cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
         
-        
-        timeLabel.text = selectedStop.times[indexPath.row].shortDescription
-        
-        timeLabel.font = UIFont.systemFont(ofSize: 13.5, weight: UIFontWeightRegular)
-        timeLabel.textAlignment = .center
-        timeLabel.textColor = UIColor.lightGray
-        timeLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
-        
-        cell.backgroundColor = UIColor(red: 243/255, green: 244/255, blue: 244/255, alpha: 1.0)
-        cell.layer.cornerRadius = 2.0
-        cell.layer.borderWidth = 1.0
-        cell.layer.borderColor = UIColor.clear.cgColor
-        cell.layer.masksToBounds = true
-        cell.addSubview(timeLabel)
         
         return cell
         
@@ -322,9 +345,10 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         return 1
     }
     
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 9
     }
+    
 }
 
