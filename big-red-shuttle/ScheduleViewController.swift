@@ -13,6 +13,7 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     private var table: UITableView!
     private var stops: [String]!
     private var times: [String]!
+    private var looptimes: [String]!
     private var scheduleBar: ScheduleBar!
     
     private let identifier: String = "Schedule Cell"
@@ -26,7 +27,7 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         //Q: How are we differentiating bt Stewart and University & Stewart and University- up to Thurston?
         stops = ["Jessup & Program House Drive", "Kelvin & Wyckoff", "Stewart & University", "Baker Flagpole", "Schwartz Center", "Dryden & Eddy", "Stewart & University 2", "Thurston & Cradit Farm", "Jessup & Program House Drive", "Kelvin & Wyckoff", "Stewart & University", "Baker Flagpole", "Schwartz Center", "Dryden & Eddy", "Stewart & University 2", "Thurston & Cradit Farm"]
         times = ["12:00 am", "12:02 am", "12:04 am", "12:06 am", "12:07 am", "12:08 am", "12:10 am", "12:12 am", "12:14 am", "12:16 am", "12:18 am", "12:20 am", "12:22 am", "12:24 am", "12:26 am", "12:28 am"]
-        let looptimes = ["12:00 am", "12:07 am", "12:12 am", "12:16 am", "12:18 am", "12:28 am"]
+        looptimes = ["12:00 am", "12:07 am", "12:12 am", "12:16 am", "12:18 am", "12:28 am"]
         
         //Bar
         scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: barHeight))
@@ -60,6 +61,8 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - Schedule Bar delegate
     
     func selectCell(button: UIButton) {
+        let time = looptimes[button.tag]
+        times.index(of: time)
         let indexPath = IndexPath(row: button.tag, section: 0)
         table.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
     }
