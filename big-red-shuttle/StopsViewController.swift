@@ -207,9 +207,10 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         
         let viewHeight = mapView.bounds.height
         let viewWidth = view.bounds.width
+        let midHeight = CGFloat(32.0)
         
         
-        let popUpViewFrame = CGRect(x: 12, y: viewHeight, width: viewWidth - 24, height: 90)
+        let popUpViewFrame = CGRect(x: 12, y: viewHeight, width: viewWidth - 24, height: 106)
         popUpView.frame = popUpViewFrame
         popUpView.backgroundColor = UIColor.white
         
@@ -222,44 +223,41 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         popUpView.layer.shadowRadius = 0.3
         
         //get directions button
-        let getDirectionsButton = UIButton(frame: CGRect(x: popUpWidth - popUpWidth * 0.3 - 25, y: 14.25, width: popUpWidth * 0.3, height: 16.5))
-        getDirectionsButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightRegular)
-        getDirectionsButton.setTitle("Get Directions", for: .normal)
-        getDirectionsButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        getDirectionsButton.titleLabel?.minimumScaleFactor = 0.6
-        getDirectionsButton.setTitleColor(UIColor.lightGray, for: .normal)
+        let directionsButton = UIButton(frame: CGRect(x: popUpWidth - 103, y: 22.5, width: 80, height: 16.5))
+        directionsButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightSemibold)
+        directionsButton.setTitle("Directions", for: .normal)
+        directionsButton.setTitleColor(UIColor.lightGray, for: .normal)
         //getDirectionsButton.titleLabel?.sizeToFit()
-        getDirectionsButton.addTarget(self, action: #selector(directionsButtonPressed), for: .touchUpInside)
+        directionsButton.addTarget(self, action: #selector(directionsButtonPressed), for: .touchUpInside)
+        directionsButton.center.y = midHeight
         
         //direction image
         let directionImage = UIImageView()
         directionImage.image = UIImage(cgImage: #imageLiteral(resourceName: "arrow").cgImage!, scale: 1.0, orientation: UIImageOrientation.left)
         directionImage.frame = CGRect(x: popUpWidth - 25, y: 14.25, width: 9, height: 16)
+        directionImage.center.y = midHeight
         
         //location label
-        let locationLabelFrame = CGRect(x: 35, y: 11.75, width: popUpWidth * 0.52, height: 19)
+        let locationLabelFrame = CGRect(x: 40, y: 11.75, width: popUpWidth * 0.50, height: 26)
         let locationLabel = UILabel(frame: locationLabelFrame)
         locationLabel.text = selectedStop.name
         locationLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightSemibold)
-        locationLabel.adjustsFontSizeToFitWidth = true
-        locationLabel.minimumScaleFactor = 0.6
-        print(locationLabel.font)
-        print(locationLabel.bounds.height)
-        //locationLabel.sizeToFit()
+        locationLabel.numberOfLines = 2
+        locationLabel.center.y = midHeight
+        locationLabel.sizeToFit()
         
         //location image
         let locationImage = UIImageView(image: #imageLiteral(resourceName: "location"))
-        locationImage.frame = CGRect(x: 10, y: 10, width: 18, height: 23.5)
+        locationImage.frame = CGRect(x: 10, y: 18.5, width: 20, height: 26)
+        locationLabel.center.y = midHeight
         
        
-        
-        
         //set up collectionView
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 70, height: 30)
         
-        let collectionView = UICollectionView(frame: CGRect(x: 8, y: 50, width: popUpViewFrame.width - 16, height: 40), collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: CGRect(x: 8, y: 64, width: popUpViewFrame.width - 8, height: 40), collectionViewLayout: layout)
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -268,7 +266,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         collectionView.showsHorizontalScrollIndicator = false
         
         let middleBorder = CALayer()
-        middleBorder.frame = CGRect(x: 0, y: 50, width: popUpViewFrame.width, height: 1)
+        middleBorder.frame = CGRect(x: 0, y: 64, width: popUpViewFrame.width, height: 1)
         middleBorder.backgroundColor = UIColor(red: 227/255, green: 229/255, blue: 233/255, alpha: 1.0).cgColor
        
 
@@ -278,11 +276,11 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         collectionView.tag = 101
         locationLabel.tag = 102
         locationImage.tag = 103
-        getDirectionsButton.tag = 104
+        directionsButton.tag = 104
         directionImage.tag = 105
         
         popUpView.addSubview(collectionView)
-        popUpView.addSubview(getDirectionsButton)
+        popUpView.addSubview(directionsButton)
         popUpView.addSubview(directionImage)
         popUpView.addSubview(locationLabel)
         popUpView.addSubview(locationImage)
@@ -292,7 +290,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         //animate view up
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
             
-        self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: viewWidth - 24, height: 90)
+        self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: viewWidth - 24, height: 106)
         }, completion: nil)
     }
     

@@ -17,6 +17,7 @@
 		503421A01DB8239F00560DB6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034219F1DB8239F00560DB6 /* Network.swift */; };
 		505DC3961DD3F82A00774077 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DC3951DD3F82A00774077 /* Location.swift */; };
 		505DC3981DD3F85500774077 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */; };
+		505DC3941DD18CA800774077 /* CustomTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DC3931DD18CA800774077 /* CustomTimeCell.swift */; };
 		50F631EF1DC66A25002B6926 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50F631EE1DC66A25002B6926 /* config.json */; };
 		7C158D5F3005ED65924F1821 /* Pods_big_red_shuttle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */; };
 		DD184ED01DC170A90098D5F7 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD184ECE1DC170A90098D5F7 /* Time.swift */; };
@@ -63,7 +64,7 @@
 		5034219F1DB8239F00560DB6 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		505DC3951DD3F82A00774077 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
-
+		505DC3931DD18CA800774077 /* CustomTimeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTimeCell.swift; sourceTree = "<group>"; };
 		50F631EE1DC66A25002B6926 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_big_red_shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +138,7 @@
 				DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */,
 				DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */,
 				44929BC71DAEF4E300B07EBF /* StopsViewController.swift */,
+				505DC3931DD18CA800774077 /* CustomTimeCell.swift */,
 				500FA3151DC164ED00F9CD59 /* EmergencyViewController.swift */,
 				5034219F1DB8239F00560DB6 /* Network.swift */,
 				505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */,
@@ -387,6 +389,7 @@
 				505DC3981DD3F85500774077 /* UIViewControllerExtensions.swift in Sources */,
 				DD184ED01DC170A90098D5F7 /* Time.swift in Sources */,
 				DD428E781DCB7D9F0063BCE5 /* ScheduleBar.swift in Sources */,
+				505DC3941DD18CA800774077 /* CustomTimeCell.swift in Sources */,
 				DD184ECF1DC170A90098D5F7 /* System.swift in Sources */,
 				44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */,
 				44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */,
@@ -548,7 +551,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -564,7 +567,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
