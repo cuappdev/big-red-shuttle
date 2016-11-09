@@ -14,7 +14,7 @@ protocol ScheduleBarDelegate {
 
 class ScheduleBar: UIScrollView {
     private var buttons: [UIButton]!
-    private var bar: UIView!
+    private var oval: UIView!
     private var seperator: UIView!
     private var buttonWidth: CGFloat!
     private var buttonPadding: CGFloat = 20
@@ -39,6 +39,7 @@ class ScheduleBar: UIScrollView {
             button.setTitleColor(Color.greyedout, for: UIControlState.normal)
             button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 13.0)
             button.sizeToFit()
+            //Make oval background view behind button
             var frameRect: CGRect = button.frame
             buttonWidth = button.bounds.width + buttonPadding
             frameRect.size.width = buttonWidth
@@ -72,31 +73,35 @@ class ScheduleBar: UIScrollView {
         seperator.backgroundColor = Color.lightgrey
         self.addSubview(seperator)
         
-        bar = UIView(frame: CGRect(x: 0, y: self.bounds.height - 3.0, width: buttons[0].bounds.width + buttonPadding, height: 3.0))
-        bar.backgroundColor = Color.red
+        oval = UIView(frame: buttons[0].frame)
+        oval.layer.cornerRadius = buttons[0].bounds.height/2
+        oval.clipsToBounds = true
+        oval.backgroundColor = Color.red
+        self.addSubview(oval)
+        self.sendSubview(toBack: oval)
+        
         selectedButton = buttons[selected]
         select(button: selectedButton, animation: false)
-        self.addSubview(bar)
     }
   
     func select(button: UIButton, animation: Bool){
-        func moveBar() -> Void{
-            bar.frame.origin.x = button.frame.minX - buttonPadding/2
+        func moveSelector() -> Void{
+            oval.frame.origin.x = button.frame.minX
         }
         func changeButton() -> Void{
             selectedButton.setTitleColor(Color.greyedout, for: UIControlState.normal)
-            selectedButton.backgroundColor = UIColor.white
             button.setTitleColor(UIColor.white, for: UIControlState.normal)
             selectedButton = button
-            button.backgroundColor = Color.red
         }
         if animation {
             UIView.animate(withDuration: 0.5, animations: {
-                moveBar()
-                changeButton()
+                moveSelector()
             })
+            UIView.transition(with: button, duration: 0.7, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
+                changeButton()
+            }, completion: nil)
         }else{
-            moveBar()
+            moveSelector()
             changeButton()
         }
         scrollRectToVisible(CGRect(x: button.frame.minX, y: self.frame.minY, width: button.bounds.width, height: button.bounds.height), animated: true)
