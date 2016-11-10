@@ -12,20 +12,13 @@ import SwiftyJSON
 
 enum FileReadingError : Error { case fileNotFound }
 
-struct Color{
-    static var red = UIColor(red:0.84, green:0.29, blue:0.21, alpha:1.0)
-    static var black = UIColor(red:0.35, green:0.35, blue:0.45, alpha:1.0)
-    static var greyedout = UIColor(red:0.56, green:0.58, blue:0.63, alpha:1.0)
-    static var lightgrey = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
-
-}
 
 extension UINavigationController{
     
     override open func viewDidLoad() {
-        self.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: Color.black, NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium" , size: 18.0)!]
-        self.navigationBar.barTintColor = Color.lightgrey
-        self.navigationBar.isTranslucent = false
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.brsblack, NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium" , size: 18.0)!]
+        navigationBar.barTintColor = .brslightgrey
+        navigationBar.isTranslucent = false
     }
 }
 
@@ -46,18 +39,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
         let emergencyVC = UINavigationController(rootViewController: StopsViewController())
         
-        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "navigation"), tag: 0)
-        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "schedule"), tag: 0)
-        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "emergency"), tag: 0)
-        
+        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "navigation"), selectedImage: UIImage(named: "navigation-s"))
+        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "schedule"), selectedImage: UIImage(named: "schedule-s"))
+        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "emergency"), selectedImage: UIImage(named: "emergency-s"))
         navigationVC.tabBarItem = navigationIcon
         scheduleVC.tabBarItem = scheduleIcon
         emergencyVC.tabBarItem = emergencyIcon
         
         tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
         tabBarController.selectedViewController = scheduleVC
-        tabBarController.tabBar.tintColor = Color.red
-            //get rid of top line of tab bar
+        tabBarController.tabBar.tintColor = .brsred
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsblack], for:.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsred], for:.selected)
         tabBarController.tabBar.clipsToBounds = true
         
         //Set up window
@@ -66,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = tabBarController
         
         //Light status bar
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        UIApplication.shared.statusBarStyle = .lightContent
         return true
     }
 
