@@ -10,67 +10,63 @@ import UIKit
 
 class ScheduleTableViewCell: UITableViewCell {
     
-    public var stop: UILabel = UILabel()
-    public var time: UILabel = UILabel()
-    public var dot: CAShapeLayer = CAShapeLayer()
-    private var line: UIView = UIView()
-    private var seperator: UIView = UIView()
+    var stop: UILabel = UILabel()
+    var time: UILabel = UILabel()
+    var dot: CAShapeLayer = CAShapeLayer()
+    var line: UIView = UIView()
+    var separator: UIView = UIView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.isUserInteractionEnabled = false
+        backgroundColor = .clear
+        isUserInteractionEnabled = false
 
-        line.backgroundColor = Color.red
+        line.backgroundColor = .brsred
 
         time.font = UIFont(name: "HelveticaNeue-Light", size: 11.5)
-        time.textColor = Color.black
+        time.textColor = .brsblack
         
         stop.font = UIFont(name: "HelveticaNeue", size: 13.0)
-        stop.textColor = Color.black
+        stop.textColor = .brsblack
         
-        seperator.backgroundColor = Color.lightgrey
+        separator.backgroundColor = .brslightgrey
         
-        dot.strokeColor = Color.red.cgColor
+        dot.strokeColor = UIColor.brsred.cgColor
         dot.lineWidth = 3.0
         
-        self.contentView.addSubview(stop)
-        self.contentView.addSubview(line)
-        self.contentView.addSubview(time)
-        self.contentView.addSubview(seperator)
-        self.contentView.layer.addSublayer(dot)
+        contentView.addSubview(stop)
+        contentView.addSubview(line)
+        contentView.addSubview(time)
+        contentView.addSubview(separator)
+        contentView.layer.addSublayer(dot)
     }
     
     override func layoutSubviews() {
         let scheduleViewBounds = UIScreen.main.bounds
-        
-        let height = self.contentView.bounds.height
+        let height = contentView.frame.height
         
         line.frame = CGRect(x: scheduleViewBounds.width * 0.20, y: 0, width: 3.5, height: height)
 
-        time.center.y = self.contentView.center.y
+        time.center.y = contentView.center.y
         time.center.x = scheduleViewBounds.width * 0.10
         
         stop.frame = CGRect(x: line.frame.maxX+15, y: 0, width: scheduleViewBounds.width * 0.80, height: height)
-        stop.center.y = self.contentView.center.y
+        stop.center.y = contentView.center.y
         
-        seperator.frame = CGRect(x: stop.frame.minX - 5, y: height - 1, width: scheduleViewBounds.width, height: 1)
+        separator.frame = CGRect(x: stop.frame.minX - 5, y: height - 1, width: scheduleViewBounds.width, height: 1)
         
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: line.center.x,y: self.contentView.center.y), radius: CGFloat(4.0), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: line.center.x,y: contentView.center.y), radius: CGFloat(4.0), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
         dot.path = circlePath.cgPath
         dot.fillColor = UIColor.white.cgColor
 
     }
     
-    func configLoopBegin(loop: Bool){
-        if loop{
-            time.font = UIFont(name: "HelveticaNeue-Medium", size: 12.0)
-            time.sizeToFit()
-        }else{
-            time.font = UIFont(name: "HelveticaNeue-Light", size: 11.5)
-            time.sizeToFit()
-        }
-        
+    func configStop(loop: Bool){
+        stop.font = loop ? UIFont(name: "HelveticaNeue-Medium", size: 13.0) : UIFont(name: "HelveticaNeue", size: 13.0)
+        stop.sizeToFit()
+        time.font = loop ? UIFont(name: "HelveticaNeue-Medium", size: 12.0) : UIFont(name: "HelveticaNeue-Light", size: 11.5)
+        time.sizeToFit()
     }
     
     required init?(coder aDecoder: NSCoder) {

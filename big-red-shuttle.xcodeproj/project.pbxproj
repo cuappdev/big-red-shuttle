@@ -20,6 +20,7 @@
 		50F631EF1DC66A25002B6926 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50F631EE1DC66A25002B6926 /* config.json */; };
 		7C158D5F3005ED65924F1821 /* Pods_big_red_shuttle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */; };
 		DD184ED01DC170A90098D5F7 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD184ECE1DC170A90098D5F7 /* Time.swift */; };
+		DD1F26941DD3EE09005358ED /* UIColor+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */; };
 		DD2907611DCA733F00E1C316 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */; };
 		DD428E781DCB7D9F0063BCE5 /* ScheduleBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */; };
 		DD7C33D31DC6722700281E0A /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */; };
@@ -65,6 +66,7 @@
 		86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_big_red_shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		DD184ECE1DC170A90098D5F7 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Shared.swift"; sourceTree = "<group>"; };
 		DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleBar.swift; sourceTree = "<group>"; };
 		DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				50F631EE1DC66A25002B6926 /* config.json */,
 				DD184ECE1DC170A90098D5F7 /* Time.swift */,
 				44929BC51DAEF4E300B07EBF /* AppDelegate.swift */,
+				DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */,
 				DDE8FD211DB40B01006EDB5C /* Stop.swift */,
 				505DC3951DD3F82A00774077 /* Location.swift */,
 				DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */,
@@ -389,6 +392,7 @@
 				DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */,
 				500FA3161DC164ED00F9CD59 /* EmergencyViewController.swift in Sources */,
 				505DC3961DD3F82A00774077 /* Location.swift in Sources */,
+				DD1F26941DD3EE09005358ED /* UIColor+Shared.swift in Sources */,
 				DD2907611DCA733F00E1C316 /* ScheduleTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

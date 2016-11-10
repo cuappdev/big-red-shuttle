@@ -8,18 +8,18 @@
 
 import UIKit
 
-protocol ScheduleBarDelegate {
-    func selectCell(button: UIButton) -> Void
+protocol ScheduleBarDelegate: class {
+    func scrollToCell(button: UIButton) -> Void
 }
 
 class ScheduleBar: UIScrollView {
-    private var buttons: [UIButton]!
-    private var oval: UIView!
-    private var seperator: UIView!
-    private var buttonWidth: CGFloat!
-    private var buttonPadding: CGFloat = 20
-    private var selectedButton: UIButton!
-    var delegateSB: ScheduleBarDelegate!
+    var buttons: [UIButton]!
+    var oval: UIView!
+    var separator: UIView!
+    var buttonWidth: CGFloat!
+    var buttonPadding: CGFloat = 20
+    var selectedButton: UIButton!
+    weak var delegateSB: ScheduleBarDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,99 +30,80 @@ class ScheduleBar: UIScrollView {
     }
     
     func setUp(buttonsData: [String], selected: Int){
-        self.backgroundColor = UIColor.white
+        backgroundColor = .white
         
         buttons = []
         for time in buttonsData{ //set up buttons
-            let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: self.bounds.height))
-            button.setTitle(time, for: UIControlState.normal)
-            button.setTitleColor(Color.greyedout, for: UIControlState.normal)
+            let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: frame.height))
+            button.setTitle(time, for: .normal)
+            button.setTitleColor(.brsgreyedout, for: .normal)
             button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 13.0)
             button.sizeToFit()
             //Make oval background view behind button
-            var frameRect: CGRect = button.frame
-            buttonWidth = button.bounds.width + buttonPadding
-            frameRect.size.width = buttonWidth
-            button.frame = frameRect
-            button.layer.cornerRadius = button.bounds.height/2
+            buttonWidth = button.frame.width + buttonPadding
+            button.frame.size.width = buttonWidth
+            button.layer.cornerRadius = button.frame.height/2.0
             button.clipsToBounds = true
-            button.addTarget(self, action: #selector(self.buttonPressed(button:)), for: UIControlEvents.touchUpInside)
+            button.addTarget(self, action: #selector(buttonPressed(button:)), for: .touchUpInside)
             buttons.append(button)
         }
-        print("Button width: \(buttonWidth)")
-        for i in 0...(buttons.count-1){ //place buttons
+        for i in 0..<buttons.count{ //place buttons
             if i == 0 {
-                buttons[i].frame = buttons[i].frame.offsetBy(dx:buttonPadding/2, dy: 0)
+                buttons[i].frame = buttons[i].frame.offsetBy(dx:buttonPadding/2.0, dy: 0)
+            } else{
+                buttons[i].frame = buttons[i].frame.offsetBy(dx: buttons[i-1].frame.maxX + buttonPadding/2.0, dy: 0)
             }
-            else{
-            buttons[i].frame = buttons[i].frame.offsetBy(dx: buttons[i-1].frame.maxX + buttonPadding/2, dy: 0) //CGFloat(i) * buttonWidth + buttonPadding
-            }
-            print("\(i): \(buttons[i].frame)")
-            buttons[i].center.y = (self.bounds.height/2)
+            buttons[i].center.y = (frame.height/2.0)
             buttons[i].tag = i //tag represents index
-            self.addSubview(buttons[i])
+            addSubview(buttons[i])
         }
         
-        self.contentSize = CGSize(width: CGFloat(buttons.count) * (buttons[0].bounds.width + buttonPadding/2) + buttonPadding/2, height: -self.bounds.height - 3.0)
-        self.bounces = false
-        self.alwaysBounceHorizontal = true
-        self.showsVerticalScrollIndicator = false
-        self.showsHorizontalScrollIndicator = false
+        contentSize = CGSize(width: CGFloat(buttons.count) * (buttons[0].frame.width + buttonPadding/2.0) + buttonPadding/2.0, height: -frame.height - 3.0)
+        bounces = false
+        alwaysBounceHorizontal = true
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
         
-        seperator = UIView(frame: CGRect(x: 0, y: self.bounds.height - 1.0, width: self.contentSize.width, height: 1))
-        seperator.backgroundColor = Color.lightgrey
-        self.addSubview(seperator)
+        separator = UIView(frame: CGRect(x: 0, y: frame.height - 1.0, width: contentSize.width, height: 1))
+        separator.backgroundColor = .brslightgrey
+        addSubview(separator)
         
         oval = UIView(frame: buttons[0].frame)
-        oval.layer.cornerRadius = buttons[0].bounds.height/2
+        oval.layer.cornerRadius = buttons[0].frame.height/2.0
         oval.clipsToBounds = true
-        oval.backgroundColor = Color.red
-        self.addSubview(oval)
-        self.sendSubview(toBack: oval)
+        oval.backgroundColor = .brsred
+        addSubview(oval)
+        sendSubview(toBack: oval)
         
         selectedButton = buttons[selected]
         select(button: selectedButton, animation: false)
     }
-  
+    
+    func setButton(asSelected button: UIButton){
+        selectedButton.setTitleColor(.brsgreyedout, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        selectedButton = button
+    }
+    
     func select(button: UIButton, animation: Bool){
-        func moveSelector() -> Void{
-            oval.frame.origin.x = button.frame.minX
-        }
-        func changeButton() -> Void{
-            selectedButton.setTitleColor(Color.greyedout, for: UIControlState.normal)
-            button.setTitleColor(UIColor.white, for: UIControlState.normal)
-            selectedButton = button
-        }
+        let moveSelector = {self.oval.frame.origin.x = button.frame.minX}
         if animation {
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 moveSelector()
             })
-            UIView.transition(with: button, duration: 0.7, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
-                changeButton()
+            UIView.transition(with: button, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                self.setButton(asSelected: button)
             }, completion: nil)
         }else{
             moveSelector()
-            changeButton()
+            setButton(asSelected: button)
         }
-        scrollRectToVisible(CGRect(x: button.frame.minX, y: self.frame.minY, width: button.bounds.width, height: button.bounds.height), animated: true)
+        scrollRectToVisible(CGRect(x: button.frame.minX, y: frame.minY, width: button.frame.width, height: button.frame.height), animated: true)
     }
     
     func buttonPressed(button: UIButton) -> Void{
         select(button: button, animation: true)
-        delegateSB.selectCell(button: button)
+        delegateSB?.scrollToCell(button: button)
     }
-    
-    //Need to also be able to autoscroll uiscrollview
-    //make h scrollbar invisible
-    //prevent vertical scrolling
-    //grey underline under uiscrollview
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
 
 }

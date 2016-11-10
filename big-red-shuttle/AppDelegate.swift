@@ -44,18 +44,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
         let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
         
-        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "navigation"), tag: 0)
-        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "schedule"), tag: 0)
-        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "emergency"), tag: 0)
-        
+        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "navigation"), selectedImage: UIImage(named: "navigation-s"))
+        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "schedule"), selectedImage: UIImage(named: "schedule-s"))
+        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "emergency"), selectedImage: UIImage(named: "emergency-s"))
         navigationVC.tabBarItem = navigationIcon
         scheduleVC.tabBarItem = scheduleIcon
         emergencyVC.tabBarItem = emergencyIcon
         
         tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
         tabBarController.selectedViewController = scheduleVC
-        tabBarController.tabBar.tintColor = Color.red
-            //get rid of top line of tab bar
+        tabBarController.tabBar.tintColor = .brsred
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsblack], for:.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsred], for:.selected)
         tabBarController.tabBar.clipsToBounds = true
         tabBarController.tabBar.isTranslucent = false
         tabBarController.tabBar.barTintColor = colorPalette.tabBarTint
@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //Light status bar
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        UIApplication.shared.statusBarStyle = .lightContent
 
         return true
     }
