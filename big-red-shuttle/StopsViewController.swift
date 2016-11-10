@@ -251,7 +251,6 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         locationImage.frame = CGRect(x: 10, y: 18.5, width: 20, height: 26)
         locationLabel.center.y = midHeight
         
-       
         //set up collectionView
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -287,11 +286,17 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         popUpView.layer.addSublayer(middleBorder)
         view.addSubview(popUpView)
         
+       
         //animate view up
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
+             collectionView.scrollToItem(at: IndexPath.init(row: 5, section: 0), at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
             
         self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: viewWidth - 24, height: 106)
-        }, completion: nil)
+        }, completion: {
+            (value: Bool) in
+        })
+        
+        
     }
     
     
@@ -331,6 +336,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         
         cell.textLabel.text = selectedStop.times[indexPath.row].shortDescription
         cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
+        print("Laid out cell")
         
         
         return cell
