@@ -11,7 +11,7 @@ import UIKit
 class EmergencyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView!
-    let emergencyArray = [(service: "Call Cornell Univeristy Police",number: 6072551111), (service:"Call Emergency Services",number: 911), (service:"Call Blue Light Escorts",number:6072557373), (service:"Call Gannett Health Services",number: 6072555155)]
+    let emergencyArray = [(service: "Call Cornell University Police",number: 6072551111), (service:"Call Emergency Services",number: 911), (service:"Call Blue Light Escorts",number:6072557373), (service:"Call Gannett Health Services",number: 6072555155)]
     
     
     override func viewDidLoad() {
