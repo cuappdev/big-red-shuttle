@@ -16,8 +16,8 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
     var mapView: GMSMapView!
     var panBounds: GMSCoordinateBounds!
     let kBoundPadding: CGFloat = 40
-    var polyline = Polyline()
-    var polyline2 = Polyline()
+    let polyline = Polyline()
+    let maxWayPoints = 8
     
     // MARK: UIViewController
 
@@ -69,26 +69,23 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
     //drawing
     func initPolyline() {
         let stops = getStops()
-        let stopsA = Array(stops[1..<9]) //can only have a max of 8 waypoints (i.e. stops that don't include start and end)
+        let stopsA = Array(stops[1...maxWayPoints]) //can only have a max of 8 waypoints (i.e. stops that don't include start and end)
         
-        self.polyline.getPolyline(waypoints: stopsA, origin:stops[0], end:stops[9])
-        self.polyline2.getPolyline(waypoints: [], origin: stops[9], end: stops[0])
-        self.drawRoute()
+        polyline.getPolyline(waypoints: stopsA, origin:stops[0], end:stops[9])
+        drawRoute()
+        
+        polyline.getPolyline(waypoints: [], origin: stops[9], end: stops[0])
+        drawRoute()
     }
 
     func drawRoute() {
         let path1 = GMSMutablePath(fromEncodedPath: polyline.overviewPolyline)
-        let path2 = GMSMutablePath(fromEncodedPath: polyline2.overviewPolyline)
         let routePolyline = GMSPolyline(path: path1)
-        let routePolyline2 = GMSPolyline(path: path2)
-        
+
         routePolyline.strokeColor = UIColor(red: 206/255, green: 73/255, blue: 55/255, alpha: 1.0)
-        routePolyline2.strokeColor = UIColor(red: 206/255, green: 73/255, blue: 55/255, alpha: 1.0)
         routePolyline.strokeWidth = 4.0
-        routePolyline2.strokeWidth = 4.0
         
         routePolyline.map = mapView
-        routePolyline2.map = mapView
     }
     
     // MARK: GMSMapViewDelegate
