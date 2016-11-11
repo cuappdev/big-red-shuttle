@@ -13,7 +13,9 @@ import SwiftyJSON
 enum FileReadingError : Error { case fileNotFound }
 
 struct colorPalette{
-    static var red = UIColor(red: 0.98, green: 0.28, blue: 0.26, alpha: 1.0)
+    static var red = UIColor(red:0.83, green:0.29, blue:0.24, alpha:1.0)
+    static var tabBarTint = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha:1.0)
+    static var tableViewBG = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.0)
 }
 
 @UIApplicationMain
@@ -30,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabBarController = UITabBarController()
         let navigationVC = StopsViewController() //fill in w/ actual VCs
         let scheduleVC = StopsViewController()
-        let emergencyVC = StopsViewController()
+        let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
         
         let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "magnifying-glass"), tag: 0)
         let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "calendar"), tag: 0)
@@ -45,6 +47,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBarController.tabBar.tintColor = colorPalette.red
             //get rid of top line of tab bar
         tabBarController.tabBar.clipsToBounds = true
+        tabBarController.tabBar.isTranslucent = false
+        tabBarController.tabBar.barTintColor = colorPalette.tabBarTint
+        tabBarController.tabBar.layer.borderWidth = 0.5
+        tabBarController.tabBar.layer.borderColor = UIColor.lightGray.cgColor
         
         //Set up window
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -66,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
         
+
         return true
     }
 
