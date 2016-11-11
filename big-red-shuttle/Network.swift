@@ -174,6 +174,40 @@ public func getStops() ->  [Stop] {
 
 }
 
+
+class Polyline: NSObject {
+    var overviewPolyline = ""
+    
+    func getPolyline(waypoints:[Stop], origin:Stop, end:Stop) {
+        let baseURLDirections = "https://maps.googleapis.com/maps/api/directions/json?"
+        let origin = "\(origin.lat),\(origin.long)"
+        let destination = "\(end.lat),\(end.long)"
+        
+        var directionsURLString = baseURLDirections + "origin=" + origin + "&destination=" + destination
+        
+        if waypoints.count > 0 {
+            directionsURLString += "&waypoints=optimize:true"
+            for i in 0...waypoints.count - 1 {
+                let coords = "\(waypoints[i].lat),\(waypoints[i].long)"
+                directionsURLString +=  "|" + coords
+            }
+        }
+        
+        directionsURLString = directionsURLString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
+        
+        if let directionsURL = URL(string: directionsURLString) {
+            if let data = try? Data(contentsOf: directionsURL) {
+                let json = JSON(data: data)
+                let status = json["status"].stringValue
+                if status == "OK" {
+                    self.overviewPolyline = json["routes"][0]["overview_polyline"]["points"].stringValue
+                }
+            }
+        }
+    }
+}
+
+
 /* Creates time from JSON string
  * Time string must have format:
  * H:mm a
