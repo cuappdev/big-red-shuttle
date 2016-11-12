@@ -16,6 +16,8 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
     var mapView: GMSMapView!
     var panBounds: GMSCoordinateBounds!
     let kBoundPadding: CGFloat = 40
+    let polyline = Polyline()
+    let maxWayPoints = 8
     
     // MARK: UIViewController
 
@@ -25,6 +27,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
         mapView.delegate = self
         self.mapView = mapView
         view = mapView
+        initPolyline()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,7 +64,30 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
             marker.map = mapView
         }
     }
+    
+    
+    //drawing
+    func initPolyline() {
+        let stops = getStops()
+        let stopsA = Array(stops[1...maxWayPoints]) //can only have a max of 8 waypoints (i.e. stops that don't include start and end)
+        
+        polyline.getPolyline(waypoints: stopsA, origin:stops[0], end:stops[9])
+        drawRoute()
+        
+        polyline.getPolyline(waypoints: [], origin: stops[9], end: stops[0])
+        drawRoute()
+    }
 
+    func drawRoute() {
+        let path1 = GMSMutablePath(fromEncodedPath: polyline.overviewPolyline)
+        let routePolyline = GMSPolyline(path: path1)
+
+        routePolyline.strokeColor = .brsred
+        routePolyline.strokeWidth = 4.0
+        
+        routePolyline.map = mapView
+    }
+    
     // MARK: GMSMapViewDelegate
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
