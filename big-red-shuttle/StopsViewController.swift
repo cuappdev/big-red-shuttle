@@ -82,7 +82,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate {
         let path1 = GMSMutablePath(fromEncodedPath: polyline.overviewPolyline)
         let routePolyline = GMSPolyline(path: path1)
 
-        routePolyline.strokeColor = UIColor(red: 206/255, green: 73/255, blue: 55/255, alpha: 1.0)
+        routePolyline.strokeColor = .brsred
         routePolyline.strokeWidth = 4.0
         
         routePolyline.map = mapView
