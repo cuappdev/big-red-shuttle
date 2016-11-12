@@ -178,8 +178,15 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         mapView.animate(with: update)
     }
     
-    // MARK: UITableViewDelegate
     
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        if let stop = selectedStop {
+            dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
+        }
+    }
+   
+    
+    // MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view =  tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! StopSearchTableViewHeaderView
         view.setupView()
@@ -187,9 +194,11 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return view
     }
 
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return kSearchTableClosedHeight
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let stop = stops[indexPath.row]
@@ -200,8 +209,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         popUp(stop: stop)
     }
     
-    // MARK: UITableViewDataSource
     
+    // MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
@@ -386,8 +395,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
         let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
         if selectedStop.days.contains(currentDay!){
-            //MARK: After Kevin and I merge, go back and fix it so it only displays the shuttle times still to come. Example: If it is 12:45 -> only display shuttle buses from 12:45 and later for each marker
-            cell.textLabel.text = selectedStop.times[indexPath.row].shortDescription
+            let nextArrivalsToday = selectedStop.nextArrivalsToday()
+            cell.textLabel.text = nextArrivalsToday[indexPath.row]
             cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
         } else {
             cell.textLabel.text = "No Shuttles Running Today"
@@ -400,10 +409,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //MARK: After Kevin and I merge, go back and fix it so it only displays the shuttle times still to come. Example: If it is 12:45 -> only display shuttle buses from 12:45 and later for each marker
     
         let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
-        return selectedStop.days.contains(currentDay!) ? 9 : 1
+        return selectedStop.days.contains(currentDay!) ? selectedStop.nextArrivalsToday().count : 1
     }
 }
 
