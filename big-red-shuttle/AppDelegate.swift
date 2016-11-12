@@ -21,6 +21,7 @@ extension UINavigationController{
     }
 }
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -28,12 +29,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        
+        if UserDefaults.standard.value(forKey: "nudgeCount") as? Int == nil {
+            UserDefaults.standard.setValue(0, forKey: "nudgeCount")
+        }
+        UserDefaults.standard.setValue(true, forKey: "didFireNudge")
+        
         let json = try! JSON(data: Data(contentsOf: Bundle.main.url(forResource: "config", withExtension: "json")!))
         GMSServices.provideAPIKey(json["google-maps"].stringValue)
         
         //Set up tab bar & VCs
         let tabBarController = UITabBarController()
-        
         let navigationVC = StopsViewController() //fill in w/ actual VCs
         let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
         let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
@@ -102,7 +108,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 
