@@ -25,7 +25,7 @@ class AboutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(red: 75/255, green: 79/255, blue: 86/255, alpha: 0.5)
+        view.backgroundColor = UIColor.brscoverviewgray
 
         containerView = UIView(frame: CGRect(x: kContainerPadding, y: view.frame.height, width: view.frame.width-2*kContainerPadding, height: view.frame.height-4*kContainerPadding))
         containerView.backgroundColor = .white
@@ -34,8 +34,8 @@ class AboutViewController: UIViewController {
         
         let bannerView = UIView(frame: CGRect(x: 0, y: 0, width: containerView.frame.width, height: kBannerHeight))
         let gradientLayer = CAGradientLayer()
-        let firstColor = UIColor(red: 34/255, green: 27/255, blue: 49/255, alpha: 1).cgColor
-        let secondColor = UIColor(red: 86/255, green: 105/255, blue: 124/255, alpha: 1.0).cgColor
+        let firstColor = UIColor.aboutviewdarkgray.cgColor
+        let secondColor = UIColor.aboutviewblue.cgColor
         gradientLayer.colors = [firstColor, firstColor, secondColor]
         gradientLayer.startPoint = CGPoint(x:0, y:0.5)
         gradientLayer.endPoint = CGPoint(x:1, y:0.5)
@@ -47,7 +47,7 @@ class AboutViewController: UIViewController {
         let xView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
         xView.center = CGPoint(x: bannerView.bounds.midX, y: bannerView.bounds.midY)
         let xPath = UIBezierPath()
-        xPath.move(to: CGPoint(x: 0, y: 0))
+        xPath.move(to: .zero)
         xPath.addLine(to: CGPoint(x: 30, y: 30))
         xPath.move(to: CGPoint(x: 30, y: 0))
         xPath.addLine(to: CGPoint(x: 0, y: 30))
@@ -60,7 +60,7 @@ class AboutViewController: UIViewController {
         
         let appdevLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 90, height: 20))
         let appdevString = NSMutableAttributedString(string: "App", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightRegular), NSForegroundColorAttributeName: UIColor.white])
-        let devString = NSAttributedString(string: "Dev", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightSemibold), NSForegroundColorAttributeName: UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 1.0)])
+        let devString = NSAttributedString(string: "Dev", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightSemibold), NSForegroundColorAttributeName: UIColor.appdevgreen])
         appdevString.append(devString)
         appdevLabel.attributedText = appdevString
         appdevLabel.center = CGPoint(x: xView.frame.midX+50+appdevLabel.frame.width/2, y: xView.frame.midY)
@@ -74,7 +74,7 @@ class AboutViewController: UIViewController {
         let exitButton = UIButton(frame: CGRect(x: containerView.frame.width-kCancelButtonLength-16, y: 16,
                                                 width: kCancelButtonLength, height: kCancelButtonLength))
         let exitXPath = UIBezierPath()
-        exitXPath.move(to: CGPoint(x: 0, y: 0))
+        exitXPath.move(to: .zero)
         exitXPath.addLine(to: CGPoint(x: kCancelButtonLength, y: kCancelButtonLength))
         exitXPath.move(to: CGPoint(x: kCancelButtonLength, y: 0))
         exitXPath.addLine(to: CGPoint(x: 0, y: kCancelButtonLength))
@@ -88,7 +88,7 @@ class AboutViewController: UIViewController {
         
         let textViewContainer = UIView(frame: CGRect(x: kTextViewPadding, y: kBannerHeight+16,
                                                      width: containerView.frame.width-2*kTextViewPadding, height: containerView.frame.height-kBannerHeight-kTextViewPadding))
-        let textView = UITextView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: textViewContainer.frame.size))
+        let textView = UITextView(frame: CGRect(origin: .zero, size: textViewContainer.frame.size))
         textView.isEditable = false
         textView.showsVerticalScrollIndicator = false
         

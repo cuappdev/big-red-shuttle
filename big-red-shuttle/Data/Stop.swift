@@ -103,10 +103,7 @@ public class Stop: NSObject {
         let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
         for time in times {
             if currentTime.isEarlier(than: time) {
-                if currentTime.sameDay(asTime: time) {
-                    return time.shortDescription
-                }
-                return time.description
+                return currentTime.sameDay(asTime: time) ? time.shortDescription : time.description
             }
         }
         return times.first?.description ?? "––"

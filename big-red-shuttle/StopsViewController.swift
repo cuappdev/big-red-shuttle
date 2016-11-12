@@ -65,7 +65,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func setupAboutButton() {
         aboutButton = UIButton(frame: CGRect(x: 0, y: 0, width: 82, height: 40))
         aboutButton.center = CGPoint(x: view.frame.maxX-aboutButton.frame.width/2-16,
-                                     y: view.frame.maxY-aboutButton.frame.height-16)
+                                     y: view.frame.maxY-aboutButton.frame.height/2-16)
         aboutButton.backgroundColor = .white
         aboutButton.layer.cornerRadius = 4
         aboutButton.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
@@ -90,7 +90,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                         width: view.frame.width-kSearchTablePadding*2, height: kSearchTableClosedHeight)
         searchTableOpenFrame = CGRect(x: kSearchTablePadding, y: 20+kSearchTablePadding,
                                       width: view.frame.width-kSearchTablePadding*2,
-                                      height: view.frame.height-kSearchTablePadding-44) //todo: find correct tab bar height
+                                      height: view.frame.height-kSearchTablePadding-tabBarController!.tabBar.frame.size.height)
         
         searchTableView = UITableView(frame: searchTableClosedFrame)
         searchTableView.register(UINib(nibName: "StopSearchTableViewHeaderView", bundle: nil),

@@ -74,9 +74,6 @@ public class Time: NSObject {
     }
     
     public func dayBefore(time: Time) -> Bool {
-        if time.day == 1 {
-            return day == 7
-        }
-        return time.day-1 == day
+        return time.day == 1 ? day == 7 : time.day-1 == day
     }
 }

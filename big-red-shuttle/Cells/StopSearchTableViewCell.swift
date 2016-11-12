@@ -13,8 +13,8 @@ class StopSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var nextArrivesLabel: UILabel!
     func setupCell(stop: Stop) {
         preservesSuperviewLayoutMargins = false
-        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        separatorInset = .zero
+        layoutMargins = .zero
         
         nameLabel.text = stop.name
         nameLabel.textColor = .brsblack
