@@ -24,9 +24,6 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
     var popUpView = UIView()
 
     
-    var longitude: Double!
-    var latitude: Double!
-    
     var stops: [Stop]!
     var selectedStop: Stop!
     
@@ -82,14 +79,14 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         for location in locations {
             let marker = GMSMarker()
             marker.position = location
-        
+            
             //add each stop to each marker
             marker.userData = stops[counter]
             counter += 1
             marker.map = mapView
         }
     }
-    
+
     
     //drawing
     func initPolyline() {
@@ -113,8 +110,8 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         routePolyline.map = mapView
     }
     
-    // MARK: GMSMapViewDelegate
     
+    // MARK: GMSMapViewDelegate
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         if panBounds.contains(position.target) {
             return
@@ -128,75 +125,50 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
     }
     
     
-    /*
-     This function displays/hides the popUpView.
-     */
+    /*This function displays/hides the popUpView based on tapping the marker.*/
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        latitude = marker.position.latitude
-        longitude = marker.position.longitude
-        if(currentMarker == nil) {
+        if currentMarker == nil {
             currentMarker = marker
             popUp(stop: marker.userData as! Stop)
-        }
-            
-        else if(currentMarker.position.latitude != marker.position.latitude) {
-            //animate down
+        } else if currentMarker.position.latitude != marker.position.latitude {
             dismissPopUpView(marker: marker, fullyDismissed: false)
-            
-            }
-            
-        else {
-            
-           dismissPopUpView(marker: marker, fullyDismissed: true)
+        } else {
+            dismissPopUpView(marker: marker, fullyDismissed: true)
         }
         return true
     }
     
     
-    func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
-        if let viewWithTag = view.viewWithTag(100) {
-            viewWithTag.removeFromSuperview()
-        }
-    }
-    
-    
-    
     func directionsButtonPressed(sender: UIButton) {
         //prepare to redirect user to map app
         let location = selectedStop.getLocation()
-        
-       
-        if (UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!)) {
-
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(URL(string:
-                "comgooglemaps://?saddr=&daddr=\(location.lat),\(location.long)&directionsmode=walking")!)
-        }
-            
-        else {
+        if UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(URL(string:
+                    "comgooglemaps://?saddr=&daddr=\(location.lat),\(location.long)&directionsmode=walking")!)
+            } else {
                 UIApplication.shared.openURL(URL(string:
                     "comgooglemaps://?saddr=&daddr=\(location.lat),\(location.long)&directionsmode=walking")!)
             }
-        }
-        else {
-        
-        let regionDistance = 10000
-        let coordinates = CLLocationCoordinate2DMake(CLLocationDegrees(location.lat), CLLocationDegrees(location.long))
-        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, CLLocationDistance(regionDistance), CLLocationDistance(regionDistance))
-        let options: [String: Any] = [
-            MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
-            MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span),
-            MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking
-            ]
+        } else {
             
-        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
-        let mapItem = MKMapItem(placemark: placemark)
+            let regionDistance = 10000
+            let coordinates = CLLocationCoordinate2DMake(CLLocationDegrees(location.lat), CLLocationDegrees(location.long))
+            let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, CLLocationDistance(regionDistance), CLLocationDistance(regionDistance))
+            let options: [String: Any] = [
+                MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+                MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span),
+                MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking]
+            let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+            let mapItem = MKMapItem(placemark: placemark)
             mapItem.name = selectedStop.name
             mapItem.openInMaps(launchOptions: options)
-        
         }
     }
     
+    func getDayOfWeek(today: Date) -> Int {
+        return Calendar(identifier: .gregorian).component(.weekday, from: today)
+    }
     
     
     /*Display & Animate the pop up view when a marker is selected
@@ -204,79 +176,60 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
     func popUp(stop: Stop) {
         
         selectedStop = stop
+        print(stop.days)
         
         let viewHeight = mapView.bounds.height
         let viewWidth = view.bounds.width
         let midHeight = CGFloat(32.0)
+        let popUpWidth = viewWidth - 24
         
-        
-        let popUpViewFrame = CGRect(x: 12, y: viewHeight, width: viewWidth - 24, height: 106)
+        let popUpViewFrame = CGRect(x: 12, y: viewHeight, width: popUpWidth, height: 106)
         popUpView.frame = popUpViewFrame
-        popUpView.backgroundColor = UIColor.white
+        popUpView.backgroundColor = .white
         
-        let popUpWidth = popUpView.bounds.width
-        
-        //shadow on pop up view
         popUpView.layer.shadowColor = UIColor.lightGray.cgColor
         popUpView.layer.shadowOpacity = 1.0
         popUpView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
         popUpView.layer.shadowRadius = 0.3
         
-        //get directions button
         let directionsButton = UIButton(frame: CGRect(x: popUpWidth - 103, y: 22.5, width: 80, height: 16.5))
-        directionsButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightSemibold)
+        directionsButton.titleLabel?.font = .systemFont(ofSize: 14, weight: UIFontWeightSemibold)
         directionsButton.setTitle("Directions", for: .normal)
-        directionsButton.setTitleColor(UIColor.lightGray, for: .normal)
-        //getDirectionsButton.titleLabel?.sizeToFit()
+        directionsButton.setTitleColor(.lightGray, for: .normal)
         directionsButton.addTarget(self, action: #selector(directionsButtonPressed), for: .touchUpInside)
         directionsButton.center.y = midHeight
         
-        //direction image
         let directionImage = UIImageView()
         directionImage.image = UIImage(cgImage: #imageLiteral(resourceName: "arrow").cgImage!, scale: 1.0, orientation: UIImageOrientation.left)
         directionImage.frame = CGRect(x: popUpWidth - 25, y: 14.25, width: 9, height: 16)
         directionImage.center.y = midHeight
         
-        //location label
         let locationLabelFrame = CGRect(x: 40, y: 11.75, width: popUpWidth * 0.50, height: 26)
         let locationLabel = UILabel(frame: locationLabelFrame)
         locationLabel.text = selectedStop.name
-        locationLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightSemibold)
+        locationLabel.font = .systemFont(ofSize: 16, weight: UIFontWeightSemibold)
         locationLabel.numberOfLines = 2
         locationLabel.center.y = midHeight
         locationLabel.sizeToFit()
         
-        //location image
         let locationImage = UIImageView(image: #imageLiteral(resourceName: "location"))
         locationImage.frame = CGRect(x: 10, y: 18.5, width: 20, height: 26)
         locationLabel.center.y = midHeight
         
-        //set up collectionView
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 70, height: 30)
         
         let collectionView = UICollectionView(frame: CGRect(x: 8, y: 64, width: popUpViewFrame.width - 8, height: 40), collectionViewLayout: layout)
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CustomTimeCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.backgroundColor = UIColor.clear
+        collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         
         let middleBorder = CALayer()
         middleBorder.frame = CGRect(x: 0, y: 64, width: popUpViewFrame.width, height: 1)
         middleBorder.backgroundColor = UIColor(red: 227/255, green: 229/255, blue: 233/255, alpha: 1.0).cgColor
-       
-
-        
-        //tag views to be able to dismiss later
-        popUpView.tag = 100
-        collectionView.tag = 101
-        locationLabel.tag = 102
-        locationImage.tag = 103
-        directionsButton.tag = 104
-        directionImage.tag = 105
         
         popUpView.addSubview(collectionView)
         popUpView.addSubview(directionsButton)
@@ -286,62 +239,46 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         popUpView.layer.addSublayer(middleBorder)
         view.addSubview(popUpView)
         
-       
-        //animate view up
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
-             collectionView.scrollToItem(at: IndexPath.init(row: 5, section: 0), at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
-            
-        self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: viewWidth - 24, height: 106)
-        }, completion: {
-            (value: Bool) in
-        })
-        
-        
+            self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: popUpWidth, height: 106)
+        }, completion: nil)
     }
     
     
-    /* Dismiss the current pop up view
-     */
+    /* Dismiss the current pop up view */
     func dismissPopUpView(marker: GMSMarker, fullyDismissed: Bool) {
-        
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
             self.popUpView.frame = CGRect(x: 12, y: self.view.bounds.height , width: self.view.bounds.width - 24, height: 130)
-            
-        }, completion: {
-            (value: Bool) in
+        }, completion: { _ in
             //remove from view after they animate off screen
-            if let popUpTagView = self.view.viewWithTag(100), let collectionTagView = self.popUpView.viewWithTag(101), let locationLabelTag = self.view.viewWithTag(102), let locationImageTag = self.view.viewWithTag(103), let getDirectionsTag = self.view.viewWithTag(104), let directionImageTag = self.view.viewWithTag(105) {
-                popUpTagView.removeFromSuperview()
-                collectionTagView.removeFromSuperview()
-                locationLabelTag.removeFromSuperview()
-                locationImageTag.removeFromSuperview()
-                getDirectionsTag.removeFromSuperview()
-                directionImageTag.removeFromSuperview()
-                
-                if fullyDismissed {
+            self.popUpView.subviews.forEach({$0.removeFromSuperview()})
+            self.popUpView.removeFromSuperview()
+            if fullyDismissed {
                 self.currentMarker = nil
-                } else {
+            } else {
                 self.currentMarker = marker
                 self.popUp(stop: marker.userData as! Stop)
-                }
             }
         })
     }
     
-    
+
     //MARK: collectionView Datasource
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
         
-        cell.textLabel.text = selectedStop.times[indexPath.row].shortDescription
-        cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
-        print("Laid out cell")
-        
+        // let date = Date(timeIntervalSince1970: 1000000)
+        let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
+        if selectedStop.days.contains(currentDay!){
+            cell.textLabel.text = selectedStop.times[indexPath.row].shortDescription
+            cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
+        } else {
+            cell.textLabel.text = "No Shuttles Running Today"
+            cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
+            cell.textLabel.sizeToFit()
+        }
         
         return cell
-        
-        
     }
     
     
@@ -349,10 +286,12 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         return 1
     }
     
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
-    }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //MARK: see what time is it and display rest of array
+        //let date = Date(timeIntervalSince1970: 1000000)
+        let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
+        return selectedStop.days.contains(currentDay!) ? 9 : 1
+    }
 }
 
