@@ -17,10 +17,11 @@ public class Time: NSObject {
     public var shortDescription: String {
         let ampm = hour < 12 ? "am" : "pm"
         var civilianHour = hour > 12 ? hour - 12 : hour
-        civilianHour  = hour == 0 ? 12 : civilianHour
+        if hour == 0 {
+            civilianHour = 12
+        }
         let displayMinute = minute < 10 ? "0\(minute)" : "\(minute)"
-        
-        return "\(civilianHour):\(displayMinute) \(ampm)"
+        return "\(civilianHour):\(displayMinute)\(ampm)"
     }
     
     override public var description: String {
@@ -28,15 +29,21 @@ public class Time: NSObject {
         return "\(shortDescription) on \(dayString) night"
     }
     
-    public convenience init(time: String, day: Int) {
+    public convenience init(time: String, technicallyNightBefore: Int) {
         let (hour, minute) = getTime(time: time)
-        self.init(hour: hour, minute: minute, day: day)
+        self.init(hour: hour, minute: minute, technicallyNightBefore: technicallyNightBefore)
     }
     
     public init(hour: Int, minute: Int, day: Int){
         self.hour = hour
         self.minute = minute
-        self.day = day + 1
+        self.day = day
+    }
+    
+    public init(hour: Int, minute: Int, technicallyNightBefore: Int){
+        self.hour = hour
+        self.minute = minute
+        self.day = technicallyNightBefore + 1
         if self.day > 7 {
             self.day = 1
         }
@@ -45,12 +52,28 @@ public class Time: NSObject {
     public func isEarlier(than time: Time) -> Bool {
         let t1 = self
         let t2 = time
-        if t1.day > t2.day || (t1.day == 1 && t2.day == 7) || t1.hour > t2.hour  {
+        if t1.day > t2.day || (t1.day == 1 && t2.day == 7)  {
             return false
-        } else if t1.day < t2.day || t1.hour < t2.hour {
+        } else if t1.day < t2.day {
+            return true
+        } else if t1.hour > t2.hour{
+            return false
+        } else if t1.hour < t2.hour {
             return true
         } else{
-            return t1.minute <= t2.minute
+            if t1.minute > t2.minute{
+                return false
+            }else{
+                return true
+            }
         }
+    }
+    
+    public func sameDay(asTime time: Time) -> Bool {
+        return time.day == day
+    }
+    
+    public func dayBefore(time: Time) -> Bool {
+        return time.day == 1 ? day == 7 : time.day-1 == day
     }
 }

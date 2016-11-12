@@ -83,17 +83,33 @@ public class Stop: NSObject {
         return CLLocationCoordinate2DMake(CLLocationDegrees(lat), CLLocationDegrees(long))
     }
     
+    public func nextArrivalsToday() -> [String] {
+        let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
+        guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return [] }
+        let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
+        let technicallyPreviousDay = currentHour > 3
+        if technicallyPreviousDay {
+            return times.filter { time in currentTime.isEarlier(than: time) && currentTime.dayBefore(time: time) }
+                .map { time in time.shortDescription }
+        } else {
+            return times.filter { time in currentTime.isEarlier(than: time) && currentTime.sameDay(asTime: time) }
+                .map { time in time.shortDescription }
+        }
+    }
+    
     public func nextArrival() -> String {
         let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
-        guard let currentHour = components.hour else { return "––" }
-        guard let currentMinute = components.minute else { return "––" }
-        guard let currentDay = components.weekday else { return "––" }
+        guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return "––" }
         let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
         for time in times {
             if currentTime.isEarlier(than: time) {
-                return time.day == currentTime.day ? time.shortDescription : time.description
+                return currentTime.sameDay(asTime: time) ? time.shortDescription : time.description
             }
         }
-        return times.first!.description
+        return times.first?.description ?? "––"
     }
+}
+
+func == (lhs: Stop, rhs: Stop) -> Bool {
+    return lhs.name == rhs.name
 }

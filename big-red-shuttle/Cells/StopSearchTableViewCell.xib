@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="StopSearchTableViewCell" customModule="big_red_shuttle" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jessup &amp; Program House Drive" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZlC-cX-NbJ">
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grayed-pin" translatesAutoresizingMaskIntoConstraints="NO" id="J1c-Cb-pbk">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="5GW-Ja-jhi"/>
+                        <constraint firstAttribute="width" constant="18" id="aJD-8x-ZdY"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next bus comes at ––" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s3r-XQ-EXt">
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="s3r-XQ-EXt" firstAttribute="top" secondItem="ZlC-cX-NbJ" secondAttribute="bottom" constant="3" id="6wM-13-aUn"/>
+                <constraint firstItem="ZlC-cX-NbJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="0.66" id="AUs-p5-aXl"/>
+                <constraint firstItem="ZlC-cX-NbJ" firstAttribute="leading" secondItem="J1c-Cb-pbk" secondAttribute="trailing" constant="8" id="EZo-cQ-rAX"/>
+                <constraint firstAttribute="trailing" secondItem="ZlC-cX-NbJ" secondAttribute="trailing" constant="8" id="HK4-1V-N1H"/>
+                <constraint firstItem="J1c-Cb-pbk" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="P0H-6p-IgO"/>
+                <constraint firstItem="s3r-XQ-EXt" firstAttribute="leading" secondItem="ZlC-cX-NbJ" secondAttribute="leading" id="cm8-1T-HGt"/>
+                <constraint firstItem="J1c-Cb-pbk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="ovC-fu-63H"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="nameLabel" destination="ZlC-cX-NbJ" id="oyd-a5-TO4"/>
+                <outlet property="nextArrivesLabel" destination="s3r-XQ-EXt" id="U9l-WJ-VhF"/>
+            </connections>
+            <point key="canvasLocation" x="34.5" y="53.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="grayed-pin" width="20" height="25"/>
+    </resources>
+</document>

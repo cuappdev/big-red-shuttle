@@ -15,4 +15,8 @@ extension UIColor {
     @nonobjc static let brsgreyedout = UIColor(red:0.56, green:0.58, blue:0.63, alpha:1.0)
     @nonobjc static let brslightgrey = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
     @nonobjc static let brsgray = UIColor(red: 227/255, green: 229/255, blue: 233/255, alpha: 1.0)
+    @nonobjc static let brscoverviewgray = UIColor(red: 75/255, green: 79/255, blue: 86/255, alpha: 0.5)
+    @nonobjc static let appdevgreen = UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 1.0)
+    @nonobjc static let aboutviewdarkgray = UIColor(red: 34/255, green: 27/255, blue: 49/255, alpha: 1)
+    @nonobjc static let aboutviewblue = UIColor(red: 86/255, green: 105/255, blue: 124/255, alpha: 1.0)
 }

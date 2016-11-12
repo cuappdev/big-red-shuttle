@@ -52,7 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         emergencyVC.tabBarItem = emergencyIcon
         
         tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
-        tabBarController.selectedViewController = scheduleVC
         tabBarController.tabBar.tintColor = .brsred
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsblack], for:.normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsred], for:.selected)

@@ -156,16 +156,14 @@ public func getStops() ->  [Stop] {
                 let days = stop["days"].arrayObject!
                 let timeStrings = stop["times"].arrayObject! as! [String]
                 
-                var times: [Time] = []
+                var times:[Time] = []
                 for day in days {
                     let dayObject = Days(rawValue: day as! String)!
                     dayArray.append(Days(rawValue: day as! String)!)
                     for tStr in timeStrings {
-                        times.append(Time(time: tStr, day: dayObject.number))
+                        times.append(Time(time: tStr, technicallyNightBefore: dayObject.number))
                     }
                 }
-                
-                //                times = times.sorted(by: timeCompare)
                 stops.append(Stop(name: name, lat: lat, long: long, days: dayArray, times: times))
                 
             }
@@ -252,6 +250,6 @@ public func getTime(time: String) -> (Int, Int) {
     }else{
         hour = hour12
     }
-    
+
     return (hour, minute)
 }

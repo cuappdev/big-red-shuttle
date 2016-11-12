@@ -10,24 +10,34 @@ import UIKit
 import GoogleMaps
 import MapKit
 
-class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource{
+class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate,
+                           UICollectionViewDataSource, StopSearchTableViewHeaderViewDelegate, GMSMapViewDelegate {
     
     // MARK: Properties
     
-    var mapView: GMSMapView!
-    var panBounds: GMSCoordinateBounds!
+    let kMaxBoundPadding: Double = 0.01
     let kBoundPadding: CGFloat = 40
+    let kSearchTablePadding: CGFloat = 10
+    let kSearchTableClosedHeight: CGFloat = 45
+    let kStopZoom: Float = 16
     let polyline = Polyline()
     let maxWayPoints = 8
-    
-    var currentMarker: GMSMarker!
+
+    var viewIsSetup = false
+    var searchTableView: UITableView!
+    var searchTableClosedFrame: CGRect!
+    var searchTableOpenFrame: CGRect!
+    var searchTableExpanded = false
+    var aboutButton: UIButton!
     var popUpView = UIView()
 
-    
     var stops: [Stop]!
     var selectedStop: Stop!
+    var mapView: GMSMapView!
+    var panBounds: GMSCoordinateBounds!
     
     // MARK: UIViewController
+    
     override func loadView() {
         let camera = GMSCameraPosition.camera(withLatitude: 42.4474, longitude: -76.4855, zoom: 15.5) // Random cornell location
         let mapView = GMSMapView.map(withFrame: .zero, camera: camera)
@@ -37,24 +47,67 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
 
         initPolyline()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if viewIsSetup {
+            return
+        }
         mapView.isMyLocationEnabled = true
         stops = getStops()
-        let locations = stops
-            .map { $0.getLocation() }
-            .map { CLLocationCoordinate2DMake(CLLocationDegrees($0.lat), CLLocationDegrees($0.long))}
+        setupAboutButton()
+        setupSearchTable()
+        let locations = stops.map { $0.getCoordinate() }
         setLocations(locations: locations)
-        
+        viewIsSetup = true
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
+    func setupAboutButton() {
+        aboutButton = UIButton(frame: CGRect(x: 0, y: 0, width: 82, height: 40))
+        aboutButton.center = CGPoint(x: view.frame.maxX-aboutButton.frame.width/2-16,
+                                     y: view.frame.maxY-aboutButton.frame.height/2-16)
+        aboutButton.backgroundColor = .white
+        aboutButton.layer.cornerRadius = 4
+        aboutButton.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
+        aboutButton.layer.borderWidth = 0.5
+        aboutButton.setTitleColor(.brsgreyedout, for: .normal)
+        aboutButton.setTitle(" About", for: .normal)
+        aboutButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        aboutButton.setImage(#imageLiteral(resourceName: "about-icon"), for: .normal)
+        aboutButton.addTarget(self, action: #selector(didTapAboutButton), for: .touchUpInside)
+        view.addSubview(aboutButton)
     }
     
+    func didTapAboutButton() {
+        let aboutVC = AboutViewController()
+        aboutVC.modalTransitionStyle = .crossDissolve
+        aboutVC.modalPresentationStyle = .overCurrentContext
+        present(aboutVC, animated: true, completion: nil)
+    }
+    
+    func setupSearchTable() {
+        searchTableClosedFrame = CGRect(x: kSearchTablePadding, y: 20+kSearchTablePadding,
+                                        width: view.frame.width-kSearchTablePadding*2, height: kSearchTableClosedHeight)
+        searchTableOpenFrame = CGRect(x: kSearchTablePadding, y: 20+kSearchTablePadding,
+                                      width: view.frame.width-kSearchTablePadding*2,
+                                      height: view.frame.height-kSearchTablePadding-tabBarController!.tabBar.frame.size.height)
+        
+        searchTableView = UITableView(frame: searchTableClosedFrame)
+        searchTableView.register(UINib(nibName: "StopSearchTableViewHeaderView", bundle: nil),
+                                 forHeaderFooterViewReuseIdentifier: "HeaderView")
+        searchTableView.register(UINib(nibName: "StopSearchTableViewCell", bundle: nil),
+                                 forCellReuseIdentifier: "Cell")
+        searchTableView.delegate = self
+        searchTableView.dataSource = self
+        
+        searchTableView.layer.cornerRadius = 4
+        searchTableView.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
+        searchTableView.layer.borderWidth = 0.5
+        searchTableView.showsVerticalScrollIndicator = false
+        searchTableView.bounces = false
+        
+        view.addSubview(searchTableView)
+    }
     
     // MARK: Custom Functions
     func setLocations(locations: [CLLocationCoordinate2D]) {
@@ -64,11 +117,12 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
                         min(nextLocation.latitude, prevResult.1),
                         max(nextLocation.longitude, prevResult.2),
                         min(nextLocation.longitude, prevResult.3))
-            })
-        
-        panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
+        })
+        let startBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
                                         coordinate: CLLocationCoordinate2DMake(south, west))
-        let cameraUpdate = GMSCameraUpdate.fit(panBounds, withPadding: kBoundPadding)
+        panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north+kMaxBoundPadding, east+kMaxBoundPadding),
+                                         coordinate: CLLocationCoordinate2DMake(south-kMaxBoundPadding, west-kMaxBoundPadding))
+        let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
         mapView.moveCamera(cameraUpdate)
         mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
         drawPins(withLocations: locations)
@@ -124,14 +178,65 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         mapView.animate(with: update)
     }
     
+    // MARK: UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view =  tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! StopSearchTableViewHeaderView
+        view.setupView()
+        view.delegate = self
+        return view
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return kSearchTableClosedHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let stop = stops[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
+        didTapSearchBar()
+        let cameraUpdate = GMSCameraUpdate.setTarget(stop.getCoordinate(), zoom: kStopZoom)
+        mapView.animate(with: cameraUpdate)
+        popUp(stop: stop)
+    }
+    
+    // MARK: UITableViewDataSource
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return stops.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! StopSearchTableViewCell
+        cell.setupCell(stop: stops[indexPath.row])
+        return cell
+    }
+    
+    // MARK: StopSearchTableViewHeaderViewDelegate
+    
+    func didTapSearchBar() {
+        searchTableExpanded = !searchTableExpanded
+        if searchTableExpanded {
+            dismissPopUpView(newPopupStop: nil, fullyDismissed: true)
+        }
+        let finalFrame = (searchTableExpanded ? searchTableOpenFrame : searchTableClosedFrame)!
+        
+        UIView.animate(withDuration: 0.25) {
+            self.searchTableView.frame = finalFrame
+        }
+    }
     
     /*This function displays/hides the popUpView based on tapping the marker.*/
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if currentMarker == nil {
-            currentMarker = marker
+        if selectedStop == nil {
             popUp(stop: marker.userData as! Stop)
         } else {
-            dismissPopUpView(marker: marker, fullyDismissed: currentMarker.position.latitude == marker.position.latitude)
+            let newStop = marker.userData as! Stop
+            dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
         }
         return true
     }
@@ -258,7 +363,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
     
     
     /* Dismiss the current pop up view */
-    func dismissPopUpView(marker: GMSMarker, fullyDismissed: Bool) {
+    func dismissPopUpView(newPopupStop: Stop?, fullyDismissed: Bool) {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
             self.popUpView.frame = CGRect(x: 12, y: self.view.bounds.height , width: self.view.bounds.width - 24, height: 130)
         }, completion: { _ in
@@ -266,10 +371,11 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
             self.popUpView.subviews.forEach({$0.removeFromSuperview()})
             self.popUpView.removeFromSuperview()
             if fullyDismissed {
-                self.currentMarker = nil
+                self.selectedStop = nil
             } else {
-                self.currentMarker = marker
-                self.popUp(stop: marker.userData as! Stop)
+                if let stop = newPopupStop {
+                   self.popUp(stop: stop)
+                }
             }
         })
     }
