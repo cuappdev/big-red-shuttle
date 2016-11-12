@@ -29,6 +29,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        
+        if UserDefaults.standard.value(forKey: "nudgeCount") as? Int == nil {
+            UserDefaults.standard.setValue(0, forKey: "nudgeCount")
+        }
+        UserDefaults.standard.setValue(true, forKey: "didFireNudge")
+        
         let json = try! JSON(data: Data(contentsOf: Bundle.main.url(forResource: "config", withExtension: "json")!))
         GMSServices.provideAPIKey(json["google-maps"].stringValue)
         

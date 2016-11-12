@@ -166,17 +166,15 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         }
     }
     
+    
     func getDayOfWeek(today: Date) -> Int {
         return Calendar(identifier: .gregorian).component(.weekday, from: today)
     }
     
     
-    /*Display & Animate the pop up view when a marker is selected
-     */
+    /* Display & Animate the pop up view when a marker is selected */
     func popUp(stop: Stop) {
-        
         selectedStop = stop
-        print(stop.days)
         
         let viewHeight = mapView.bounds.height
         let viewWidth = view.bounds.width
@@ -242,19 +240,20 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
             self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: popUpWidth, height: 106)
         }, completion: { _ in
-            UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
-                collectionView.contentOffset.x = collectionView.contentOffset.x + 20
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
-                    collectionView.contentOffset.x = collectionView.contentOffset.x - 20
-                }, completion: nil)
+            
+            if (UserDefaults.standard.value(forKey: "nudgeCount") as! Int) < 3 && UserDefaults.standard.value(forKey: "didFireNudge") as! Bool {
                 
-            })
-            
-            
+                UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
+                    collectionView.contentOffset.x = collectionView.contentOffset.x + 20
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+                        collectionView.contentOffset.x = collectionView.contentOffset.x - 20
+                    }, completion: nil)
+                })
+                UserDefaults.standard.setValue((UserDefaults.standard.value(forKey: "nudgeCount") as! Int) + 1, forKey: "nudgeCount")
+                UserDefaults.standard.setValue(false, forKey: "didFireNudge")
             }
-        
-        )
+        })
     }
     
     
@@ -275,14 +274,13 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         })
     }
     
-
+    
     //MARK: collectionView Datasource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
-        
-        // let date = Date(timeIntervalSince1970: 1000000)
         let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
         if selectedStop.days.contains(currentDay!){
+            //MARK: After Kevin and I merge, go back and fix it so it only displays the shuttle times still to come. Example: If it is 12:45 -> only display shuttle buses from 12:45 and later for each marker
             cell.textLabel.text = selectedStop.times[indexPath.row].shortDescription
             cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
         } else {
@@ -301,8 +299,8 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //MARK: see what time is it and display rest of array
-        //let date = Date(timeIntervalSince1970: 1000000)
+        //MARK: After Kevin and I merge, go back and fix it so it only displays the shuttle times still to come. Example: If it is 12:45 -> only display shuttle buses from 12:45 and later for each marker
+    
         let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
         return selectedStop.days.contains(currentDay!) ? 9 : 1
     }
