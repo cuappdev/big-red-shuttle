@@ -25,7 +25,7 @@ public class Time: NSObject {
     }
     
     override public var description: String {
-        let dayString = Days.fromNumber(num: day-1)!.rawValue
+        let dayString = Days.fromNumber(num: day == 1 ? 7 : day-1)!.rawValue
         return "\(shortDescription) on \(dayString) night"
     }
     
@@ -52,10 +52,10 @@ public class Time: NSObject {
     public func isEarlier(than time: Time) -> Bool {
         let t1 = self
         let t2 = time
-        if t1.day > t2.day || (t1.day == 1 && t2.day == 7)  {
-            return false
-        } else if t1.day < t2.day {
+        if t1.day < t2.day || t1.day == 7 && t2.day == 1  {
             return true
+        } else if t1.day > t2.day {
+            return false
         } else if t1.hour > t2.hour{
             return false
         } else if t1.hour < t2.hour {
