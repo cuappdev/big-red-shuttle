@@ -55,8 +55,8 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         
     }
     
-    // MARK: Custom Functions
     
+    // MARK: Custom Functions
     func setLocations(locations: [CLLocationCoordinate2D]) {
         let (north, south, east, west) =
             locations.reduce((0, 50, -80, 0), { prevResult, nextLocation in
@@ -241,7 +241,20 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
             self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: popUpWidth, height: 106)
-        }, completion: nil)
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
+                collectionView.contentOffset.x = collectionView.contentOffset.x + 20
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+                    collectionView.contentOffset.x = collectionView.contentOffset.x - 20
+                }, completion: nil)
+                
+            })
+            
+            
+            }
+        
+        )
     }
     
     
