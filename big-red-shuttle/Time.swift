@@ -80,5 +80,3 @@ public class Time: NSObject {
         return time.day-1 == day
     }
 }
-
-

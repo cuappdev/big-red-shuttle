@@ -1,14 +1,145 @@
-//
-//  Network.swift
-//  big-red-shuttle
-//
-//  Created by Austin Astorga on 10/19/16.
-//  Copyright © 2016 cuappdev. All rights reserved.
-//
-
-import Foundation
 import Alamofire
 import SwiftyJSON
+import CoreLocation
+
+func system() -> System {
+    return System.sharedSystem
+}
+
+func api() -> API {
+    return API.sharedAPI
+}
+
+class System {
+    
+    static let sharedSystem = System()
+    
+    func uid() -> String? {
+        return UIDevice.current.identifierForVendor?.uuidString
+    }
+    
+    func authenticationKey() -> String? {
+        return UserDefaults.standard.string(forKey: "authenticationKey")
+    }
+    
+    func userLocation() -> Coordinate? {
+       return Location.sharedLocation.currentUserLocation
+    }
+
+    func busLocation() -> Coordinate? {
+        return Location.sharedLocation.currentBusLocation
+    }
+}
+
+class API {
+    
+    static let sharedAPI = API()
+    let baseURLString = "http://10.132.0.190:6001"
+    
+    /// registers a user to log location using an authentication key
+    func registerUserToLogLocation(key: String, completion: (() -> ())?) {
+        
+        guard let uid = system().uid() else {
+            showErrorAlert(title: "Error", message: "Could not get user id")
+            return
+        }
+        
+        let parameters = ["uid": uid, "key": key]
+        
+        request(endpoint: "/register", parameters: parameters, method: .post, encoding: JSONEncoding.default) { (response: JSON) in
+            completion?()
+        }
+    }
+    
+    /// logs the location of the shuttle
+    func logLocation(completion: (() -> ())?) {
+        
+        guard let uid = system().uid() else {
+            showErrorAlert(title: "Error", message: "Could not get user id")
+            return
+        }
+
+        guard let userLocation = system().userLocation() else {
+            showErrorAlert(title: "Error", message: "Could not get user location")
+            return
+        }
+        
+        let parameters = ["uid": uid, "latitude": "\(userLocation.latitude)", "longitude": "\(userLocation.longitude)"]
+        
+        request(endpoint: "/log", parameters: parameters, method: .post, encoding: JSONEncoding.default) { (json: JSON) in
+            completion?()
+        }
+    }
+    
+    /// fetches the last logged location of the shuttle
+    func getLocation(completion: ((Coordinate) -> ())?) {
+        
+        guard let uid = system().uid() else {
+            showErrorAlert(title: "Error", message: "Could not get user id")
+            return
+        }
+        
+        let parameters = ["uid": uid]
+        
+        request(endpoint: "/latest", parameters: parameters, method: .get, encoding: URLEncoding.default) { (response: JSON) in
+            let latitude = CLLocationDegrees(response["latitude"].floatValue)
+            let longitude = CLLocationDegrees(response["longitude"].floatValue)
+            let coordinate = Coordinate(latitude: latitude, longitude: longitude)
+            let timestamp = response["date"].stringValue
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
+            let date = dateFormatter.date(from: timestamp)
+            
+            Location.sharedLocation.currentBusLocation = coordinate
+            completion?(coordinate)
+        }
+    }
+    
+    func request(endpoint: String, parameters: [String: Any], method: HTTPMethod, encoding: ParameterEncoding, completion: ((JSON) -> ())?) {
+        
+        let headers = ["Content-Type":"application/json"]
+        
+        Alamofire.request(baseURLString + endpoint, method: method, parameters: parameters, encoding: encoding, headers: headers).responseData { (response: DataResponse<Data>) in
+            
+            switch response.result {
+                
+            case .success(let data):
+                let responseJSON = JSON(data: data)
+                
+                if responseJSON["result"].stringValue == "success" {
+                     completion?(responseJSON)
+                } else {
+                    self.showErrorAlert(title: "Error", message: responseJSON["result"].stringValue)
+                }
+                
+            case .failure(let error):
+                if let url = response.response?.url?.absoluteURL {
+                    print(url)
+                }
+                print(error.localizedDescription)
+                
+                guard let responseData = response.data else {
+                    return
+                }
+                let errorJSON = JSON(responseData)
+                
+                //TODO log error with an alert
+            }
+            
+        }
+    }
+    
+    func showErrorAlert(title: String, message: String) {
+        if let topViewController = UIViewController.topViewController() {
+            
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            
+            alertController.addAction(okAction)
+            topViewController.present(alertController, animated: true, completion: nil)
+        }
+    }
+}
 
 
 public func getStops() ->  [Stop] {
@@ -33,15 +164,69 @@ public func getStops() ->  [Stop] {
                         times.append(Time(time: tStr, technicallyNightBefore: dayObject.number))
                     }
                 }
-                
                 stops.append(Stop(name: name, lat: lat, long: long, days: dayArray, times: times))
-  
+                
             }
         }
     }
     return stops
-
+    
 }
+
+
+class Polyline: NSObject {
+    var overviewPolyline = ""
+    
+    enum Status: String {
+        case OK = "OK"
+        case ZERO_RESULTS = "ZERO_RESULTS"
+        case OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT"
+        case REQUEST_DENIED = "REQUEST_DENIED"
+        case INVALID_REQUEST = "INVALID_REQUEST"
+        case UNKNOWN_ERROR = "UNKNOWN_ERROR"
+    }
+    
+    func getPolyline(waypoints:[Stop], origin:Stop, end:Stop) {
+        let baseURLDirections = "https://maps.googleapis.com/maps/api/directions/json?"
+        let origin = "\(origin.lat),\(origin.long)"
+        let destination = "\(end.lat),\(end.long)"
+        
+        var directionsURLString = baseURLDirections + "origin=" + origin + "&destination=" + destination
+        
+        if waypoints.count > 0 {
+            directionsURLString += "&waypoints=optimize:true"
+            for i in 0..<waypoints.count {
+                let coords = "\(waypoints[i].lat),\(waypoints[i].long)"
+                directionsURLString +=  "|" + coords
+            }
+        }
+        
+        directionsURLString = directionsURLString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        print(directionsURLString)
+        if let directionsURL = URL(string: directionsURLString) {
+            if let data = try? Data(contentsOf: directionsURL) {
+                let json = JSON(data: data)
+                let status = Status(rawValue: json["status"].stringValue)!
+                
+                switch status {
+                    case .OK:
+                        overviewPolyline = json["routes"][0]["overview_polyline"]["points"].stringValue
+                    case .ZERO_RESULTS:
+                        print("zero results, can't draw bus routes")
+                    case .OVER_QUERY_LIMIT:
+                        print("over query limit, can't draw bus routes")
+                    case .REQUEST_DENIED:
+                        print("request was denied, can't draw bus routes")
+                    case .INVALID_REQUEST:
+                        print("invalid request, can't draw bus routes")
+                    case .UNKNOWN_ERROR:
+                        print("unknown, can't draw bus routes")
+                }
+            }
+        }
+    }
+}
+
 
 /* Creates time from JSON string
  * Time string must have format:

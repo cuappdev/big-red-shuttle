@@ -68,7 +68,7 @@ class AboutViewController: UIViewController {
         
         let brsImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 43, height: 60))
         brsImageView.center = CGPoint(x: xView.frame.midX-50-brsImageView.frame.width/2, y: xView.frame.midY)
-        brsImageView.image = #imageLiteral(resourceName: "magnifying-glass") //TODO: add actual BRS image
+        brsImageView.image = #imageLiteral(resourceName: "arrow") //TODO: add actual BRS image
         bannerView.addSubview(brsImageView)
         
         let exitButton = UIButton(frame: CGRect(x: containerView.frame.width-kCancelButtonLength-16, y: 16,
@@ -100,6 +100,7 @@ class AboutViewController: UIViewController {
         textString.append(collabString)
         textString.append(missionHeader)
         textString.append(aboutString)
+        textString.addAttribute(NSForegroundColorAttributeName, value: UIColor.brsblack, range: NSRange(location: 0, length: textString.length))
         textView.attributedText = textString
         textViewContainer.addSubview(textView)
         let fadeGradient = CAGradientLayer()

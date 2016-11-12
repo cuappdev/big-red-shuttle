@@ -12,9 +12,15 @@ import SwiftyJSON
 
 enum FileReadingError : Error { case fileNotFound }
 
-struct colorPalette{
-    static var red = UIColor(red: 0.98, green: 0.28, blue: 0.26, alpha: 1.0)
+extension UINavigationController{
+
+    override open func viewDidLoad() {
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.brsblack, NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium" , size: 18.0)!]
+        navigationBar.barTintColor = .brslightgrey
+        navigationBar.isTranslucent = false
+    }
 }
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,34 +29,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        
+        if UserDefaults.standard.value(forKey: "nudgeCount") as? Int == nil {
+            UserDefaults.standard.setValue(0, forKey: "nudgeCount")
+        }
+        UserDefaults.standard.setValue(true, forKey: "didFireNudge")
+        
         let json = try! JSON(data: Data(contentsOf: Bundle.main.url(forResource: "config", withExtension: "json")!))
         GMSServices.provideAPIKey(json["google-maps"].stringValue)
         
         //Set up tab bar & VCs
         let tabBarController = UITabBarController()
         let navigationVC = StopsViewController() //fill in w/ actual VCs
-        let scheduleVC = StopsViewController()
-        let emergencyVC = StopsViewController()
+        let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
+        let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
         
-        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "magnifying-glass"), tag: 0)
-        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "calendar"), tag: 0)
-        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "eye"), tag: 0)
-        
+        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "navigation"), selectedImage: UIImage(named: "navigation-s"))
+        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "schedule"), selectedImage: UIImage(named: "schedule-s"))
+        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "emergency"), selectedImage: UIImage(named: "emergency-s"))
         navigationVC.tabBarItem = navigationIcon
         scheduleVC.tabBarItem = scheduleIcon
         emergencyVC.tabBarItem = emergencyIcon
         
         tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
-        tabBarController.selectedViewController = navigationVC
-        tabBarController.tabBar.tintColor = colorPalette.red
-            //get rid of top line of tab bar
+        tabBarController.tabBar.tintColor = .brsred
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsblack], for:.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsred], for:.selected)
         tabBarController.tabBar.clipsToBounds = true
+        tabBarController.tabBar.isTranslucent = false
+        tabBarController.tabBar.barTintColor = .brslightgrey
+        tabBarController.tabBar.layer.borderWidth = 0.5
+        tabBarController.tabBar.layer.borderColor = UIColor.lightGray.cgColor
         
         //Set up window
         window = UIWindow(frame: UIScreen.main.bounds)
         window!.makeKeyAndVisible()
         window?.rootViewController = tabBarController
         
+        //Test API
+        api().registerUserToLogLocation(key: "fedorko") {
+            //success
+            print("Did successfully register user to log location")
+            
+            api().logLocation(completion: { 
+                print("Did successfully register user to log location")
+                
+                api().getLocation(completion: { (coordinate: Coordinate) in
+                    print("bus is at latitude: \(coordinate.latitude), longitude: \(coordinate.longitude)")
+                })
+            })
+        }
+        
+        //Light status bar
+        UIApplication.shared.statusBarStyle = .lightContent
+
         return true
     }
 
@@ -75,7 +107,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

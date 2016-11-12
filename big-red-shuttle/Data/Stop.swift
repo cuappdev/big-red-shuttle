@@ -112,3 +112,7 @@ public class Stop: NSObject {
         return times.first?.description ?? "––"
     }
 }
+
+func == (lhs: Stop, rhs: Stop) -> Bool {
+    return lhs.name == rhs.name
+}

@@ -26,7 +26,7 @@ class StopSearchTableViewHeaderView: UITableViewHeaderFooterView {
 
     func setupView() {
         contentView.backgroundColor = .white
-        findStopsLabel.textColor = UIColor(red: 78/255, green: 82/255, blue: 89/255, alpha: 1.0)
+        findStopsLabel.textColor = .brsblack
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         addGestureRecognizer(tapGestureRecognizer)
         downCarrotImageView.image = #imageLiteral(resourceName: "arrow")
@@ -41,9 +41,9 @@ class StopSearchTableViewHeaderView: UITableViewHeaderFooterView {
     func animate(open: Bool, duration: TimeInterval) {
         var color: UIColor!
         if open {
-            color = UIColor(colorLiteralRed: 78/255, green: 82/255, blue: 89/255, alpha: 1.0)
+            color = .brsgreyedout
         } else {
-            color = UIColor(colorLiteralRed: 142/255, green: 148/255, blue: 160/255, alpha: 1.0)
+            color = .brsblack
         }
         let transform = CATransform3DRotate(downCarrotImageView.layer.transform, CGFloat(M_PI), 1.0, 0, 0)
         UIView.transition(with: findStopsLabel, duration: duration, options: .transitionCrossDissolve, animations: {
