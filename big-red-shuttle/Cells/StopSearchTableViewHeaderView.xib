@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -12,53 +12,39 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifying-glass" translatesAutoresizingMaskIntoConstraints="NO" id="Hnq-XN-B1z">
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="bam-4K-ovR"/>
-                        <constraint firstAttribute="width" constant="20" id="uI1-Ic-XKt"/>
-                    </constraints>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find Big Red Shuttle stops" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lnR-QC-JTp">
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.30588235294117649" green="0.32156862745098036" blue="0.34901960784313724" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wks-TT-DkG">
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxN-K9-C7K">
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xdA-2g-w0f"/>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="0.5" id="hfU-pg-GEe"/>
+                        <constraint firstAttribute="width" constant="20" id="ZU8-gQ-wnf"/>
+                        <constraint firstAttribute="trailing" secondItem="xdA-2g-w0f" secondAttribute="trailing" id="f96-GI-DoO"/>
+                        <constraint firstItem="xdA-2g-w0f" firstAttribute="leading" secondItem="cxN-K9-C7K" secondAttribute="leading" id="n2h-mZ-HAj"/>
+                        <constraint firstItem="xdA-2g-w0f" firstAttribute="top" secondItem="cxN-K9-C7K" secondAttribute="top" id="vra-CY-Of7"/>
+                        <constraint firstAttribute="height" constant="10" id="xK3-ES-Mnl"/>
+                        <constraint firstAttribute="bottom" secondItem="xdA-2g-w0f" secondAttribute="bottom" id="xgq-3k-ElT"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifying-glass" translatesAutoresizingMaskIntoConstraints="NO" id="0Hz-z2-igP">
-                    <constraints>
-                        <constraint firstAttribute="width" constant="20" id="Lrf-4z-1db"/>
-                        <constraint firstAttribute="height" constant="20" id="yds-Gx-GNx"/>
-                    </constraints>
-                </imageView>
             </subviews>
             <constraints>
                 <constraint firstItem="lnR-QC-JTp" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="71n-uf-x0W"/>
-                <constraint firstItem="0Hz-z2-igP" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="BB1-Y3-xzt"/>
-                <constraint firstAttribute="trailing" secondItem="0Hz-z2-igP" secondAttribute="trailing" constant="16" id="GZO-JF-1Mz"/>
-                <constraint firstItem="wks-TT-DkG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="K3s-9q-4XY"/>
-                <constraint firstAttribute="bottom" secondItem="wks-TT-DkG" secondAttribute="bottom" id="UfA-9b-irA"/>
-                <constraint firstItem="Hnq-XN-B1z" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Y5J-Rg-cJj"/>
-                <constraint firstItem="lnR-QC-JTp" firstAttribute="leading" secondItem="Hnq-XN-B1z" secondAttribute="trailing" constant="8" id="c1m-06-H1I"/>
-                <constraint firstAttribute="trailing" secondItem="wks-TT-DkG" secondAttribute="trailing" id="ccX-eb-b9A"/>
-                <constraint firstItem="Hnq-XN-B1z" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="ruN-Pb-K2M"/>
+                <constraint firstItem="cxN-K9-C7K" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="7su-68-qnr"/>
+                <constraint firstAttribute="trailing" secondItem="cxN-K9-C7K" secondAttribute="trailing" constant="16" id="Dvt-Ld-w1d"/>
+                <constraint firstItem="lnR-QC-JTp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="WxP-i9-SAl"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="downCarrotImageView" destination="0Hz-z2-igP" id="9Wt-uj-U3E"/>
-                <outlet property="labelImageViewPadding" destination="c1m-06-H1I" id="8rY-6D-ZbQ"/>
-                <outlet property="magnifyingGlassImageView" destination="Hnq-XN-B1z" id="TYd-5j-8if"/>
-                <outlet property="magnifyingGlassImageViewWidthConstraint" destination="uI1-Ic-XKt" id="HgU-EM-8m2"/>
+                <outlet property="downCarrotImageView" destination="xdA-2g-w0f" id="1tq-4c-tve"/>
+                <outlet property="findStopsLabel" destination="lnR-QC-JTp" id="9Fn-If-fFT"/>
             </connections>
             <point key="canvasLocation" x="34.5" y="54.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="magnifying-glass" width="16" height="16"/>
-    </resources>
 </document>

@@ -9,10 +9,8 @@
 import UIKit
 
 class StopSearchTableViewCell: UITableViewCell {
-    @IBOutlet weak var indicatorView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var nextArrivesLabel: UILabel!
-    @IBOutlet weak var walkingDistanceLabel: UILabel!
     func setupCell(stop: Stop) {
         preservesSuperviewLayoutMargins = false
         separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -20,10 +18,5 @@ class StopSearchTableViewCell: UITableViewCell {
         
         nameLabel.text = stop.name
         nextArrivesLabel.text = "Next bus comes at \(stop.nextArrival())"
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        indicatorView.layer.cornerRadius = indicatorView.frame.height/2
     }
 }

@@ -13,43 +13,43 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="75"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kNd-L0-BUJ">
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="16" id="FFj-k2-IM3"/>
-                        <constraint firstAttribute="height" constant="16" id="RAd-cp-7U0"/>
-                    </constraints>
-                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jessup &amp; Program House Drive" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZlC-cX-NbJ">
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grayed-pin" translatesAutoresizingMaskIntoConstraints="NO" id="J1c-Cb-pbk">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="5GW-Ja-jhi"/>
+                        <constraint firstAttribute="width" constant="18" id="aJD-8x-ZdY"/>
+                    </constraints>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next bus comes at ––" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s3r-XQ-EXt">
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="ZlC-cX-NbJ" secondAttribute="trailing" constant="8" id="1xq-mw-bTF"/>
-                <constraint firstAttribute="trailing" secondItem="s3r-XQ-EXt" secondAttribute="trailing" constant="8" id="4pu-yP-z3G"/>
-                <constraint firstItem="kNd-L0-BUJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="0.75" id="Dw1-xU-iZP"/>
-                <constraint firstItem="s3r-XQ-EXt" firstAttribute="leading" secondItem="ZlC-cX-NbJ" secondAttribute="leading" id="JxT-V9-xSf"/>
-                <constraint firstItem="ZlC-cX-NbJ" firstAttribute="centerY" secondItem="kNd-L0-BUJ" secondAttribute="centerY" id="cVk-P8-zRC"/>
-                <constraint firstItem="s3r-XQ-EXt" firstAttribute="top" secondItem="ZlC-cX-NbJ" secondAttribute="bottom" constant="8" id="lcu-Be-bPm"/>
-                <constraint firstItem="kNd-L0-BUJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="xE0-Ga-3cY"/>
-                <constraint firstItem="ZlC-cX-NbJ" firstAttribute="leading" secondItem="kNd-L0-BUJ" secondAttribute="trailing" constant="16" id="yAR-yg-aDe"/>
+                <constraint firstItem="s3r-XQ-EXt" firstAttribute="top" secondItem="ZlC-cX-NbJ" secondAttribute="bottom" constant="3" id="6wM-13-aUn"/>
+                <constraint firstItem="ZlC-cX-NbJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="0.66" id="AUs-p5-aXl"/>
+                <constraint firstItem="ZlC-cX-NbJ" firstAttribute="leading" secondItem="J1c-Cb-pbk" secondAttribute="trailing" constant="8" id="EZo-cQ-rAX"/>
+                <constraint firstAttribute="trailing" secondItem="ZlC-cX-NbJ" secondAttribute="trailing" constant="8" id="HK4-1V-N1H"/>
+                <constraint firstItem="J1c-Cb-pbk" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="P0H-6p-IgO"/>
+                <constraint firstItem="s3r-XQ-EXt" firstAttribute="leading" secondItem="ZlC-cX-NbJ" secondAttribute="leading" id="cm8-1T-HGt"/>
+                <constraint firstItem="J1c-Cb-pbk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="ovC-fu-63H"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="indicatorView" destination="kNd-L0-BUJ" id="gHI-fH-ep0"/>
                 <outlet property="nameLabel" destination="ZlC-cX-NbJ" id="oyd-a5-TO4"/>
                 <outlet property="nextArrivesLabel" destination="s3r-XQ-EXt" id="U9l-WJ-VhF"/>
             </connections>
             <point key="canvasLocation" x="34.5" y="53.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="grayed-pin" width="20" height="25"/>
+    </resources>
 </document>

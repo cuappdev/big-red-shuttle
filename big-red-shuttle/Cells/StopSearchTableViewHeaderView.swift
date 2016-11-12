@@ -15,18 +15,21 @@ protocol StopSearchTableViewHeaderViewDelegate {
 class StopSearchTableViewHeaderView: UITableViewHeaderFooterView {
     var open = false
     @IBOutlet weak var downCarrotImageView: UIImageView!
-    @IBOutlet weak var magnifyingGlassImageView: UIImageView!
-    @IBOutlet weak var labelImageViewPadding: NSLayoutConstraint!
-    @IBOutlet weak var magnifyingGlassImageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var findStopsLabel: UILabel!
     
     var tapGestureRecognizer: UITapGestureRecognizer!
     var delegate: StopSearchTableViewHeaderViewDelegate?
     
+    let kCarrotPadding: CGFloat = 16
+    let kCarrotHeight: CGFloat = 10
+    let kCarrotWidth: CGFloat = 20
+
     func setupView() {
-        downCarrotImageView.alpha = 0
-        contentView.backgroundColor = UIColor.white
+        contentView.backgroundColor = .white
+        findStopsLabel.textColor = UIColor(red: 78/255, green: 82/255, blue: 89/255, alpha: 1.0)
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         addGestureRecognizer(tapGestureRecognizer)
+        downCarrotImageView.image = #imageLiteral(resourceName: "arrow")
     }
     
     func didTapView() {
@@ -36,20 +39,16 @@ class StopSearchTableViewHeaderView: UITableViewHeaderFooterView {
     }
     
     func animate(open: Bool, duration: TimeInterval) {
+        var color: UIColor!
         if open {
-            UIView.animate(withDuration: duration) {
-                self.magnifyingGlassImageView.alpha = 0
-                self.magnifyingGlassImageViewWidthConstraint.constant = 0
-                self.labelImageViewPadding.constant = 0
-                self.downCarrotImageView.alpha = 1
-            }
+            color = UIColor(colorLiteralRed: 78/255, green: 82/255, blue: 89/255, alpha: 1.0)
         } else {
-            UIView.animate(withDuration: duration) {
-                self.downCarrotImageView.alpha = 0
-                self.magnifyingGlassImageView.alpha = 1
-                self.magnifyingGlassImageViewWidthConstraint.constant = 20
-                self.labelImageViewPadding.constant = 8
-            }
+            color = UIColor(colorLiteralRed: 142/255, green: 148/255, blue: 160/255, alpha: 1.0)
         }
+        let transform = CATransform3DRotate(downCarrotImageView.layer.transform, CGFloat(M_PI), 1.0, 0, 0)
+        UIView.transition(with: findStopsLabel, duration: duration, options: .transitionCrossDissolve, animations: {
+            self.findStopsLabel.textColor = color
+            self.downCarrotImageView.layer.transform = transform
+            }, completion: nil)
     }
 }

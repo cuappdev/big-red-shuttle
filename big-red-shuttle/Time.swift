@@ -17,9 +17,10 @@ public class Time: NSObject {
     public var shortDescription: String {
         let ampm = hour < 12 ? "am" : "pm"
         var civilianHour = hour > 12 ? hour - 12 : hour
-        civilianHour  = hour == 0 ? 12 : civilianHour
+        if hour == 0 {
+            civilianHour = 12
+        }
         let displayMinute = minute < 10 ? "0\(minute)" : "\(minute)"
-        
         return "\(civilianHour):\(displayMinute)\(ampm)"
     }
     
@@ -28,15 +29,21 @@ public class Time: NSObject {
         return "\(shortDescription) on \(dayString) night"
     }
     
-    public convenience init(time: String, day: Int) {
+    public convenience init(time: String, technicallyNightBefore: Int) {
         let (hour, minute) = getTime(time: time)
-        self.init(hour: hour, minute: minute, day: day)
+        self.init(hour: hour, minute: minute, technicallyNightBefore: technicallyNightBefore)
     }
     
     public init(hour: Int, minute: Int, day: Int){
         self.hour = hour
         self.minute = minute
-        self.day = day + 1
+        self.day = day
+    }
+    
+    public init(hour: Int, minute: Int, technicallyNightBefore: Int){
+        self.hour = hour
+        self.minute = minute
+        self.day = technicallyNightBefore + 1
         if self.day > 7 {
             self.day = 1
         }
@@ -60,6 +67,17 @@ public class Time: NSObject {
                 return true
             }
         }
+    }
+    
+    public func sameDay(asTime time: Time) -> Bool {
+        return time.day == day
+    }
+    
+    public func dayBefore(time: Time) -> Bool {
+        if time.day == 1 {
+            return day == 7
+        }
+        return time.day-1 == day
     }
 }
 

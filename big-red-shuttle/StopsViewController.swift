@@ -25,6 +25,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var searchTableClosedFrame: CGRect!
     var searchTableOpenFrame: CGRect!
     var searchTableExpanded = false
+    var aboutButton: UIButton!
     
     var stops: [Stop]!
     var mapView: GMSMapView!
@@ -46,6 +47,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             return
         }
         stops = getStops()
+        setupAboutButton()
         setupSearchTable()
         let locations = stops.map { $0.getCoordinate() }
         setLocations(locations: locations)
@@ -53,6 +55,29 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     // MARK: Custom Functions
+    
+    func setupAboutButton() {
+        aboutButton = UIButton(frame: CGRect(x: 0, y: 0, width: 82, height: 40))
+        aboutButton.center = CGPoint(x: view.frame.maxX-aboutButton.frame.width/2-16,
+                                     y: view.frame.maxY-aboutButton.frame.height-32-16)
+        aboutButton.backgroundColor = .white
+        aboutButton.layer.cornerRadius = 4
+        aboutButton.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
+        aboutButton.layer.borderWidth = 0.5
+        aboutButton.setTitleColor(.black, for: .normal)
+        aboutButton.setTitle(" About", for: .normal)
+        aboutButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        aboutButton.setImage(#imageLiteral(resourceName: "about-icon"), for: .normal)
+        aboutButton.addTarget(self, action: #selector(didTapAboutButton), for: .touchUpInside)
+        view.addSubview(aboutButton)
+    }
+    
+    func didTapAboutButton() {
+        let aboutVC = AboutViewController()
+        aboutVC.modalTransitionStyle = .crossDissolve
+        aboutVC.modalPresentationStyle = .overCurrentContext
+        present(aboutVC, animated: true, completion: nil)
+    }
     
     func setupSearchTable() {
         searchTableClosedFrame = CGRect(x: kSearchTablePadding, y: 20+kSearchTablePadding,
@@ -126,7 +151,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.delegate = self
         return view
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return kSearchTableClosedHeight
     }
