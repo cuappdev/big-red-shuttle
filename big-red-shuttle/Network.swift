@@ -156,7 +156,7 @@ public func getStops() ->  [Stop] {
                 let days = stop["days"].arrayObject!
                 let timeStrings = stop["times"].arrayObject! as! [String]
                 
-                var times:[Time] = []
+                var times: [Time] = []
                 for day in days {
                     let dayObject = Days(rawValue: day as! String)!
                     dayArray.append(Days(rawValue: day as! String)!)

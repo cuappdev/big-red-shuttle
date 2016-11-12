@@ -139,5 +139,6 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

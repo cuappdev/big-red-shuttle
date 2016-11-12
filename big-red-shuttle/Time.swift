@@ -45,20 +45,12 @@ public class Time: NSObject {
     public func isEarlier(than time: Time) -> Bool {
         let t1 = self
         let t2 = time
-        if t1.day > t2.day || (t1.day == 1 && t2.day == 7)  {
+        if t1.day > t2.day || (t1.day == 1 && t2.day == 7) || t1.hour > t2.hour  {
             return false
-        } else if t1.day < t2.day {
-            return true
-        } else if t1.hour > t2.hour{
-            return false
-        } else if t1.hour < t2.hour {
+        } else if t1.day < t2.day || t1.hour < t2.hour {
             return true
         } else{
-            if t1.minute > t2.minute{
-                return false
-            }else{
-                return true
-            }
+            return t1.minute <= t2.minute
         }
     }
 }

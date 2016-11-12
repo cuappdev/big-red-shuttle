@@ -130,10 +130,8 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         if currentMarker == nil {
             currentMarker = marker
             popUp(stop: marker.userData as! Stop)
-        } else if currentMarker.position.latitude != marker.position.latitude {
-            dismissPopUpView(marker: marker, fullyDismissed: false)
         } else {
-            dismissPopUpView(marker: marker, fullyDismissed: true)
+            dismissPopUpView(marker: marker, fullyDismissed: currentMarker.position.latitude == marker.position.latitude)
         }
         return true
     }
@@ -141,14 +139,16 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
     
     func directionsButtonPressed(sender: UIButton) {
         //prepare to redirect user to map app
+        
         let location = selectedStop.getLocation()
+        let googleURL = "comgooglemaps://?saddr=&daddr=\(location.lat),\(location.long)&directionsmode=walking"
         if UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(URL(string:
-                    "comgooglemaps://?saddr=&daddr=\(location.lat),\(location.long)&directionsmode=walking")!)
+                    googleURL)!)
             } else {
                 UIApplication.shared.openURL(URL(string:
-                    "comgooglemaps://?saddr=&daddr=\(location.lat),\(location.long)&directionsmode=walking")!)
+                    googleURL)!)
             }
         } else {
             
@@ -198,7 +198,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         directionsButton.center.y = midHeight
         
         let directionImage = UIImageView()
-        directionImage.image = UIImage(cgImage: #imageLiteral(resourceName: "arrow").cgImage!, scale: 1.0, orientation: UIImageOrientation.left)
+        directionImage.image = UIImage(cgImage: #imageLiteral(resourceName: "arrow").cgImage!, scale: 1.0, orientation: .left)
         directionImage.frame = CGRect(x: popUpWidth - 25, y: 14.25, width: 9, height: 16)
         directionImage.center.y = midHeight
         
@@ -227,7 +227,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         
         let middleBorder = CALayer()
         middleBorder.frame = CGRect(x: 0, y: 64, width: popUpViewFrame.width, height: 1)
-        middleBorder.backgroundColor = UIColor(red: 227/255, green: 229/255, blue: 233/255, alpha: 1.0).cgColor
+        middleBorder.backgroundColor = UIColor.brsgray.cgColor
         
         popUpView.addSubview(collectionView)
         popUpView.addSubview(directionsButton)
@@ -240,8 +240,8 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
             self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: popUpWidth, height: 106)
         }, completion: { _ in
-            
-            if (UserDefaults.standard.value(forKey: "nudgeCount") as! Int) < 3 && UserDefaults.standard.value(forKey: "didFireNudge") as! Bool {
+            let nudgeCount = UserDefaults.standard.value(forKey: "nudgeCount") as! Int
+            if nudgeCount < 3 && UserDefaults.standard.value(forKey: "didFireNudge") as! Bool {
                 
                 UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
                     collectionView.contentOffset.x = collectionView.contentOffset.x + 20
@@ -250,7 +250,7 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
                         collectionView.contentOffset.x = collectionView.contentOffset.x - 20
                     }, completion: nil)
                 })
-                UserDefaults.standard.setValue((UserDefaults.standard.value(forKey: "nudgeCount") as! Int) + 1, forKey: "nudgeCount")
+                UserDefaults.standard.setValue(nudgeCount + 1, forKey: "nudgeCount")
                 UserDefaults.standard.setValue(false, forKey: "didFireNudge")
             }
         })
@@ -290,11 +290,6 @@ class StopsViewController: UIViewController, GMSMapViewDelegate, UICollectionVie
         }
         
         return cell
-    }
-    
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
     }
     
     
