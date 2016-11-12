@@ -180,8 +180,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        if selectedStop != nil {
-            dismissPopUpView(newPopupStop: selectedStop, fullyDismissed: true)
+        if let stop = selectedStop {
+            dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
         }
     }
    
