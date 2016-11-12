@@ -12,12 +12,6 @@ import SwiftyJSON
 
 enum FileReadingError : Error { case fileNotFound }
 
-struct colorPalette{
-    static var red = UIColor(red:0.83, green:0.29, blue:0.24, alpha:1.0)
-    static var tabBarTint = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha:1.0)
-    static var tableViewBG = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.0)
-}
-
 extension UINavigationController{
 
     override open func viewDidLoad() {
@@ -58,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsred], for:.selected)
         tabBarController.tabBar.clipsToBounds = true
         tabBarController.tabBar.isTranslucent = false
-        tabBarController.tabBar.barTintColor = colorPalette.tabBarTint
+        tabBarController.tabBar.barTintColor = .brslightgrey
         tabBarController.tabBar.layer.borderWidth = 0.5
         tabBarController.tabBar.layer.borderColor = UIColor.lightGray.cgColor
         

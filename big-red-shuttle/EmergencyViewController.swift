@@ -23,7 +23,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = colorPalette.tableViewBG
+        tableView.backgroundColor = .brslightgrey
         tableView.contentInset = UIEdgeInsetsMake(-1.0, 0.0, 0.0, 0.0)
         
         view.addSubview(tableView)
@@ -68,11 +68,12 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             let imageView = UIImageView(image: UIImage(named: "eye"))
             imageView.frame = CGRect(x: 0, y: 0, width: 46, height: 32)
             imageView.center = CGPoint(x: view.frame.midX, y: 40)
-            imageView.tintColor = colorPalette.red
+            imageView.tintColor = .brsred
             
             let safetyLabel = UILabel()
             safetyLabel.text = "Safety is our mission"
             safetyLabel.font = .boldSystemFont(ofSize: 18)
+            safetyLabel.textColor = .brsblack
             safetyLabel.sizeToFit()
             safetyLabel.center = CGPoint(x: view.frame.midX, y: 85)
         
@@ -80,7 +81,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             safetyLabelDetail.textAlignment = .center
             safetyLabelDetail.text = "If there is an emergency, please call the appropriate service."
             safetyLabelDetail.font = UIFont.systemFont(ofSize: 16)
-            safetyLabelDetail.textColor = .lightGray
+            safetyLabelDetail.textColor = .brsgreyedout
             safetyLabelDetail.numberOfLines = 2
             safetyLabelDetail.sizeToFit()
             safetyLabelDetail.center = CGPoint(x: view.frame.midX, y: 130)
@@ -95,7 +96,8 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.textLabel?.text = emergencyArray[indexPath.row].service
             cell.detailTextLabel?.text = phoneNumberToFormattedString(phoneNumber: emergencyArray[indexPath.row].number)
             
-            cell.detailTextLabel?.textColor = .lightGray
+            cell.detailTextLabel?.textColor = .brsgreyedout
+            cell.textLabel?.textColor = .brsblack
         }
         return cell
     }
