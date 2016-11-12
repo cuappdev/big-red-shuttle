@@ -25,7 +25,7 @@ public class Time: NSObject {
     }
     
     override public var description: String {
-        let dayString = day == 1 ? Days.fromNumber(num: 7)!.rawValue : Days.fromNumber(num: day-1)!.rawValue
+        let dayString = Days.fromNumber(num: day == 1 ? 7 : day-1)!.rawValue
         return "\(shortDescription) on \(dayString) night"
     }
     
