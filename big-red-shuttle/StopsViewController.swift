@@ -125,19 +125,34 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
         mapView.moveCamera(cameraUpdate)
         mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
-        drawPins(withLocations: locations)
+        drawPins()
     }
     
-    func drawPins(withLocations locations: [CLLocationCoordinate2D]) {
+    func drawPins() {
         var counter = 0
-        for location in locations {
+        let stops = getUniqueStops()
+        for stop in stops {
             let marker = GMSMarker()
+            let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
             marker.position = location
             
             //add each stop to each marker
             marker.userData = stops[counter]
-            counter += 1
+            marker.iconView = IconView()
+            let iconView = marker.iconView as! IconView
+            let fullString = stop.nextArrival()
+            let needles:[Character] = ["a", "p"]
+            
+            for needle in needles {
+                if let index = fullString.characters.index(of: needle) {
+                    iconView.timeLabel.text = fullString.substring(to: index)
+                }
+                else {
+                    print("Not found")
+                }
+            }
             marker.map = mapView
+            counter += 1
         }
     }
 
@@ -147,7 +162,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let stops = getStops()
         let stopsA = Array(stops[1...maxWayPoints]) //can only have a max of 8 waypoints (i.e. stops that don't include start and end)
         
-        polyline.getPolyline(waypoints: stopsA, origin:stops[0], end:stops[9])
+        polyline.getPolyline(waypoints: stopsA, origin:stops[0], end:stops[maxWayPoints+1])
         drawRoute()
         
         polyline.getPolyline(waypoints: [], origin: stops[9], end: stops[0])
@@ -247,6 +262,36 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let newStop = marker.userData as! Stop
             dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
         }
+
+        let iconView = marker.iconView as! IconView
+        if !iconView.clicked! {
+            UIButton.animate(withDuration: 0.15, animations: {
+                iconView.circleView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                iconView.smallGrayCircle.strokeColor = UIColor.brsred.cgColor
+                CATransaction.commit()
+            })
+            { (finished:Bool) in
+                if finished {
+                    iconView.clicked = true
+                }
+            }
+        } else {
+            UIButton.animate(withDuration: 0.15, animations: {
+                iconView.circleView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                iconView.smallGrayCircle.strokeColor = UIColor.iconlightgray.cgColor
+                CATransaction.commit()
+            })
+            { (finished:Bool) in
+                if finished {
+                    iconView.clicked = false
+                }
+            }
+        }
+        
         return true
     }
     
@@ -331,7 +376,6 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 70, height: 30)
-        
         let collectionView = UICollectionView(frame: CGRect(x: 8, y: 64, width: popUpViewFrame.width - 8, height: 40), collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self

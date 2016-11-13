@@ -27,6 +27,7 @@
 		95FD9A871DD8520A00CF5D1F /* DriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */; };
 		95FD9A891DD8524800CF5D1F /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 95FD9A881DD8524800CF5D1F /* config.json */; };
 		95FD9A8B1DD853B600CF5D1F /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FD9A8A1DD853B600CF5D1F /* GPS.swift */; };
+		983ECB561DD8FBF100DD717B /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983ECB551DD8FBF100DD717B /* IconView.swift */; };
 		DD184ED01DC170A90098D5F7 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD184ECE1DC170A90098D5F7 /* Time.swift */; };
 		DD1F26941DD3EE09005358ED /* UIColor+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */; };
 		DD2907611DCA733F00E1C316 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */; };
@@ -81,6 +82,7 @@
 		95FD9A881DD8524800CF5D1F /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
 		95FD9A8A1DD853B600CF5D1F /* GPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPS.swift; sourceTree = "<group>"; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
+		983ECB551DD8FBF100DD717B /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		DD184ECE1DC170A90098D5F7 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Shared.swift"; sourceTree = "<group>"; };
 		DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				DDE8FD211DB40B01006EDB5C /* Stop.swift */,
 				505DC3951DD3F82A00774077 /* Location.swift */,
 				DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */,
+				983ECB551DD8FBF100DD717B /* IconView.swift */,
 				DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */,
 				DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */,
 				44929BC71DAEF4E300B07EBF /* StopsViewController.swift */,
@@ -427,6 +430,7 @@
 				44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */,
 				503421A01DB8239F00560DB6 /* Network.swift in Sources */,
 				DD7C33D31DC6722700281E0A /* ScheduleViewController.swift in Sources */,
+				983ECB561DD8FBF100DD717B /* IconView.swift in Sources */,
 				DDE8FD221DB40B01006EDB5C /* Stop.swift in Sources */,
 				442D871D1DC9A71D0075BBCA /* StopSearchTableViewCell.swift in Sources */,
 				500FA3161DC164ED00F9CD59 /* EmergencyViewController.swift in Sources */,
