@@ -25,13 +25,12 @@ class IconView: UIView {
     init() {
         super.init(frame: CGRect(x:0, y:0, width:55, height:75))
         
-        self.backgroundColor = UIColor(red: 147/255, green: 49/255, blue: 53/255, alpha: 0.0)
+        self.backgroundColor = .clear
         clicked = false
-        
         
         //MAIN CIRCLE
         circleView = UIView(frame: CGRect(x:offset, y:offset, width:circleViewWidth, height:circleViewHeight))
-        circleView.backgroundColor = UIColor(red: 47/255, green: 49/255, blue: 53/255, alpha: 1.0)
+        circleView.backgroundColor = .iconblack
         circleView.layer.cornerRadius = circleView.frame.size.height / 2.0
         circleView.layer.masksToBounds = true
         circleView.layer.zPosition = 100
@@ -41,11 +40,9 @@ class IconView: UIView {
         timeLabel.textAlignment = .center
         timeLabel.textColor = .white
         timeLabel.numberOfLines = 0
-        timeLabel.font = UIFont.systemFont(ofSize: 11)
-        timeLabel.font = UIFont.boldSystemFont(ofSize: 11)
-        //timeLabel.adjustsFontSizeToFitWidth = true
+        timeLabel.font = .systemFont(ofSize: 11)
+        timeLabel.font = .boldSystemFont(ofSize: 11)
         circleView.addSubview(timeLabel)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,7 +50,6 @@ class IconView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        
         let yPos = CGFloat(circleViewHeight + offset + triangleHeight + 4.0)
         
         smallGrayCircle = drawSmallGrayCircle()
@@ -73,7 +69,6 @@ class IconView: UIView {
         self.layer.addSublayer(groundBlackCircle)
         self.layer.addSublayer(groundWhiteCirlce)
         self.layer.addSublayer(groundRedCircle)
-        
     }
     
     internal func drawSmallGrayCircle() -> CAShapeLayer {
@@ -90,15 +85,15 @@ class IconView: UIView {
         shapeLayer.path = circlePath.cgPath
         
         shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.strokeColor = UIColor(red: 96/255, green: 99/255, blue: 105/255, alpha: 1.0).cgColor
+        shapeLayer.strokeColor = UIColor.iconlightgray.cgColor
         shapeLayer.lineWidth = desiredLineWidth
         
         let colorAnim = CABasicAnimation(keyPath: "strokeColor")
         colorAnim.fromValue = shapeLayer.strokeColor
         colorAnim.duration = 1.0
         if !clicked {
-            colorAnim.toValue = UIColor(red: 96/255, green: 99/255, blue: 105/255, alpha: 1.0).cgColor
-            shapeLayer.strokeColor = UIColor(red: 96/255, green: 99/255, blue: 105/255, alpha: 1.0).cgColor
+            colorAnim.toValue = UIColor.iconlightgray.cgColor
+            shapeLayer.strokeColor = UIColor.iconlightgray.cgColor
         } else {
             colorAnim.toValue = UIColor.brsred.cgColor
             shapeLayer.strokeColor = UIColor.brsred.cgColor
@@ -120,8 +115,8 @@ class IconView: UIView {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = trianglePath.cgPath
         
-        shapeLayer.fillColor = UIColor(red: 47/255, green: 49/255, blue: 53/255, alpha: 1.0).cgColor
-        shapeLayer.strokeColor = UIColor(red: 47/255, green: 49/255, blue: 53/255, alpha: 1.0).cgColor
+        shapeLayer.fillColor = UIColor.iconblack.cgColor
+        shapeLayer.strokeColor = UIColor.iconblack.cgColor
         shapeLayer.lineWidth = desiredLineWidth
         
         return shapeLayer
@@ -160,8 +155,8 @@ class IconView: UIView {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
         
-        shapeLayer.fillColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 1.0).cgColor
-        shapeLayer.strokeColor = UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 1.0).cgColor
+        shapeLayer.fillColor = UIColor.iconwhite.cgColor
+        shapeLayer.strokeColor = UIColor.iconwhite.cgColor
         shapeLayer.lineWidth = desiredLineWidth
         
         return shapeLayer
