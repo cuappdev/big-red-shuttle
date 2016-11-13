@@ -125,19 +125,32 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
         mapView.moveCamera(cameraUpdate)
         mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
-        drawPins(withLocations: locations)
+        drawPins()
     }
     
-    func drawPins(withLocations locations: [CLLocationCoordinate2D]) {
+    func drawPins() {
         var counter = 0
-        for location in locations {
+        let stops = getUniqueStops()
+        for stop in stops {
             let marker = GMSMarker()
+            let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
             marker.position = location
             
             //add each stop to each marker
             marker.userData = stops[counter]
-            counter += 1
+            marker.iconView = IconView()
+            let iconView = marker.iconView as! IconView
+            let fullString = stops[counter].nextArrival()
+            let needle: Character = "a"
+            if let index = fullString.characters.index(of: needle) {
+                iconView.timeLabel.text = fullString.substring(to: index)
+            }
+            else {
+                print("Not found")
+            }
+
             marker.map = mapView
+            counter += 1
         }
     }
 
@@ -247,6 +260,34 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let newStop = marker.userData as! Stop
             dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
         }
+
+        let iconView = marker.iconView as! IconView
+        if !iconView.clicked {
+            UIButton.animate(withDuration: 0.15, animations: {
+                iconView.circleView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                iconView.smallGrayCircle.strokeColor = UIColor.brsred.cgColor
+                CATransaction.commit()
+            })
+            { (finished:Bool) -> Void in
+                iconView.clicked = true
+            }
+        } else {
+            UIButton.animate(withDuration: 0.15, animations: {
+                iconView.circleView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                iconView.smallGrayCircle.strokeColor = UIColor(red: 96/255, green: 99/255, blue: 105/255, alpha: 1.0).cgColor
+                CATransaction.commit()
+            })
+            { (finished:Bool) -> Void in
+                if finished {
+                    iconView.clicked = false
+                }
+            }
+        }
+        
         return true
     }
     

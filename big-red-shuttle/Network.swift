@@ -182,6 +182,20 @@ public func getStops() ->  [Stop] {
     
 }
 
+public func getUniqueStops() -> [Stop] {
+    var names:[String] = []
+    var uniqueStops:[Stop] = []
+    
+    for stop in getStops() {
+        if !names.contains(stop.name) {
+            uniqueStops.append(stop)
+            names.append(stop.name)
+        }
+    }
+    
+    return uniqueStops
+}
+
 
 class Polyline: NSObject {
     var overviewPolyline = ""
