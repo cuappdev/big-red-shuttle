@@ -16,7 +16,8 @@ class AboutViewController: UIViewController {
     
     let kBannerHeight: CGFloat = 200
     let kTextViewPadding: CGFloat = 30
-    let kCancelButtonLength: CGFloat = 10
+    let kCancelButtonLength: CGFloat = 15
+    let kCancelButtonHitLength: CGFloat = 44
     let kContainerPadding: CGFloat = 10
     
     var delegate: AboutViewDelegate?
@@ -60,7 +61,7 @@ class AboutViewController: UIViewController {
         
         let appdevLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 90, height: 20))
         let appdevString = NSMutableAttributedString(string: "App", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightRegular), NSForegroundColorAttributeName: UIColor.white])
-        let devString = NSAttributedString(string: "Dev", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightSemibold), NSForegroundColorAttributeName: UIColor.appdevgreen])
+        let devString = NSAttributedString(string: "Dev", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightSemibold), NSForegroundColorAttributeName: UIColor.brsred])
         appdevString.append(devString)
         appdevLabel.attributedText = appdevString
         appdevLabel.center = CGPoint(x: xView.frame.midX+50+appdevLabel.frame.width/2, y: xView.frame.midY)
@@ -71,13 +72,18 @@ class AboutViewController: UIViewController {
         brsImageView.image = #imageLiteral(resourceName: "arrow") //TODO: add actual BRS image
         bannerView.addSubview(brsImageView)
         
-        let exitButton = UIButton(frame: CGRect(x: containerView.frame.width-kCancelButtonLength-16, y: 16,
-                                                width: kCancelButtonLength, height: kCancelButtonLength))
+        let exitButton = UIButton(frame: CGRect(x: 0, y: 0, width: kCancelButtonHitLength, height: kCancelButtonHitLength))
+        exitButton.center = CGPoint(x: containerView.bounds.width-16-kCancelButtonLength/2,
+                                    y: 16+kCancelButtonLength/2)
         let exitXPath = UIBezierPath()
-        exitXPath.move(to: .zero)
-        exitXPath.addLine(to: CGPoint(x: kCancelButtonLength, y: kCancelButtonLength))
-        exitXPath.move(to: CGPoint(x: kCancelButtonLength, y: 0))
-        exitXPath.addLine(to: CGPoint(x: 0, y: kCancelButtonLength))
+        exitXPath.move(to: CGPoint(x: kCancelButtonHitLength/2-kCancelButtonLength/2,
+                                   y: kCancelButtonHitLength/2-kCancelButtonLength/2))
+        exitXPath.addLine(to: CGPoint(x: kCancelButtonHitLength/2+kCancelButtonLength/2,
+                                      y: kCancelButtonHitLength/2+kCancelButtonLength/2))
+        exitXPath.move(to: CGPoint(x: kCancelButtonHitLength/2+kCancelButtonLength/2,
+                                   y: kCancelButtonHitLength/2-kCancelButtonLength/2))
+        exitXPath.addLine(to: CGPoint(x: kCancelButtonHitLength/2-kCancelButtonLength/2,
+                                      y: kCancelButtonHitLength/2+kCancelButtonLength/2))
         let exitShapeLayer = CAShapeLayer()
         exitShapeLayer.path = exitXPath.cgPath
         exitShapeLayer.strokeColor = UIColor(white: 1, alpha: 0.5).cgColor
@@ -112,6 +118,8 @@ class AboutViewController: UIViewController {
         
         view.addSubview(containerView)
         
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(didPanContainerView(sender:)))
+        containerView.addGestureRecognizer(panGestureRecognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -128,5 +136,23 @@ class AboutViewController: UIViewController {
             self.containerView.frame = containerFrame
         }, completion: nil)
         dismiss(animated: true, completion: nil)
+    }
+    
+    func didPanContainerView(sender: UIPanGestureRecognizer) {
+        let deltaY = sender.translation(in: view).y
+        containerView.frame = CGRect(origin: CGPoint(x: kContainerPadding, y: containerView.frame.minY+deltaY), size: containerView.frame.size)
+        sender.setTranslation(.zero, in: view)
+        
+        if sender.state == .ended {
+            let lowEnoughtToDismiss = containerView.frame.minY > kContainerPadding + 100
+            if lowEnoughtToDismiss {
+                didTapDismissButton()
+            } else {
+                let newFrame = CGRect(x: kContainerPadding, y: 20+kContainerPadding, width: view.frame.width-2*kContainerPadding, height: view.frame.height-4*kContainerPadding)
+                UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+                    self.containerView.frame = newFrame
+                })
+            }
+        }
     }
 }

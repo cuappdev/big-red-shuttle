@@ -6,8 +6,7 @@
 //  Copyright © 2016 cuappdev. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import UIKit.UIColor
 
 extension UIColor {
     @nonobjc static let brsred = UIColor(red:0.84, green:0.29, blue:0.21, alpha:1.0)
@@ -22,4 +21,5 @@ extension UIColor {
     @nonobjc static let appdevgreen = UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 1.0)
     @nonobjc static let aboutviewdarkgray = UIColor(red: 34/255, green: 27/255, blue: 49/255, alpha: 1)
     @nonobjc static let aboutviewblue = UIColor(red: 86/255, green: 105/255, blue: 124/255, alpha: 1.0)
+    @nonobjc static let cornellred = UIColor(red: 70/255, green: 11/255, blue: 11/255, alpha: 1.0)
 }
