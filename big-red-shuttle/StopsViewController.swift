@@ -104,7 +104,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         searchTableView.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
         searchTableView.layer.borderWidth = 0.5
         searchTableView.showsVerticalScrollIndicator = false
-        searchTableView.bounces = false
+        searchTableView.bounces = true
         
         view.addSubview(searchTableView)
     }
@@ -400,8 +400,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
         } else {
             cell.textLabel.text = "No Shuttles Running Today"
-            cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
             cell.textLabel.sizeToFit()
+            cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
+            
         }
         
         return cell
