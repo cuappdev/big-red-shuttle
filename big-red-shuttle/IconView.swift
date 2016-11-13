@@ -12,9 +12,11 @@ class IconView: UIView {
     var timeLabel: UILabel!
     var circleView: UIView!
     var smallGrayCircle: CAShapeLayer!
-    var clicked: Bool!
+    var clicked: Bool?
     
     //constants
+    let frameWidth = 55.0
+    let frameHeight = 75.0
     let circleViewWidth = 50.0
     let circleViewHeight = 50.0
     let offset = 2.5
@@ -23,9 +25,9 @@ class IconView: UIView {
     
     
     init() {
-        super.init(frame: CGRect(x:0, y:0, width:55, height:75))
+        super.init(frame: CGRect(x:0, y:0, width:frameWidth, height:frameHeight))
         
-        self.backgroundColor = .clear
+        backgroundColor = .clear
         clicked = false
         
         //MAIN CIRCLE
@@ -34,7 +36,7 @@ class IconView: UIView {
         circleView.layer.cornerRadius = circleView.frame.size.height / 2.0
         circleView.layer.masksToBounds = true
         circleView.layer.zPosition = 100
-        self.addSubview(circleView)
+        addSubview(circleView)
         
         timeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: circleViewWidth, height: circleViewHeight))
         timeLabel.textAlignment = .center
@@ -54,26 +56,24 @@ class IconView: UIView {
         
         smallGrayCircle = drawSmallGrayCircle()
         let triangle = drawTriangle()
-        let groundBlackCircle = drawGroundBlackCircle(yPos: yPos)
-        let groundWhiteCirlce = drawGroundWhiteCircle(yPos: yPos)
-        let groundRedCircle = drawGroundRedCircle(yPos: yPos)
+        let groundBlackCircle = drawCircle(yPos: yPos, radius: 5, color: UIColor.iconblack.cgColor)
+        let groundWhiteCircle = drawCircle(yPos: yPos, radius: 8, color: UIColor.iconwhite.cgColor)
+        let groundRedCircle = drawCircle(yPos: yPos, radius: 13, color: UIColor.brsred.cgColor)
         
         smallGrayCircle.zPosition = 101
         triangle.zPosition = 3
         groundBlackCircle.zPosition = 2
-        groundWhiteCirlce.zPosition = 1
+        groundWhiteCircle.zPosition = 1
         groundRedCircle.zPosition = 0
         
         circleView.layer.addSublayer(smallGrayCircle)
-        self.layer.addSublayer(triangle)
-        self.layer.addSublayer(groundBlackCircle)
-        self.layer.addSublayer(groundWhiteCirlce)
-        self.layer.addSublayer(groundRedCircle)
+        layer.addSublayer(triangle)
+        layer.addSublayer(groundBlackCircle)
+        layer.addSublayer(groundWhiteCircle)
+        layer.addSublayer(groundRedCircle)
     }
     
     internal func drawSmallGrayCircle() -> CAShapeLayer {
-        let desiredLineWidth:CGFloat = 1    // your desired value
-        
         let circlePath = UIBezierPath(
             arcCenter: CGPoint(x:circleCenter-2.5,y:circleCenter-2.5),
             radius: CGFloat( circleViewWidth/2.0 - 4 ),
@@ -86,18 +86,13 @@ class IconView: UIView {
         
         shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.strokeColor = UIColor.iconlightgray.cgColor
-        shapeLayer.lineWidth = desiredLineWidth
+        shapeLayer.lineWidth = 1
         
         let colorAnim = CABasicAnimation(keyPath: "strokeColor")
         colorAnim.fromValue = shapeLayer.strokeColor
         colorAnim.duration = 1.0
-        if !clicked {
-            colorAnim.toValue = UIColor.iconlightgray.cgColor
-            shapeLayer.strokeColor = UIColor.iconlightgray.cgColor
-        } else {
-            colorAnim.toValue = UIColor.brsred.cgColor
-            shapeLayer.strokeColor = UIColor.brsred.cgColor
-        }
+        colorAnim.toValue = clicked! ? UIColor.brsred.cgColor : UIColor.iconlightgray.cgColor
+        shapeLayer.strokeColor = clicked! ? UIColor.brsred.cgColor : UIColor.iconlightgray.cgColor
         shapeLayer.add(colorAnim, forKey: "colorAnimation")
         
         return shapeLayer
@@ -122,12 +117,10 @@ class IconView: UIView {
         return shapeLayer
     }
     
-    internal func drawGroundBlackCircle(yPos:CGFloat) -> CAShapeLayer {
-        let desiredLineWidth:CGFloat = 1    // your desired value
-        
+    internal func drawCircle(yPos:CGFloat, radius:CGFloat, color:CGColor) -> CAShapeLayer {
         let circlePath = UIBezierPath(
             arcCenter: CGPoint(x: CGFloat(circleCenter), y:yPos),
-            radius: CGFloat(5),
+            radius: CGFloat(radius),
             startAngle: CGFloat(0),
             endAngle:CGFloat(M_PI * 2),
             clockwise: true)
@@ -135,49 +128,9 @@ class IconView: UIView {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
         
-        shapeLayer.fillColor = UIColor.black.cgColor
-        shapeLayer.strokeColor = UIColor.black.cgColor
-        shapeLayer.lineWidth = desiredLineWidth
-        
-        return shapeLayer
-    }
-    
-    internal func drawGroundWhiteCircle(yPos:CGFloat) -> CAShapeLayer {
-        let desiredLineWidth:CGFloat = 1    // your desired value
-        
-        let circlePath = UIBezierPath(
-            arcCenter: CGPoint(x: CGFloat(circleCenter), y:yPos),
-            radius: CGFloat(8),
-            startAngle: CGFloat(0),
-            endAngle:CGFloat(M_PI * 2),
-            clockwise: true)
-        
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = circlePath.cgPath
-        
-        shapeLayer.fillColor = UIColor.iconwhite.cgColor
-        shapeLayer.strokeColor = UIColor.iconwhite.cgColor
-        shapeLayer.lineWidth = desiredLineWidth
-        
-        return shapeLayer
-    }
-    
-    internal func drawGroundRedCircle(yPos:CGFloat) -> CAShapeLayer {
-        let desiredLineWidth:CGFloat = 1    // your desired value
-        
-        let circlePath = UIBezierPath(
-            arcCenter: CGPoint(x: CGFloat(circleCenter), y:yPos),
-            radius: CGFloat(13),
-            startAngle: CGFloat(0),
-            endAngle:CGFloat(M_PI * 2),
-            clockwise: true)
-        
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = circlePath.cgPath
-        
-        shapeLayer.fillColor = UIColor.brsred.cgColor
-        shapeLayer.strokeColor = UIColor.brsred.cgColor
-        shapeLayer.lineWidth = desiredLineWidth
+        shapeLayer.fillColor = color
+        shapeLayer.strokeColor = color
+        shapeLayer.lineWidth = 1
         
         return shapeLayer
     }
