@@ -9,9 +9,10 @@
 import UIKit
 import GoogleMaps
 import MapKit
+import SwiftyJSON
 
 class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate,
-                           UICollectionViewDataSource, StopSearchTableViewHeaderViewDelegate, GMSMapViewDelegate {
+                           UICollectionViewDataSource, StopSearchTableViewHeaderViewDelegate, GMSMapViewDelegate, ShuttleBusGPSDelegate {
     
     // MARK: Properties
     
@@ -35,6 +36,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var selectedStop: Stop!
     var mapView: GMSMapView!
     var panBounds: GMSCoordinateBounds!
+    var shuttleBusMarker: GMSMarker?
     
     // MARK: UIViewController
     
@@ -60,7 +62,42 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let locations = stops.map { $0.getCoordinate() }
         setLocations(locations: locations)
         viewIsSetup = true
+        
+        //observe gps data changes
+        system().gps().addObserver(observer: self)
+        Location.shared.fetchedUserLocationCompletionBlock = {
+            if !system().gps().registeredToLogLocation {
+                system().api().registerUserToLogLocation(key: "fedorko", success: { (json: JSON?) in
+                    system().gps().startLoggingShuttleLocation()
+                    system().gps().startFetchingShuttleLocation()
+                }, failure: nil)
+            }
+        }
     }
+    
+    //MARK: - Shuttle Bus GPS Delegate Protocol Methods
+    func gps(gps: GPS, movedToCoordinate coordinate: Coordinate) {
+        
+        if let localShuttleBusMarker = shuttleBusMarker {
+            
+            DispatchQueue.main.async {
+                CATransaction.begin()
+                CATransaction.setAnimationDuration(1.0)
+                let angle = atan2(localShuttleBusMarker.position.latitude - coordinate.latitude, localShuttleBusMarker.position.longitude - coordinate.longitude)
+                localShuttleBusMarker.position = coordinate.asCLLocationCoordinate2D()
+                localShuttleBusMarker.rotation = angle * 180.0 / M_PI
+                
+                CATransaction.commit()
+            }
+
+        } else {
+            shuttleBusMarker = GMSMarker(position: coordinate.asCLLocationCoordinate2D())
+            shuttleBusMarker?.icon = #imageLiteral(resourceName: "shuttle_icon")
+            shuttleBusMarker?.map = mapView
+        }
+    }
+    
+    
     
     func setupAboutButton() {
         aboutButton = UIButton(frame: CGRect(x: 0, y: 0, width: 82, height: 40))

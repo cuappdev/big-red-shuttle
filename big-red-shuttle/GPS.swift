@@ -4,9 +4,9 @@ import SwiftyJSON
 @objc protocol ShuttleBusGPSDelegate: class {
     
     @objc optional func gps(gps: GPS, movedToCoordinate coordinate: Coordinate)
-    @objc optional func gpsBeganFetching(gps: GPS)
+    @objc optional func gpsStartedFetching(gps: GPS)
     @objc optional func gpsStoppedFetching(gps: GPS)
-    @objc optional func gpsBeganLogging(gps: GPS)
+    @objc optional func gpsStartedLogging(gps: GPS)
     @objc optional func gpsStoppedLogging(gps: GPS)
     
 }
@@ -17,6 +17,7 @@ import SwiftyJSON
     var observers = [ShuttleBusGPSDelegate?]()
     var fetchUpdateFrequency: Double = 5.0
     var logUpdateFrequency: Double = 5.0
+    var registeredToLogLocation = false
     var isFetchingShuttleLocation = false
     var isLoggingShuttleLocation = false
     
@@ -41,24 +42,28 @@ import SwiftyJSON
     
     //MARK: - Logging
     
-    func beginLoggingShuttleLocation() {
-        isLoggingShuttleLocation = true
-        notifyObserversGPSBeganLogging()
-        logShuttleLocation()
+    func startLoggingShuttleLocation() {
+        if !isLoggingShuttleLocation {
+            isLoggingShuttleLocation = true
+            notifyObserversGPSBeganLogging()
+            logShuttleLocation()
+        }
     }
     
     func stopLoggingShuttleLocation() {
-        isLoggingShuttleLocation = false
-        notifyObserversGPSStoppedLogging()
+        if isLoggingShuttleLocation {
+            isLoggingShuttleLocation = false
+            notifyObserversGPSStoppedLogging()
+        }
     }
     
     func logShuttleLocation() {
         if !isLoggingShuttleLocation { return }
         
-        api().logLocation(success: { (json: JSON?) in
-            Timer.scheduledTimer(timeInterval: self.fetchUpdateFrequency,
+        system().api().logLocation(success: { (json: JSON?) in
+            Timer.scheduledTimer(timeInterval: self.logUpdateFrequency,
                                  target: self,
-                                 selector: #selector(self.fetchShuttleLocation),
+                                 selector: #selector(self.logShuttleLocation),
                                  userInfo: nil,
                                  repeats: false)
         }, failure: { (json: JSON?) in
@@ -68,21 +73,25 @@ import SwiftyJSON
     
     //MARK: - Fetching
 
-    func beginFetchingShuttleLocation() {
-        isFetchingShuttleLocation = true
-        notifyObserversGPSBeganFetching()
-        fetchShuttleLocation()
+    func startFetchingShuttleLocation() {
+        if !isFetchingShuttleLocation {
+            isFetchingShuttleLocation = true
+            notifyObserversGPSBeganFetching()
+            fetchShuttleLocation()
+        }
     }
     
     func stopFetchingShuttleLocation() {
-        isFetchingShuttleLocation = false
-        notifyObserversGPSStoppedFetching()
+        if isFetchingShuttleLocation {
+            isFetchingShuttleLocation = false
+            notifyObserversGPSStoppedFetching()
+        }
     }
     
     @objc func fetchShuttleLocation() {
         if !isFetchingShuttleLocation { return }
         
-        api().getLocation(success: { (json: JSON?) in
+        system().api().getLocation(success: { (json: JSON?) in
             if let coordinate = system().busLocation() {
                 self.notifyObserversGPSMovedToCoordinate(coordinate: coordinate)
                 Timer.scheduledTimer(timeInterval: self.fetchUpdateFrequency,
@@ -107,7 +116,7 @@ import SwiftyJSON
     }
     
     func notifyObserversGPSBeganLogging() {
-        let _ = self.observers.map({ $0?.gpsBeganLogging?(gps: self) })
+        let _ = self.observers.map({ $0?.gpsStartedLogging?(gps: self) })
     }
     
     func notifyObserversGPSStoppedLogging() {
@@ -115,7 +124,7 @@ import SwiftyJSON
     }
     
     func notifyObserversGPSBeganFetching() {
-        let _ = self.observers.map({ $0?.gpsBeganFetching?(gps: self) })
+        let _ = self.observers.map({ $0?.gpsStartedFetching?(gps: self) })
     }
     
     func notifyObserversGPSStoppedFetching() {

@@ -18,14 +18,19 @@ import CoreLocation
         longitude = location.longitude
         self.timestamp = timestamp
     }
+    
+    func asCLLocationCoordinate2D() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
 }
 
 class Location: NSObject, CLLocationManagerDelegate {
     
-    static let sharedLocation = Location()
+    static let shared = Location()
     let locationManager = CLLocationManager()
     var currentUserLocation: Coordinate?
     var currentBusLocation: Coordinate?
+    var fetchedUserLocationCompletionBlock: (() -> ())?
     
     override init() {
         super.init()
@@ -45,6 +50,9 @@ class Location: NSObject, CLLocationManagerDelegate {
             print("longitude: \(location.longitude), latitude: \(location.latitude)")
             currentUserLocation = Coordinate(location: location, timestamp: Date())
         }
+        
+        fetchedUserLocationCompletionBlock?()
+        fetchedUserLocationCompletionBlock = nil
     }
 
 }
