@@ -23,7 +23,7 @@ extension UINavigationController{
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
 
     var window: UIWindow?
 
@@ -60,30 +60,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBarController.tabBar.barTintColor = .brslightgrey
         tabBarController.tabBar.layer.borderWidth = 0.5
         tabBarController.tabBar.layer.borderColor = UIColor.lightGray.cgColor
+        tabBarController.delegate = self
         
         //Set up window
         window = UIWindow(frame: UIScreen.main.bounds)
         window!.makeKeyAndVisible()
         window?.rootViewController = tabBarController
         
-        //Test API
-        api().registerUserToLogLocation(key: "fedorko") {
-            //success
-            print("Did successfully register user to log location")
-            
-            api().logLocation(completion: { 
-                print("Did successfully register user to log location")
-                
-                api().getLocation(completion: { (coordinate: Coordinate) in
-                    print("bus is at latitude: \(coordinate.latitude), longitude: \(coordinate.longitude)")
-                })
-            })
-        }
+//        //Test API
+//        api().registerUserToLogLocation(key: "fedorko", success: { (json: JSON) in
+//            print("here")
+//        }, failure: { (json: JSON) in
+//            print("here")
+//
+//        })
+        
+//        api().logLocation(success: { (json: JSON?) in
+//            print("here")
+//
+//        }, failure: { (json: JSON?) in
+//            print("here")
+//        })
+////
+//        api().getLocation(success: { (json: JSON) in
+//            print("here")
+//
+//        }, failure: { (json: JSON) in
+//            print("here")
+//        })
         
         //Light status bar
         UIApplication.shared.statusBarStyle = .lightContent
 
         return true
+    }
+    
+    var hiddenTabCounter = 0
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        hiddenTabCounter = tabBarController.selectedIndex == 0 ? tabBarController.selectedIndex + 1 : 0
+        
+        if hiddenTabCounter == 5 {
+            viewController.present(DriverViewController(), animated: true, completion: nil)
+            hiddenTabCounter = 0
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
