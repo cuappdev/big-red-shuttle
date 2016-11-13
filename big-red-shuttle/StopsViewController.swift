@@ -401,7 +401,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         } else {
             cell.textLabel.text = "No Shuttles Running Today"
             cell.textLabel.sizeToFit()
-            cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
+            cell.textLabel.center.y = cell.bounds.midY
             
         }
         
