@@ -28,23 +28,23 @@ class IconView: UIView {
         self.backgroundColor = UIColor(red: 147/255, green: 49/255, blue: 53/255, alpha: 0.0)
         clicked = false
         
-   
-            //MAIN CIRCLE
-            circleView = UIView(frame: CGRect(x:offset, y:offset, width:circleViewWidth, height:circleViewHeight))
-            circleView.backgroundColor = UIColor(red: 47/255, green: 49/255, blue: 53/255, alpha: 1.0)
-            circleView.layer.cornerRadius = circleView.frame.size.height / 2.0
-            circleView.layer.masksToBounds = true
-            circleView.layer.zPosition = 100
-            self.addSubview(circleView)
-            
-            timeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: circleViewWidth, height: circleViewHeight))
-            timeLabel.textAlignment = .center
-            timeLabel.textColor = .white
-            timeLabel.numberOfLines = 0
-            timeLabel.font = UIFont.systemFont(ofSize: 11)
-            timeLabel.font = UIFont.boldSystemFont(ofSize: 11)
-            //timeLabel.adjustsFontSizeToFitWidth = true
-            circleView.addSubview(timeLabel)
+        
+        //MAIN CIRCLE
+        circleView = UIView(frame: CGRect(x:offset, y:offset, width:circleViewWidth, height:circleViewHeight))
+        circleView.backgroundColor = UIColor(red: 47/255, green: 49/255, blue: 53/255, alpha: 1.0)
+        circleView.layer.cornerRadius = circleView.frame.size.height / 2.0
+        circleView.layer.masksToBounds = true
+        circleView.layer.zPosition = 100
+        self.addSubview(circleView)
+        
+        timeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: circleViewWidth, height: circleViewHeight))
+        timeLabel.textAlignment = .center
+        timeLabel.textColor = .white
+        timeLabel.numberOfLines = 0
+        timeLabel.font = UIFont.systemFont(ofSize: 11)
+        timeLabel.font = UIFont.boldSystemFont(ofSize: 11)
+        //timeLabel.adjustsFontSizeToFitWidth = true
+        circleView.addSubview(timeLabel)
         
     }
     
@@ -53,26 +53,26 @@ class IconView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-
-            let yPos = CGFloat(circleViewHeight + offset + triangleHeight + 4.0)
-            
-            smallGrayCircle = drawSmallGrayCircle()
-            let triangle = drawTriangle()
-            let groundBlackCircle = drawGroundBlackCircle(yPos: yPos)
-            let groundWhiteCirlce = drawGroundWhiteCircle(yPos: yPos)
-            let groundRedCircle = drawGroundRedCircle(yPos: yPos)
-            
-            smallGrayCircle.zPosition = 101
-            triangle.zPosition = 3
-            groundBlackCircle.zPosition = 2
-            groundWhiteCirlce.zPosition = 1
-            groundRedCircle.zPosition = 0
-            
-            circleView.layer.addSublayer(smallGrayCircle)
-            self.layer.addSublayer(triangle)
-            self.layer.addSublayer(groundBlackCircle)
-            self.layer.addSublayer(groundWhiteCirlce)
-            self.layer.addSublayer(groundRedCircle)
+        
+        let yPos = CGFloat(circleViewHeight + offset + triangleHeight + 4.0)
+        
+        smallGrayCircle = drawSmallGrayCircle()
+        let triangle = drawTriangle()
+        let groundBlackCircle = drawGroundBlackCircle(yPos: yPos)
+        let groundWhiteCirlce = drawGroundWhiteCircle(yPos: yPos)
+        let groundRedCircle = drawGroundRedCircle(yPos: yPos)
+        
+        smallGrayCircle.zPosition = 101
+        triangle.zPosition = 3
+        groundBlackCircle.zPosition = 2
+        groundWhiteCirlce.zPosition = 1
+        groundRedCircle.zPosition = 0
+        
+        circleView.layer.addSublayer(smallGrayCircle)
+        self.layer.addSublayer(triangle)
+        self.layer.addSublayer(groundBlackCircle)
+        self.layer.addSublayer(groundWhiteCirlce)
+        self.layer.addSublayer(groundRedCircle)
         
     }
     
