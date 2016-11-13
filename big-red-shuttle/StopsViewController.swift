@@ -140,15 +140,17 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             marker.userData = stops[counter]
             marker.iconView = IconView()
             let iconView = marker.iconView as! IconView
-            let fullString = stops[counter].nextArrival()
-            let needle: Character = "a"
-            if let index = fullString.characters.index(of: needle) {
-                iconView.timeLabel.text = fullString.substring(to: index)
+            let fullString = stop.nextArrival()
+            let needles:[Character] = ["a", "p"]
+            
+            for needle in needles {
+                if let index = fullString.characters.index(of: needle) {
+                    iconView.timeLabel.text = fullString.substring(to: index)
+                }
+                else {
+                    print("Not found")
+                }
             }
-            else {
-                print("Not found")
-            }
-
             marker.map = mapView
             counter += 1
         }
@@ -160,7 +162,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let stops = getStops()
         let stopsA = Array(stops[1...maxWayPoints]) //can only have a max of 8 waypoints (i.e. stops that don't include start and end)
         
-        polyline.getPolyline(waypoints: stopsA, origin:stops[0], end:stops[9])
+        polyline.getPolyline(waypoints: stopsA, origin:stops[0], end:stops[maxWayPoints+1])
         drawRoute()
         
         polyline.getPolyline(waypoints: [], origin: stops[9], end: stops[0])
@@ -262,7 +264,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
 
         let iconView = marker.iconView as! IconView
-        if !iconView.clicked {
+        if !iconView.clicked! {
             UIButton.animate(withDuration: 0.15, animations: {
                 iconView.circleView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
                 CATransaction.begin()
@@ -270,18 +272,20 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 iconView.smallGrayCircle.strokeColor = UIColor.brsred.cgColor
                 CATransaction.commit()
             })
-            { (finished:Bool) -> Void in
-                iconView.clicked = true
+            { (finished:Bool) in
+                if finished {
+                    iconView.clicked = true
+                }
             }
         } else {
             UIButton.animate(withDuration: 0.15, animations: {
                 iconView.circleView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 CATransaction.begin()
                 CATransaction.setDisableActions(true)
-                iconView.smallGrayCircle.strokeColor = UIColor(red: 96/255, green: 99/255, blue: 105/255, alpha: 1.0).cgColor
+                iconView.smallGrayCircle.strokeColor = UIColor.iconlightgray.cgColor
                 CATransaction.commit()
             })
-            { (finished:Bool) -> Void in
+            { (finished:Bool) in
                 if finished {
                     iconView.clicked = false
                 }
@@ -372,7 +376,6 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 70, height: 30)
-        
         let collectionView = UICollectionView(frame: CGRect(x: 8, y: 64, width: popUpViewFrame.width - 8, height: 40), collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
