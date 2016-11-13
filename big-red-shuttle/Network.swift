@@ -34,45 +34,44 @@ class System {
 class API {
     
     static let sharedAPI = API()
-    let baseURLString = "http://10.132.0.190:6001"
+    let baseURLString = "https://big-red-shuttle.herokuapp.com"
     
     /// registers a user to log location using an authentication key
-    func registerUserToLogLocation(key: String, completion: (() -> ())?) {
+    func registerUserToLogLocation(key: String, success: ((JSON?) -> ())?, failure: ((JSON?) -> ())?) {
         
         guard let uid = system().uid() else {
             showErrorAlert(title: "Error", message: "Could not get user id")
+            failure?(nil)
             return
         }
         
         let parameters = ["uid": uid, "key": key]
         
-        request(endpoint: "/register", parameters: parameters, method: .post, encoding: JSONEncoding.default) { (response: JSON) in
-            completion?()
-        }
+        request(endpoint: "/register", parameters: parameters, method: .post, encoding: JSONEncoding.default, success: success, failure: failure)
     }
     
     /// logs the location of the shuttle
-    func logLocation(completion: (() -> ())?) {
+    func logLocation(success: ((JSON?) -> ())?, failure: ((JSON?) -> ())?) {
         
         guard let uid = system().uid() else {
             showErrorAlert(title: "Error", message: "Could not get user id")
+            failure?(nil)
             return
         }
 
         guard let userLocation = system().userLocation() else {
             showErrorAlert(title: "Error", message: "Could not get user location")
+            failure?(nil)
             return
         }
         
         let parameters = ["uid": uid, "latitude": "\(userLocation.latitude)", "longitude": "\(userLocation.longitude)"]
         
-        request(endpoint: "/log", parameters: parameters, method: .post, encoding: JSONEncoding.default) { (json: JSON) in
-            completion?()
-        }
+        request(endpoint: "/log", parameters: parameters, method: .post, encoding: JSONEncoding.default, success: success, failure: failure)
     }
     
     /// fetches the last logged location of the shuttle
-    func getLocation(completion: ((Coordinate) -> ())?) {
+    func getLocation(success: ((JSON?) -> ())?, failure: ((JSON?) -> ())?) {
         
         guard let uid = system().uid() else {
             showErrorAlert(title: "Error", message: "Could not get user id")
@@ -81,21 +80,32 @@ class API {
         
         let parameters = ["uid": uid]
         
-        request(endpoint: "/latest", parameters: parameters, method: .get, encoding: URLEncoding.default) { (response: JSON) in
-            let latitude = CLLocationDegrees(response["latitude"].floatValue)
-            let longitude = CLLocationDegrees(response["longitude"].floatValue)
-            let coordinate = Coordinate(latitude: latitude, longitude: longitude)
-            let timestamp = response["date"].stringValue
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
-            let date = dateFormatter.date(from: timestamp)
+        request(endpoint: "/latest", parameters: parameters, method: .get, encoding: URLEncoding.default, success: { (json: JSON?) in
+        
+            guard let response = json else {
+                failure?(nil)
+                return
+            }
             
-            Location.sharedLocation.currentBusLocation = coordinate
-            completion?(coordinate)
-        }
+            if let latitude = response["latitude"].double,
+            let longitude = response["longitude"].double,
+            let date = response["date"].string {
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
+                
+                if let timestamp = dateFormatter.date(from: date) {
+                    let coordinate = Coordinate(latitude: latitude, longitude: longitude, timestamp: timestamp)
+                    Location.sharedLocation.currentBusLocation = coordinate
+                }
+            }
+        
+            success?(response)
+            
+        }, failure: failure)
     }
     
-    func request(endpoint: String, parameters: [String: Any], method: HTTPMethod, encoding: ParameterEncoding, completion: ((JSON) -> ())?) {
+    func request(endpoint: String, parameters: [String: Any], method: HTTPMethod, encoding: ParameterEncoding, success: ((JSON?) -> ())?, failure: ((JSON?) -> ())?) {
         
         let headers = ["Content-Type":"application/json"]
         
@@ -107,7 +117,7 @@ class API {
                 let responseJSON = JSON(data: data)
                 
                 if responseJSON["result"].stringValue == "success" {
-                     completion?(responseJSON)
+                     success?(responseJSON)
                 } else {
                     self.showErrorAlert(title: "Error", message: responseJSON["result"].stringValue)
                 }
@@ -122,8 +132,7 @@ class API {
                     return
                 }
                 let errorJSON = JSON(responseData)
-                
-                //TODO log error with an alert
+                failure?(errorJSON)
             }
             
         }
