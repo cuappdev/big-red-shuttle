@@ -32,7 +32,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var aboutButton: UIButton!
     var popUpView = UIView()
 
-    var markers: [GMSMarker] = []
+    var selectedMarker: GMSMarker!
     var stops: [Stop]!
     var selectedStop: Stop!
     var mapView: GMSMapView!
@@ -186,7 +186,6 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             }
             marker.map = mapView
-            markers.append(marker)
             counter += 1
         }
     }
@@ -230,11 +229,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        for marker in markers {
+        if let marker = selectedMarker {
             let iconView = marker.iconView as! IconView
-            if iconView.clicked! {
-                markerUnselectedAnimation(iconView: iconView)
-            }
+            markerUnselectedAnimation(iconView: iconView)
         }
         if let stop = selectedStop {
             dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
@@ -304,18 +301,18 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
         }
 
-        for markerElem in markers {
-            let iconView = markerElem.iconView as! IconView
-            if iconView.clicked! && markerElem != marker {
-                markerUnselectedAnimation(iconView: iconView)
-            }
+        if let markerCurr = selectedMarker {
+            let iconView = markerCurr.iconView as! IconView
+            markerUnselectedAnimation(iconView: iconView)
         }
 
         let iconView = marker.iconView as! IconView
         if !iconView.clicked! {
             markerSelectedAnimation(iconView: iconView)
+            selectedMarker = marker
         } else {
             markerUnselectedAnimation(iconView: iconView)
+            selectedMarker = nil
         }
         return true
     }
