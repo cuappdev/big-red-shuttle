@@ -12,7 +12,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var tableView: UITableView!
 
-    let emergencyArray = [(service: "Call Cornell University Police",number: 6072551111), (service:"Call Emergency Services",number: 911), (service:"Call Blue Light Escorts",number:6072557373), (service:"Call Gannett Health Services",number: 6072555155)]
+    let emergencyArray = [(service: "Call Cornell University Police",number: "6072551111"), (service:"Call Emergency Services",number: "911"), (service:"Call Blue Light Escorts",number: "6072557373"), (service:"Call Gannett Health Services",number: "6072555155")]
     
     
     override func viewDidLoad() {
@@ -36,8 +36,8 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     
-    /*phoneNumberToFormattedString takes in an integer and converts it to a (XXX) YYY-YYYY string */
-    func phoneNumberToFormattedString(phoneNumber: Int) -> String {
+    /*phoneNumberToFormattedString takes in number and converts it to a (XXX) YYY-YYYY string */
+    func phoneNumberToFormattedString(phoneNumber: String) -> String {
         var stringOfPhoneNumber = String(describing: phoneNumber)
         if stringOfPhoneNumber.characters.count == 10 {
             let startIndex = stringOfPhoneNumber.startIndex
