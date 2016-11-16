@@ -280,7 +280,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return true
     }
     
-    func animateMarker(iconView:IconView, scale:CGFloat, select:Bool) {
+    func animateMarker(iconView: IconView, scale: CGFloat, select: Bool) {
         UIButton.animate(withDuration: 0.15, animations: {
             iconView.circleView.transform = CGAffineTransform(scaleX: scale, y: scale)
             CATransaction.begin()
