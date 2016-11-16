@@ -67,27 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         window!.makeKeyAndVisible()
         window?.rootViewController = tabBarController
         
-//        //Test API
-//        api().registerUserToLogLocation(key: "fedorko", success: { (json: JSON) in
-//            print("here")
-//        }, failure: { (json: JSON) in
-//            print("here")
-//
-//        })
-        
-//        api().logLocation(success: { (json: JSON?) in
-//            print("here")
-//
-//        }, failure: { (json: JSON?) in
-//            print("here")
-//        })
-////
-//        api().getLocation(success: { (json: JSON) in
-//            print("here")
-//
-//        }, failure: { (json: JSON) in
-//            print("here")
-//        })
+        //Kickstart location services
+        _ = Location.shared
         
         //Light status bar
         UIApplication.shared.statusBarStyle = .lightContent

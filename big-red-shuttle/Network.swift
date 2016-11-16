@@ -3,16 +3,12 @@ import SwiftyJSON
 import CoreLocation
 
 func system() -> System {
-    return System.sharedSystem
-}
-
-func api() -> API {
-    return API.sharedAPI
+    return System.shared
 }
 
 class System {
     
-    static let sharedSystem = System()
+    static let shared = System()
     
     func uid() -> String? {
         return UIDevice.current.identifierForVendor?.uuidString
@@ -21,19 +17,11 @@ class System {
     func authenticationKey() -> String? {
         return UserDefaults.standard.string(forKey: "authenticationKey")
     }
-    
-    func userLocation() -> Coordinate? {
-       return Location.sharedLocation.currentUserLocation
-    }
-
-    func busLocation() -> Coordinate? {
-        return Location.sharedLocation.currentBusLocation
-    }
 }
 
 class API {
     
-    static let sharedAPI = API()
+    static let shared = API()
     let baseURLString = "https://big-red-shuttle.herokuapp.com"
     
     /// registers a user to log location using an authentication key
@@ -59,7 +47,7 @@ class API {
             return
         }
 
-        guard let userLocation = system().userLocation() else {
+        guard let userLocation = Location.shared.currentUserLocation else {
             showErrorAlert(title: "Error", message: "Could not get user location")
             failure?(nil)
             return
@@ -96,7 +84,7 @@ class API {
                 
                 if let timestamp = dateFormatter.date(from: date) {
                     let coordinate = Coordinate(latitude: latitude, longitude: longitude, timestamp: timestamp)
-                    Location.sharedLocation.currentBusLocation = coordinate
+                    GPS.shared.currentBusLocation = coordinate
                 }
             }
         
