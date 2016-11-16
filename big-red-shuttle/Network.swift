@@ -10,28 +10,12 @@ class System {
     
     static let shared = System()
     
-    func api() -> API {
-        return API.shared
-    }
-    
-    func gps() -> GPS {
-        return GPS.shared
-    }
-    
     func uid() -> String? {
         return UIDevice.current.identifierForVendor?.uuidString
     }
     
     func authenticationKey() -> String? {
         return UserDefaults.standard.string(forKey: "authenticationKey")
-    }
-    
-    func userLocation() -> Coordinate? {
-       return Location.shared.currentUserLocation
-    }
-
-    func busLocation() -> Coordinate? {
-        return Location.shared.currentBusLocation
     }
 }
 
@@ -63,7 +47,7 @@ class API {
             return
         }
 
-        guard let userLocation = system().userLocation() else {
+        guard let userLocation = Location.shared.currentUserLocation else {
             showErrorAlert(title: "Error", message: "Could not get user location")
             failure?(nil)
             return
@@ -100,7 +84,7 @@ class API {
                 
                 if let timestamp = dateFormatter.date(from: date) {
                     let coordinate = Coordinate(latitude: latitude, longitude: longitude, timestamp: timestamp)
-                    Location.shared.currentBusLocation = coordinate
+                    GPS.shared.currentBusLocation = coordinate
                 }
             }
         

@@ -20,6 +20,7 @@ import SwiftyJSON
     var registeredToLogLocation = false
     var isFetchingShuttleLocation = false
     var isLoggingShuttleLocation = false
+    var currentBusLocation: Coordinate?
     
     override init() {
         super.init()
@@ -60,7 +61,7 @@ import SwiftyJSON
     func logShuttleLocation() {
         if !isLoggingShuttleLocation { return }
         
-        system().api().logLocation(success: { (json: JSON?) in
+        API.shared.logLocation(success: { (json: JSON?) in
             Timer.scheduledTimer(timeInterval: self.logUpdateFrequency,
                                  target: self,
                                  selector: #selector(self.logShuttleLocation),
@@ -91,8 +92,8 @@ import SwiftyJSON
     @objc func fetchShuttleLocation() {
         if !isFetchingShuttleLocation { return }
         
-        system().api().getLocation(success: { (json: JSON?) in
-            if let coordinate = system().busLocation() {
+        API.shared.getLocation(success: { (json: JSON?) in
+            if let coordinate = self.currentBusLocation {
                 self.notifyObserversGPSMovedToCoordinate(coordinate: coordinate)
                 Timer.scheduledTimer(timeInterval: self.fetchUpdateFrequency,
                                      target: self,

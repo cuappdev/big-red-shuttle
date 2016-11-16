@@ -64,12 +64,12 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         viewIsSetup = true
         
         //observe gps data changes
-        system().gps().addObserver(observer: self)
+        GPS.shared.addObserver(observer: self)
         Location.shared.fetchedUserLocationCompletionBlock = {
-            if !system().gps().registeredToLogLocation {
-                system().api().registerUserToLogLocation(key: "fedorko", success: { (json: JSON?) in
-                    system().gps().startLoggingShuttleLocation()
-                    system().gps().startFetchingShuttleLocation()
+            if !GPS.shared.registeredToLogLocation {
+                API.shared.registerUserToLogLocation(key: "fedorko", success: { (json: JSON?) in
+                    GPS.shared.startLoggingShuttleLocation()
+                    GPS.shared.startFetchingShuttleLocation()
                 }, failure: nil)
             }
         }

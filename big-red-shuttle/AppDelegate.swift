@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         window?.rootViewController = tabBarController
         
         //Kickstart location services
-        let _ = Location.shared
+        _ = Location.shared
         
         //Light status bar
         UIApplication.shared.statusBarStyle = .lightContent

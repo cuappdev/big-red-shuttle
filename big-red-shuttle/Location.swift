@@ -29,7 +29,6 @@ class Location: NSObject, CLLocationManagerDelegate {
     static let shared = Location()
     let locationManager = CLLocationManager()
     var currentUserLocation: Coordinate?
-    var currentBusLocation: Coordinate?
     var fetchedUserLocationCompletionBlock: (() -> ())?
     
     override init() {
