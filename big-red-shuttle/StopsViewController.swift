@@ -31,6 +31,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var aboutButton: UIButton!
     var popUpView = UIView()
 
+    var markers: [GMSMarker] = []
     var stops: [Stop]!
     var selectedStop: Stop!
     var mapView: GMSMapView!
@@ -132,9 +133,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         var counter = 0
         let stops = getUniqueStops()
         for stop in stops {
-            let marker = GMSMarker()
             let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
-            marker.position = location
+            let marker = GMSMarker(position: location)
             
             //add each stop to each marker
             marker.userData = stops[counter]
@@ -147,11 +147,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 if let index = fullString.characters.index(of: needle) {
                     iconView.timeLabel.text = fullString.substring(to: index)
                 }
-                else {
-                    print("Not found")
-                }
             }
             marker.map = mapView
+            markers.append(marker)
             counter += 1
         }
     }
@@ -170,8 +168,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func drawRoute() {
-        let path1 = GMSMutablePath(fromEncodedPath: polyline.overviewPolyline)
-        let routePolyline = GMSPolyline(path: path1)
+        let path = GMSMutablePath(fromEncodedPath: polyline.overviewPolyline)
+        let routePolyline = GMSPolyline(path: path)
 
         routePolyline.strokeColor = .brsred
         routePolyline.strokeWidth = 4.0
@@ -195,6 +193,12 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        for marker in markers {
+            let iconView = marker.iconView as! IconView
+            if iconView.clicked! {
+                markerUnselectedAnimation(iconView: iconView)
+            }
+        }
         if let stop = selectedStop {
             dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
         }
@@ -263,36 +267,50 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
         }
 
-        let iconView = marker.iconView as! IconView
-        if !iconView.clicked! {
-            UIButton.animate(withDuration: 0.15, animations: {
-                iconView.circleView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-                CATransaction.begin()
-                CATransaction.setDisableActions(true)
-                iconView.smallGrayCircle.strokeColor = UIColor.brsred.cgColor
-                CATransaction.commit()
-            })
-            { (finished:Bool) in
-                if finished {
-                    iconView.clicked = true
-                }
-            }
-        } else {
-            UIButton.animate(withDuration: 0.15, animations: {
-                iconView.circleView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                CATransaction.begin()
-                CATransaction.setDisableActions(true)
-                iconView.smallGrayCircle.strokeColor = UIColor.iconlightgray.cgColor
-                CATransaction.commit()
-            })
-            { (finished:Bool) in
-                if finished {
-                    iconView.clicked = false
-                }
+        for markerElem in markers {
+            let iconView = markerElem.iconView as! IconView
+            if iconView.clicked! && markerElem != marker {
+                markerUnselectedAnimation(iconView: iconView)
             }
         }
-        
+
+        let iconView = marker.iconView as! IconView
+        if !iconView.clicked! {
+            markerSelectedAnimation(iconView: iconView)
+        } else {
+            markerUnselectedAnimation(iconView: iconView)
+        }
         return true
+    }
+    
+    func markerSelectedAnimation(iconView:IconView) {
+        UIButton.animate(withDuration: 0.15, animations: {
+            iconView.circleView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            iconView.smallGrayCircle.strokeColor = UIColor.brsred.cgColor
+            CATransaction.commit()
+        })
+        { (finished:Bool) in
+            if finished {
+                iconView.clicked = true
+            }
+        }
+    }
+    
+    func markerUnselectedAnimation(iconView:IconView) {
+        UIButton.animate(withDuration: 0.15, animations: {
+            iconView.circleView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            iconView.smallGrayCircle.strokeColor = UIColor.iconlightgray.cgColor
+            CATransaction.commit()
+        })
+        { (finished:Bool) in
+            if finished {
+                iconView.clicked = false
+            }
+        }
     }
     
     
