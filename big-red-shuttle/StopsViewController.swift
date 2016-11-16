@@ -194,7 +194,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         if let marker = selectedMarker {
             let iconView = marker.iconView as! IconView
-            markerUnselectedAnimation(iconView: iconView)
+            animateMarker(iconView: iconView, scale: 1.0, select: false)
         }
         if let stop = selectedStop {
             dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
@@ -266,50 +266,35 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         if let markerCurr = selectedMarker {
             let iconView = markerCurr.iconView as! IconView
-            markerUnselectedAnimation(iconView: iconView)
+            animateMarker(iconView: iconView, scale: 1.0, select: false)
         }
 
         let iconView = marker.iconView as! IconView
         if !iconView.clicked! {
-            markerSelectedAnimation(iconView: iconView)
+            animateMarker(iconView: iconView, scale: 1.1, select: true)
             selectedMarker = marker
         } else {
-            markerUnselectedAnimation(iconView: iconView)
+            animateMarker(iconView: iconView, scale: 1.0, select: false)
             selectedMarker = nil
         }
         return true
     }
     
-    func markerSelectedAnimation(iconView:IconView) {
+    func animateMarker(iconView:IconView, scale:CGFloat, select:Bool) {
         UIButton.animate(withDuration: 0.15, animations: {
-            iconView.circleView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            iconView.circleView.transform = CGAffineTransform(scaleX: scale, y: scale)
             CATransaction.begin()
             CATransaction.setDisableActions(true)
-            iconView.smallGrayCircle.strokeColor = UIColor.brsred.cgColor
+            iconView.smallGrayCircle.strokeColor = select ? UIColor.brsred.cgColor : UIColor.iconlightgray.cgColor
+
             CATransaction.commit()
         })
         { (finished:Bool) in
             if finished {
-                iconView.clicked = true
+                iconView.clicked = select
             }
         }
     }
-    
-    func markerUnselectedAnimation(iconView:IconView) {
-        UIButton.animate(withDuration: 0.15, animations: {
-            iconView.circleView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-            iconView.smallGrayCircle.strokeColor = UIColor.iconlightgray.cgColor
-            CATransaction.commit()
-        })
-        { (finished:Bool) in
-            if finished {
-                iconView.clicked = false
-            }
-        }
-    }
-    
     
     func directionsButtonPressed(sender: UIButton) {
         //prepare to redirect user to map app
