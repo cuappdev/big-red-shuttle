@@ -22,4 +22,5 @@ extension UIColor {
     @nonobjc static let aboutviewdarkgray = UIColor(red: 34/255, green: 27/255, blue: 49/255, alpha: 1)
     @nonobjc static let aboutviewblue = UIColor(red: 86/255, green: 105/255, blue: 124/255, alpha: 1.0)
     @nonobjc static let cornellred = UIColor(red: 70/255, green: 11/255, blue: 11/255, alpha: 1.0)
+    @nonobjc static let bordergray = UIColor(white: 0.75, alpha: 1)
 }

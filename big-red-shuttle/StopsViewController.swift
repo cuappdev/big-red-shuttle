@@ -12,7 +12,7 @@ import MapKit
 import SwiftyJSON
 
 class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate,
-                           UICollectionViewDataSource, StopSearchTableViewHeaderViewDelegate, GMSMapViewDelegate, ShuttleBusGPSDelegate {
+                           UICollectionViewDataSource, GMSMapViewDelegate, ShuttleBusGPSDelegate {
     
     // MARK: Properties
     
@@ -37,6 +37,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var mapView: GMSMapView!
     var panBounds: GMSCoordinateBounds!
     var shuttleBusMarker: GMSMarker?
+    
+    var searchBarHeaderView: StopSearchTableViewHeaderView!
+    var dropDownMenuContainerView: UIView!
     
     // MARK: UIViewController
     
@@ -71,6 +74,14 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     GPS.shared.startLoggingShuttleLocation()
                     GPS.shared.startFetchingShuttleLocation()
                 }, failure: nil)
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            if touch.view == searchBarHeaderView {
+                didTapSearchBar()
             }
         }
     }
@@ -129,21 +140,24 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                       width: view.frame.width-kSearchTablePadding*2,
                                       height: view.frame.height-kSearchTablePadding-tabBarController!.tabBar.frame.size.height)
         
-        searchTableView = UITableView(frame: searchTableClosedFrame)
-        searchTableView.register(UINib(nibName: "StopSearchTableViewHeaderView", bundle: nil),
-                                 forHeaderFooterViewReuseIdentifier: "HeaderView")
+        dropDownMenuContainerView = UIView(frame: searchTableClosedFrame)
+        dropDownMenuContainerView.layer.cornerRadius = 4
+        dropDownMenuContainerView.layer.borderColor = UIColor.bordergray.cgColor
+        dropDownMenuContainerView.layer.borderWidth = 0.5
+        dropDownMenuContainerView.clipsToBounds = true
+        
+        searchBarHeaderView = StopSearchTableViewHeaderView(frame: dropDownMenuContainerView.bounds)
+        dropDownMenuContainerView.addSubview(searchBarHeaderView)
+        
+        searchTableView = UITableView(frame: CGRect(x: 0, y: searchTableClosedFrame.height, width: searchTableClosedFrame.width, height: searchTableOpenFrame.height-searchTableClosedFrame.height))
         searchTableView.register(UINib(nibName: "StopSearchTableViewCell", bundle: nil),
                                  forCellReuseIdentifier: "Cell")
         searchTableView.delegate = self
         searchTableView.dataSource = self
-        
-        searchTableView.layer.cornerRadius = 4
-        searchTableView.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
-        searchTableView.layer.borderWidth = 0.5
         searchTableView.showsVerticalScrollIndicator = false
-        searchTableView.bounces = true
+        dropDownMenuContainerView.addSubview(searchTableView)
         
-        view.addSubview(searchTableView)
+        view.addSubview(dropDownMenuContainerView)
     }
     
     // MARK: Custom Functions
@@ -237,24 +251,12 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
    
-    
-    // MARK: UITableViewDelegate
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view =  tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! StopSearchTableViewHeaderView
-        view.setupView()
-        view.delegate = self
-        return view
-    }
 
+    // MARK: UITableViewDelegate
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return kSearchTableClosedHeight
-    }
-    
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableViewObject: UITableView, didSelectRowAt indexPath: IndexPath) {
         let stop = stops[indexPath.row]
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableViewObject.deselectRow(at: indexPath, animated: true)
         didTapSearchBar()
         let cameraUpdate = GMSCameraUpdate.setTarget(stop.getCoordinate(), zoom: kStopZoom)
         mapView.animate(with: cameraUpdate)
@@ -282,12 +284,13 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func didTapSearchBar() {
         searchTableExpanded = !searchTableExpanded
         if searchTableExpanded {
+            searchTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             dismissPopUpView(newPopupStop: nil, fullyDismissed: true)
         }
         let finalFrame = (searchTableExpanded ? searchTableOpenFrame : searchTableClosedFrame)!
-        
+        searchBarHeaderView.animate(open: searchTableExpanded, duration: 0.25)
         UIView.animate(withDuration: 0.25) {
-            self.searchTableView.frame = finalFrame
+            self.dropDownMenuContainerView.frame = finalFrame
         }
     }
     
