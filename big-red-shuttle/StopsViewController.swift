@@ -175,7 +175,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
             //add each stop to each marker
             marker.userData = stops[counter]
-            marker.iconView = IconView()
+            
+            marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() :  IconViewSmall()
             let iconView = marker.iconView as! IconView
             let fullString = stop.nextArrival()
             let needles:[Character] = ["a", "p"]
@@ -185,6 +186,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     iconView.timeLabel.text = fullString.substring(to: index)
                 }
             }
+            
             marker.map = mapView
             counter += 1
         }
