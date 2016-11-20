@@ -157,11 +157,48 @@ class IconViewBig: IconView {
 
 class IconViewSmall: IconView {
     init() {
-        super.init(frameWidth: 35, frameHeight: 55, circleViewDiameter: 30, offset: 2.5, innerCircleRadiusOffset: 3.0, triangleHeight: 2.5, fontSize: 0)
+        super.init(frameWidth: 35, frameHeight: 55, circleViewDiameter: 30, offset: 2.5, innerCircleRadiusOffset: 3.0, triangleHeight: 2.0, fontSize: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    override func draw(_ rect: CGRect) {
+        let yPos = circleViewDiameter + offset + triangleHeight + 4.0
+        
+        smallGrayCircle = drawSmallGrayCircle()
+        let triangle = drawTriangle()
+        let groundBlackCircle = drawCircle(yPos: yPos, radius: 5, color: UIColor.iconblack.cgColor)
+        let groundWhiteCircle = drawCircle(yPos: yPos, radius: 8, color: UIColor.iconwhite.cgColor)
+        let minus = drawMinus()
+        
+        smallGrayCircle.zPosition = 101
+        minus.zPosition = 101
+        triangle.zPosition = 3
+        groundBlackCircle.zPosition = 2
+        groundWhiteCircle.zPosition = 1
+        
+        circleView.layer.addSublayer(smallGrayCircle)
+        circleView.layer.addSublayer(minus)
+        layer.addSublayer(triangle)
+        layer.addSublayer(groundBlackCircle)
+        layer.addSublayer(groundWhiteCircle)
+    }
+    
+    internal func drawMinus() -> CAShapeLayer {
+        let desiredLineWidth:CGFloat = 2    // your desired value
+        
+        let roundRect = UIBezierPath(roundedRect: CGRect(x: 10, y:circleCenter - 2.0, width: circleViewDiameter - 20, height: 0.5), byRoundingCorners:.allCorners, cornerRadii: CGSize(width: 1.0, height: 1.0))
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = roundRect.cgPath
+        
+        shapeLayer.fillColor = UIColor.iconlightgray.cgColor
+        shapeLayer.strokeColor = UIColor.iconlightgray.cgColor
+        shapeLayer.lineWidth = desiredLineWidth
+        
+        return shapeLayer
     }
 }
 
