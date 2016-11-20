@@ -8,34 +8,40 @@
 
 import UIKit
 
-protocol StopSearchTableViewHeaderViewDelegate {
-    func didTapSearchBar()
-}
-
-class StopSearchTableViewHeaderView: UITableViewHeaderFooterView {
-    var open = false
-    @IBOutlet weak var downCarrotImageView: UIImageView!
-    @IBOutlet weak var findStopsLabel: UILabel!
+class StopSearchTableViewHeaderView: UIView {
+    var downCarrotImageView: UIImageView!
+    var findStopsLabel: UILabel!
     
-    var tapGestureRecognizer: UITapGestureRecognizer!
-    var delegate: StopSearchTableViewHeaderViewDelegate?
-    
-    let kCarrotPadding: CGFloat = 16
+    let kPadding: CGFloat = 16
     let kCarrotHeight: CGFloat = 10
     let kCarrotWidth: CGFloat = 20
+    let kBottomBorderThickness: CGFloat = 0.5
 
-    func setupView() {
-        contentView.backgroundColor = .white
-        findStopsLabel.textColor = .brsblack
-        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
-        addGestureRecognizer(tapGestureRecognizer)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .white
+        let carrotContainerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: kCarrotWidth, height: kCarrotHeight)))
+        carrotContainerView.center = CGPoint(x: bounds.maxX-kPadding-kCarrotWidth/2, y: bounds.midY)
+        downCarrotImageView = UIImageView(frame: carrotContainerView.bounds)
+        addSubview(carrotContainerView)
+        carrotContainerView.addSubview(downCarrotImageView)
         downCarrotImageView.image = #imageLiteral(resourceName: "arrow")
+        
+        findStopsLabel = UILabel()
+        findStopsLabel.text = "Find Big Red Shuttle"
+        findStopsLabel.sizeToFit()
+        findStopsLabel.center = CGPoint(x: kPadding+findStopsLabel.frame.width/2, y: bounds.midY)
+        findStopsLabel.textColor = .brsblack
+        findStopsLabel.font = .systemFont(ofSize: 14)
+        addSubview(findStopsLabel)
+        
+        let bottomBorderView = UIView(frame: CGRect(x: 0, y: frame.height-kBottomBorderThickness, width: frame.width, height: kBottomBorderThickness))
+        bottomBorderView.backgroundColor = .bordergray
+        addSubview(bottomBorderView)
     }
     
-    func didTapView() {
-        open = !open
-        animate(open: open, duration: 0.25)
-        delegate?.didTapSearchBar()
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func animate(open: Bool, duration: TimeInterval) {
