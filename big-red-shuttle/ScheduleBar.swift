@@ -20,6 +20,7 @@ class ScheduleBar: UIScrollView {
     var buttonPadding: CGFloat = 20
     var selectedButton: UIButton!
     weak var delegateSB: ScheduleBarDelegate?
+    var backwards: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,8 +58,8 @@ class ScheduleBar: UIScrollView {
             buttons[i].tag = i //tag represents index
             addSubview(buttons[i])
         }
-        
-        contentSize = CGSize(width: CGFloat(buttons.count) * (buttons[0].frame.width + buttonPadding/2.0) + buttonPadding/2.0, height: -frame.height - 3.0)
+        contentSize = CGSize(width: CGFloat(buttons.count) * (buttons[0].frame.width + buttonPadding/2.0), height: frame.height)
+        contentOffset = CGPoint(x: 0, y: -frame.height - 3.0)
         bounces = false
         alwaysBounceHorizontal = true
         showsVerticalScrollIndicator = false
@@ -76,10 +77,14 @@ class ScheduleBar: UIScrollView {
         sendSubview(toBack: oval)
         
         selectedButton = buttons[selected]
-        select(button: selectedButton, animation: false)
+        buttonPressed(button: selectedButton)
+        
     }
     
     func setButton(asSelected button: UIButton){
+        let oldSelectedIndex = buttons.index(of: selectedButton)!
+        let newSelectedIndex = buttons.index(of: button)!
+        backwards = (newSelectedIndex < oldSelectedIndex)
         selectedButton.setTitleColor(.brsgreyedout, for: .normal)
         button.setTitleColor(.white, for: .normal)
         selectedButton = button
@@ -98,12 +103,17 @@ class ScheduleBar: UIScrollView {
             moveSelector()
             setButton(asSelected: button)
         }
-        scrollRectToVisible(CGRect(x: button.frame.minX, y: frame.minY, width: button.frame.width, height: button.frame.height), animated: true)
+        let x = backwards ? (button.frame.minX - buttonPadding): button.frame.maxX
+        scrollRectToVisible(CGRect(x: x, y: frame.minY, width: button.frame.width, height: button.frame.height), animated: true)
+        
     }
     
     func buttonPressed(button: UIButton) -> Void{
+        print("buttonPressed called")
         select(button: button, animation: true)
+        print("buttonPressed select")
         delegateSB?.scrollToCell(button: button)
+        print("buttonPressed scrolltoCell")
     }
 
 }
