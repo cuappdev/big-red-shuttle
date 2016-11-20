@@ -85,10 +85,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     var hiddenTabCounter = 0
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        hiddenTabCounter = tabBarController.selectedIndex == 0 ? tabBarController.selectedIndex + 1 : 0
+        hiddenTabCounter = tabBarController.selectedIndex == 0 ? hiddenTabCounter + 1 : 0
         
         if hiddenTabCounter == 5 {
-            viewController.present(DriverViewController(), animated: true, completion: nil)
+            let driverVC = DriverViewController()
+            let navControler = UINavigationController(rootViewController: driverVC)
+            viewController.present(navControler, animated: true, completion: nil)
+            //viewController.present(DriverViewController(), animated: true, completion: nil)
             hiddenTabCounter = 0
         }
     }
