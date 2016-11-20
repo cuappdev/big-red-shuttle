@@ -15,35 +15,44 @@ class IconView: UIView {
     var clicked: Bool?
     
     //constants
-    let frameWidth = 55.0
-    let frameHeight = 75.0
-    let circleViewWidth = 50.0
-    let circleViewHeight = 50.0
-    let offset = 2.5
-    let circleCenter = 27.5
-    let triangleHeight = 3.5
+    var frameWidth: CGFloat!
+    var frameHeight: CGFloat!
+    var circleViewDiameter: CGFloat!
+    var offset: CGFloat!
+    var circleCenter: CGFloat!
+    var innerCircleRadiusOffset: CGFloat!
+    var triangleHeight: CGFloat!
+    var fontSize: CGFloat!
     
-    
-    init() {
+    init(frameWidth: CGFloat, frameHeight: CGFloat, circleViewDiameter: CGFloat, offset: CGFloat, innerCircleRadiusOffset: CGFloat, triangleHeight: CGFloat, fontSize: CGFloat) {
         super.init(frame: CGRect(x:0, y:0, width:frameWidth, height:frameHeight))
+        
+        self.frameWidth = frameWidth
+        self.frameHeight = frameHeight
+        self.circleViewDiameter = circleViewDiameter
+        self.offset = offset
+        self.circleCenter = circleViewDiameter / 2.0 + offset
+        self.innerCircleRadiusOffset = innerCircleRadiusOffset
+        self.triangleHeight = triangleHeight
+        self.fontSize = fontSize
         
         backgroundColor = .clear
         clicked = false
         
         //MAIN CIRCLE
-        circleView = UIView(frame: CGRect(x:offset, y:offset, width:circleViewWidth, height:circleViewHeight))
+        circleView = UIView(frame: CGRect(x:offset, y:offset, width:circleViewDiameter, height:circleViewDiameter))
         circleView.backgroundColor = .iconblack
         circleView.layer.cornerRadius = circleView.frame.size.height / 2.0
         circleView.layer.masksToBounds = true
         circleView.layer.zPosition = 100
         addSubview(circleView)
         
-        timeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: circleViewWidth, height: circleViewHeight))
+        timeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: circleViewDiameter, height: circleViewDiameter))
         timeLabel.textAlignment = .center
         timeLabel.textColor = .white
         timeLabel.numberOfLines = 0
-        timeLabel.font = .systemFont(ofSize: 11)
-        timeLabel.font = .boldSystemFont(ofSize: 11)
+        timeLabel.font = .systemFont(ofSize: fontSize)
+        timeLabel.font = .boldSystemFont(ofSize: fontSize)
         circleView.addSubview(timeLabel)
     }
     
@@ -52,7 +61,7 @@ class IconView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        let yPos = CGFloat(circleViewHeight + offset + triangleHeight + 4.0)
+        let yPos = circleViewDiameter + offset + triangleHeight + 4.0
         
         smallGrayCircle = drawSmallGrayCircle()
         let triangle = drawTriangle()
@@ -75,8 +84,8 @@ class IconView: UIView {
     
     internal func drawSmallGrayCircle() -> CAShapeLayer {
         let circlePath = UIBezierPath(
-            arcCenter: CGPoint(x:circleCenter-2.5,y:circleCenter-2.5),
-            radius: CGFloat( circleViewWidth/2.0 - 4 ),
+            arcCenter: CGPoint(x:circleCenter-offset,y:circleCenter-offset),
+            radius: CGFloat(circleViewDiameter/2.0 - innerCircleRadiusOffset ),
             startAngle: CGFloat(0),
             endAngle:CGFloat(M_PI * 2),
             clockwise: true)
@@ -102,9 +111,9 @@ class IconView: UIView {
         let desiredLineWidth:CGFloat = 5    // your desired value
         
         let trianglePath = UIBezierPath()
-        trianglePath.move(to: CGPoint(x: circleCenter - offset, y: circleViewHeight))
-        trianglePath.addLine(to: CGPoint(x: circleCenter + offset, y: circleViewHeight))
-        trianglePath.addLine(to: CGPoint(x: circleCenter, y: circleViewHeight + offset + triangleHeight))
+        trianglePath.move(to: CGPoint(x: circleCenter - offset, y: circleViewDiameter))
+        trianglePath.addLine(to: CGPoint(x: circleCenter + offset, y: circleViewDiameter))
+        trianglePath.addLine(to: CGPoint(x: circleCenter, y: CGFloat(circleViewDiameter + offset) + triangleHeight))
         trianglePath.close()
         
         let shapeLayer = CAShapeLayer()
@@ -135,3 +144,61 @@ class IconView: UIView {
         return shapeLayer
     }
 }
+
+class IconViewBig: IconView {
+    init() {
+        super.init(frameWidth: 55, frameHeight: 75, circleViewDiameter: 50, offset: 2.5, innerCircleRadiusOffset: 4.0, triangleHeight: 3.5, fontSize: 11)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
+
+class IconViewSmall: IconView {
+    init() {
+        super.init(frameWidth: 35, frameHeight: 55, circleViewDiameter: 30, offset: 2.5, innerCircleRadiusOffset: 3.0, triangleHeight: 2.0, fontSize: 0)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func draw(_ rect: CGRect) {
+        let yPos = circleViewDiameter + offset + triangleHeight + 4.0
+        
+        smallGrayCircle = drawSmallGrayCircle()
+        let triangle = drawTriangle()
+        let groundBlackCircle = drawCircle(yPos: yPos, radius: 5, color: UIColor.iconblack.cgColor)
+        let groundWhiteCircle = drawCircle(yPos: yPos, radius: 8, color: UIColor.iconwhite.cgColor)
+        let minus = drawMinus()
+        
+        smallGrayCircle.zPosition = 101
+        minus.zPosition = 101
+        triangle.zPosition = 3
+        groundBlackCircle.zPosition = 2
+        groundWhiteCircle.zPosition = 1
+        
+        circleView.layer.addSublayer(smallGrayCircle)
+        circleView.layer.addSublayer(minus)
+        layer.addSublayer(triangle)
+        layer.addSublayer(groundBlackCircle)
+        layer.addSublayer(groundWhiteCircle)
+    }
+    
+    internal func drawMinus() -> CAShapeLayer {
+        let desiredLineWidth:CGFloat = 2    // your desired value
+        
+        let roundRect = UIBezierPath(roundedRect: CGRect(x: 10, y:circleCenter - 2.0, width: circleViewDiameter - 20, height: 0.5), byRoundingCorners:.allCorners, cornerRadii: CGSize(width: 1.0, height: 1.0))
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = roundRect.cgPath
+        
+        shapeLayer.fillColor = UIColor.iconlightgray.cgColor
+        shapeLayer.strokeColor = UIColor.iconlightgray.cgColor
+        shapeLayer.lineWidth = desiredLineWidth
+        
+        return shapeLayer
+    }
+}
+
