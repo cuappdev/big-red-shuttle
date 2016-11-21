@@ -11,18 +11,13 @@ import UIKit
 class EmergencyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView!
-
-    let emergencyArray = [
-        (service: "Call Cornell University Police", number: "6072551111"),
-        (service: "Call Emergency Services", number: "911"),
-        (service: "Call Blue Light Escorts", number: "6072557373"),
-        (service: "Call Gannett Health Services", number: "6072555155")
-    ]
+    var emergencyArray: [EmergencyContact] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Emergency"
+        emergencyArray = getEmergencyContacts()
         
         let tableViewFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - (tabBarController?.tabBar.frame.height)!)
         tableView = UITableView(frame: tableViewFrame, style: .grouped)
@@ -96,7 +91,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             cell = UITableViewCell(style: .default, reuseIdentifier: "emergencyCell")
             
             let serviceLabel = UILabel()
-            serviceLabel.text = emergencyArray[indexPath.row].service
+            serviceLabel.text = "Call \(emergencyArray[indexPath.row].service)"
             serviceLabel.font = UIFont(name: "SFUIDisplay-Medium", size: 16)
             serviceLabel.textColor = .brsblack
             serviceLabel.sizeToFit()
@@ -134,11 +129,10 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let phoneNumber = emergencyArray[indexPath.row].number
         let serviceName = emergencyArray[indexPath.row].service
-        let parsedName = serviceName.substring(from: serviceName.index(serviceName.startIndex, offsetBy: 5))
+        let phoneNumber = emergencyArray[indexPath.row].number
         
-        let alertController = UIAlertController(title: parsedName, message: "Are you sure you want to call \(parsedName)?" , preferredStyle: .alert)
+        let alertController = UIAlertController(title: serviceName, message: "Are you sure you want to call \(serviceName)?" , preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "Call", style: .default, handler: { _ in
             if let phoneCallNumber = URL(string: "tel://\(phoneNumber)") {
