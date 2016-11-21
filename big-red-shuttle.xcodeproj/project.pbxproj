@@ -27,6 +27,12 @@
 		95FD9A891DD8524800CF5D1F /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 95FD9A881DD8524800CF5D1F /* config.json */; };
 		95FD9A8B1DD853B600CF5D1F /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FD9A8A1DD853B600CF5D1F /* GPS.swift */; };
 		983ECB561DD8FBF100DD717B /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983ECB551DD8FBF100DD717B /* IconView.swift */; };
+		D1C9D0891DE2A674009B9234 /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0851DE2A55E009B9234 /* SF-UI-Text-Semibold.otf */; };
+		D1C9D08A1DE2A67F009B9234 /* SF-UI-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0781DE2A55E009B9234 /* SF-UI-Display-Semibold.otf */; };
+		D1C9D08B1DE2A689009B9234 /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0771DE2A55E009B9234 /* SF-UI-Display-Regular.otf */; };
+		D1C9D08C1DE2A694009B9234 /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0761DE2A55E009B9234 /* SF-UI-Display-Medium.otf */; };
+		D1C9D08D1DE2A6A5009B9234 /* SF-UI-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0811DE2A55E009B9234 /* SF-UI-Text-Medium.otf */; };
+		D1C9D0911DE2C3E2009B9234 /* EmergencyContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */; };
 		DD184ED01DC170A90098D5F7 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD184ECE1DC170A90098D5F7 /* Time.swift */; };
 		DD1F26941DD3EE09005358ED /* UIColor+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */; };
 		DD2907611DCA733F00E1C316 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */; };
@@ -81,6 +87,12 @@
 		95FD9A8A1DD853B600CF5D1F /* GPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPS.swift; sourceTree = "<group>"; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		983ECB551DD8FBF100DD717B /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
+		D1C9D0761DE2A55E009B9234 /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
+		D1C9D0771DE2A55E009B9234 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
+		D1C9D0781DE2A55E009B9234 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
+		D1C9D0811DE2A55E009B9234 /* SF-UI-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Medium.otf"; sourceTree = "<group>"; };
+		D1C9D0851DE2A55E009B9234 /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
+		D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyContact.swift; sourceTree = "<group>"; };
 		DD184ECE1DC170A90098D5F7 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Shared.swift"; sourceTree = "<group>"; };
 		DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
@@ -153,6 +165,7 @@
 			children = (
 				442D87151DC963070075BBCA /* Cells */,
 				DD184ECE1DC170A90098D5F7 /* Time.swift */,
+				D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */,
 				44929BC51DAEF4E300B07EBF /* AppDelegate.swift */,
 				DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */,
 				DDE8FD211DB40B01006EDB5C /* Stop.swift */,
@@ -169,6 +182,7 @@
 				95FD9A8A1DD853B600CF5D1F /* GPS.swift */,
 				95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */,
 				505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */,
+				D1C9D0711DE2A41F009B9234 /* Resources */,
 				44929BCC1DAEF4E300B07EBF /* Assets.xcassets */,
 				44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */,
 				44929BD11DAEF4E300B07EBF /* Info.plist */,
@@ -209,6 +223,18 @@
 				86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D1C9D0711DE2A41F009B9234 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D1C9D0761DE2A55E009B9234 /* SF-UI-Display-Medium.otf */,
+				D1C9D0771DE2A55E009B9234 /* SF-UI-Display-Regular.otf */,
+				D1C9D0781DE2A55E009B9234 /* SF-UI-Display-Semibold.otf */,
+				D1C9D0811DE2A55E009B9234 /* SF-UI-Text-Medium.otf */,
+				D1C9D0851DE2A55E009B9234 /* SF-UI-Text-Semibold.otf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,6 +349,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1C9D08D1DE2A6A5009B9234 /* SF-UI-Text-Medium.otf in Resources */,
+				D1C9D08C1DE2A694009B9234 /* SF-UI-Display-Medium.otf in Resources */,
+				D1C9D08B1DE2A689009B9234 /* SF-UI-Display-Regular.otf in Resources */,
+				D1C9D08A1DE2A67F009B9234 /* SF-UI-Display-Semibold.otf in Resources */,
+				D1C9D0891DE2A674009B9234 /* SF-UI-Text-Semibold.otf in Resources */,
 				44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */,
 				95FD9A891DD8524800CF5D1F /* config.json in Resources */,
 				442D871B1DC9A52F0075BBCA /* StopSearchTableViewCell.xib in Resources */,
@@ -414,6 +445,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1C9D0911DE2C3E2009B9234 /* EmergencyContact.swift in Sources */,
 				505DC3981DD3F85500774077 /* UIViewControllerExtensions.swift in Sources */,
 				DD184ED01DC170A90098D5F7 /* Time.swift in Sources */,
 				442D87191DC992D30075BBCA /* StopSearchTableViewHeaderView.swift in Sources */,
