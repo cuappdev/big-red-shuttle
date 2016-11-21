@@ -21,6 +21,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     let kSearchTablePadding: CGFloat = 10
     let kSearchTableClosedHeight: CGFloat = 45
     let kStopZoom: Float = 16
+    let kAboutButtonPadding: CGFloat = 16
     let polyline = Polyline()
     let maxWayPoints = 6
 
@@ -42,10 +43,10 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var searchBarHeaderView: StopSearchTableViewHeaderView!
     var dropDownMenuContainerView: UIView!
     
-    // MARK: UIViewController
+    // MARK: UIViewController Methods
     
     override func loadView() {
-        let camera = GMSCameraPosition.camera(withLatitude: 42.4474, longitude: -76.4855, zoom: 15.5) // Random cornell location
+        let camera = GMSCameraPosition.camera(withLatitude: 42.4474, longitude: -76.4855, zoom: 15.5) // Random Cornell location
         let mapView = GMSMapView.map(withFrame: .zero, camera: camera)
         mapView.delegate = self
         self.mapView = mapView
@@ -56,9 +57,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if viewIsSetup {
-            return
-        }
+        if viewIsSetup { return }
+        
         mapView.isMyLocationEnabled = true
         stops = getStops()
         setupAboutButton()
@@ -79,50 +79,28 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            if touch.view == searchBarHeaderView {
-                didTapSearchBar()
-            }
-        }
-    }
-    
-    //MARK: - Shuttle Bus GPS Delegate Protocol Methods
-    func gps(gps: GPS, movedToCoordinate coordinate: Coordinate) {
-        
-        if let localShuttleBusMarker = shuttleBusMarker {
-            
-            DispatchQueue.main.async {
-                CATransaction.begin()
-                CATransaction.setAnimationDuration(1.0)
-                let angle = atan2(localShuttleBusMarker.position.latitude - coordinate.latitude, localShuttleBusMarker.position.longitude - coordinate.longitude)
-                localShuttleBusMarker.position = coordinate.asCLLocationCoordinate2D()
-                localShuttleBusMarker.rotation = angle * 180.0 / M_PI
-                
-                CATransaction.commit()
-            }
-
-        } else {
-            shuttleBusMarker = GMSMarker(position: coordinate.asCLLocationCoordinate2D())
-            shuttleBusMarker?.icon = #imageLiteral(resourceName: "shuttle_icon")
-            shuttleBusMarker?.map = mapView
-        }
-    }
-    
-    
+    // MARK: About Button Methods
     
     func setupAboutButton() {
         aboutButton = UIButton(frame: CGRect(x: 0, y: 0, width: 82, height: 40))
-        aboutButton.center = CGPoint(x: view.frame.maxX-aboutButton.frame.width/2-16,
-                                     y: view.frame.maxY-aboutButton.frame.height/2-16)
+        aboutButton.center = CGPoint(x: view.frame.maxX - aboutButton.frame.width/2 - kAboutButtonPadding,
+                                     y: view.frame.maxY - aboutButton.frame.height/2 - kAboutButtonPadding)
+        
         aboutButton.backgroundColor = .white
-        aboutButton.layer.cornerRadius = 4
-        aboutButton.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
-        aboutButton.layer.borderWidth = 0.5
+        aboutButton.layer.cornerRadius = 2
+        aboutButton.layer.shadowColor = UIColor.bordergray.cgColor
+        aboutButton.layer.shadowOffset = CGSize(width: 0, height: 0.5)
+        aboutButton.layer.shadowOpacity = 1
+        aboutButton.layer.shadowRadius = 1
+        aboutButton.layer.masksToBounds = false
+        
         aboutButton.setTitleColor(.brsgrey, for: .normal)
-        aboutButton.setTitle(" About", for: .normal)
-        aboutButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        aboutButton.setTitle("About", for: .normal)
+        aboutButton.titleLabel?.font = UIFont(name: "SFUIDisplay-Regular", size: 12.0)!
         aboutButton.setImage(#imageLiteral(resourceName: "about-icon"), for: .normal)
+        aboutButton.titleEdgeInsets.right = -6
+        aboutButton.imageEdgeInsets.left = -8
+        
         aboutButton.addTarget(self, action: #selector(didTapAboutButton), for: .touchUpInside)
         view.addSubview(aboutButton)
     }
@@ -133,6 +111,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         aboutVC.modalPresentationStyle = .overCurrentContext
         present(aboutVC, animated: true, completion: nil)
     }
+    
+    // MARK: Search Bar Functions
     
     func setupSearchTable() {
         searchTableClosedFrame = CGRect(x: kSearchTablePadding, y: 20+kSearchTablePadding,
@@ -161,7 +141,39 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.addSubview(dropDownMenuContainerView)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            if touch.view == searchBarHeaderView {
+                didTapSearchBar()
+            }
+        }
+    }
+    
+    // MARK: - Shuttle Bus GPS Delegate Protocol Methods
+    
+    func gps(gps: GPS, movedToCoordinate coordinate: Coordinate) {
+        
+        if let localShuttleBusMarker = shuttleBusMarker {
+            
+            DispatchQueue.main.async {
+                CATransaction.begin()
+                CATransaction.setAnimationDuration(1.0)
+                let angle = atan2(localShuttleBusMarker.position.latitude - coordinate.latitude, localShuttleBusMarker.position.longitude - coordinate.longitude)
+                localShuttleBusMarker.position = coordinate.asCLLocationCoordinate2D()
+                localShuttleBusMarker.rotation = angle * 180.0 / M_PI
+                
+                CATransaction.commit()
+            }
+
+        } else {
+            shuttleBusMarker = GMSMarker(position: coordinate.asCLLocationCoordinate2D())
+            shuttleBusMarker?.icon = #imageLiteral(resourceName: "shuttle_icon")
+            shuttleBusMarker?.map = mapView
+        }
+    }
+    
     // MARK: Custom Functions
+    
     func setLocations(locations: [CLLocationCoordinate2D]) {
         let (north, south, east, west) =
             locations.reduce((0, 50, -80, 0), { prevResult, nextLocation in
@@ -231,6 +243,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     // MARK: GMSMapViewDelegate
+    
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         if panBounds.contains(position.target) {
             return
