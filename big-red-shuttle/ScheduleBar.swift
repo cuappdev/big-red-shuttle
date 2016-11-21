@@ -36,7 +36,7 @@ class ScheduleBar: UIScrollView {
         for time in buttonsData{ //set up buttons
             let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: frame.height))
             button.setTitle(time, for: .normal)
-            button.setTitleColor(.brsgreyedout, for: .normal)
+            button.setTitleColor(.brsgrey, for: .normal)
             button.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 13.0)
             button.sizeToFit()
             //Make oval background view behind button
@@ -80,7 +80,7 @@ class ScheduleBar: UIScrollView {
     }
     
     func setButton(asSelected button: UIButton){
-        selectedButton.setTitleColor(.brsgreyedout, for: .normal)
+        selectedButton.setTitleColor(.brsgrey, for: .normal)
         button.setTitleColor(.white, for: .normal)
         selectedButton = button
     }

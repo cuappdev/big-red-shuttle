@@ -2,6 +2,10 @@ import Alamofire
 import SwiftyJSON
 import CoreLocation
 
+struct Constants {
+    static let brsStackBaseURL = "https://raw.githubusercontent.com/cuappdev/big-red-shuttle-stack/master/"
+}
+
 func system() -> System {
     return System.shared
 }
@@ -138,11 +142,11 @@ class API {
     }
 }
 
-
+// Get BRS stops with name, location, dates, and times
 public func getStops() ->  [Stop] {
-    let stopJsonString = "https://raw.githubusercontent.com/cuappdev/big-red-shuttle-stack/master/big-red-shuttle.json"
+    let stopJsonURLString = "\(Constants.brsStackBaseURL)brs-stops.json"
     var stops = [Stop]()
-    if let url = URL(string: stopJsonString) {
+    if let url = URL(string: stopJsonURLString) {
         if let data = try? Data(contentsOf: url) {
             let json = JSON(data: data)
             for stop in json["stops"].arrayValue {
@@ -167,7 +171,26 @@ public func getStops() ->  [Stop] {
         }
     }
     return stops
+}
+
+// Get BRS emergency contacts with service and name
+public func getEmergencyContacts() -> [EmergencyContact] {
+    let emergencyContactsURLString = "\(Constants.brsStackBaseURL)brs-emergency-contacts.json"
+    var emergencyContacts = [EmergencyContact]()
     
+    if let url = URL(string: emergencyContactsURLString) {
+        if let data = try? Data(contentsOf: url) {
+            let json = JSON(data: data)
+            for contact in json["contacts"].arrayValue {
+                let service = contact["service"].stringValue
+                let number = contact["number"].stringValue
+
+                emergencyContacts.append(EmergencyContact(service: service, number: number))
+            }
+        }
+    }
+    
+    return emergencyContacts
 }
 
 public func getUniqueStops() -> [Stop] {
@@ -183,7 +206,6 @@ public func getUniqueStops() -> [Stop] {
     
     return uniqueStops
 }
-
 
 class Polyline: NSObject {
     var overviewPolyline = ""
