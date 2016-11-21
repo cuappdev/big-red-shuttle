@@ -193,6 +193,28 @@ public func getEmergencyContacts() -> [EmergencyContact] {
     return emergencyContacts
 }
 
+// Get descriptions for BRS About View
+public func getAboutSections() -> [AboutSection] {
+    let aboutSectionsURLString = "\(Constants.brsStackBaseURL)brs-about-sections.json"
+    var aboutSections = [AboutSection]()
+    
+    if let url = URL(string: aboutSectionsURLString) {
+        if let data = try? Data(contentsOf: url) {
+            let json = JSON(data: data)
+
+            for section in json["sections"].arrayValue {
+                let title = section["title"].stringValue
+                let summary = section["summary"].stringValue
+                let link = section["link"].stringValue
+                
+                aboutSections.append(AboutSection(title: title, summary: summary, link: link))
+            }
+        }
+    }
+    
+    return aboutSections
+}
+
 public func getUniqueStops() -> [Stop] {
     var names:[String] = []
     var uniqueStops:[Stop] = []

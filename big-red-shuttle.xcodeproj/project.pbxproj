@@ -33,6 +33,7 @@
 		D1C9D08C1DE2A694009B9234 /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0761DE2A55E009B9234 /* SF-UI-Display-Medium.otf */; };
 		D1C9D08D1DE2A6A5009B9234 /* SF-UI-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0811DE2A55E009B9234 /* SF-UI-Text-Medium.otf */; };
 		D1C9D0911DE2C3E2009B9234 /* EmergencyContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */; };
+		D1C9D0931DE2D725009B9234 /* AboutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C9D0921DE2D725009B9234 /* AboutSection.swift */; };
 		DD184ED01DC170A90098D5F7 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD184ECE1DC170A90098D5F7 /* Time.swift */; };
 		DD1F26941DD3EE09005358ED /* UIColor+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */; };
 		DD2907611DCA733F00E1C316 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */; };
@@ -93,6 +94,7 @@
 		D1C9D0811DE2A55E009B9234 /* SF-UI-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Medium.otf"; sourceTree = "<group>"; };
 		D1C9D0851DE2A55E009B9234 /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
 		D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyContact.swift; sourceTree = "<group>"; };
+		D1C9D0921DE2D725009B9234 /* AboutSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutSection.swift; sourceTree = "<group>"; };
 		DD184ECE1DC170A90098D5F7 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Shared.swift"; sourceTree = "<group>"; };
 		DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			children = (
 				442D87151DC963070075BBCA /* Cells */,
 				DD184ECE1DC170A90098D5F7 /* Time.swift */,
+				D1C9D0921DE2D725009B9234 /* AboutSection.swift */,
 				D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */,
 				44929BC51DAEF4E300B07EBF /* AppDelegate.swift */,
 				DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */,
@@ -465,6 +468,7 @@
 				505DC3961DD3F82A00774077 /* Location.swift in Sources */,
 				DD1F26941DD3EE09005358ED /* UIColor+Shared.swift in Sources */,
 				DD2907611DCA733F00E1C316 /* ScheduleTableViewCell.swift in Sources */,
+				D1C9D0931DE2D725009B9234 /* AboutSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
