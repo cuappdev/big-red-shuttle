@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         
         let json = try! JSON(data: Data(contentsOf: Bundle.main.url(forResource: "config", withExtension: "json")!))
         GMSServices.provideAPIKey(json["google-maps"].stringValue)
-        
+
         //Set up tab bar & VCs
         let tabBarController = UITabBarController()
         let navigationVC = StopsViewController() //fill in w/ actual VCs
@@ -70,8 +70,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         //Kickstart location services
         _ = Location.shared
         
-        //Light status bar
+        //Styling
         UIApplication.shared.statusBarStyle = .lightContent
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.navtitleblack,
+                                                            NSFontAttributeName: UIFont(name: "SFUIText-Semibold", size: 16)!]
 
         return true
     }

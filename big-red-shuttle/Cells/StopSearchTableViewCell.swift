@@ -18,7 +18,7 @@ class StopSearchTableViewCell: UITableViewCell {
         
         nameLabel.text = stop.name
         nameLabel.textColor = .brsblack
-        nextArrivesLabel.textColor = .brsgreyedout
+        nextArrivesLabel.textColor = .brsgrey
         nextArrivesLabel.text = "Next bus comes at \(stop.nextArrival())"
     }
 }

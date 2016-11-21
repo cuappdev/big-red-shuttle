@@ -119,7 +119,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         aboutButton.layer.cornerRadius = 4
         aboutButton.layer.borderColor = UIColor(white: 0.75, alpha: 1).cgColor
         aboutButton.layer.borderWidth = 0.5
-        aboutButton.setTitleColor(.brsgreyedout, for: .normal)
+        aboutButton.setTitleColor(.brsgrey, for: .normal)
         aboutButton.setTitle(" About", for: .normal)
         aboutButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         aboutButton.setImage(#imageLiteral(resourceName: "about-icon"), for: .normal)

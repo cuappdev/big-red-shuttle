@@ -45,7 +45,7 @@ class StopSearchTableViewHeaderView: UIView {
     }
     
     func animate(open: Bool, duration: TimeInterval) {
-        let color = open ? UIColor.brsgreyedout : UIColor.brsblack
+        let color = open ? UIColor.brsgrey : UIColor.brsblack
         let transform = CATransform3DRotate(downCarrotImageView.layer.transform, CGFloat(M_PI), 1.0, 0, 0)
         UIView.transition(with: findStopsLabel, duration: duration, options: .transitionCrossDissolve, animations: {
             self.findStopsLabel.textColor = color
