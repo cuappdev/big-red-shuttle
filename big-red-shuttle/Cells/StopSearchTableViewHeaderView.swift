@@ -9,34 +9,35 @@
 import UIKit
 
 class StopSearchTableViewHeaderView: UIView {
+    
     var downCarrotImageView: UIImageView!
     var findStopsLabel: UILabel!
     
-    let kPadding: CGFloat = 16
-    let kCarrotHeight: CGFloat = 10
-    let kCarrotWidth: CGFloat = 20
+    let kPadding: CGFloat = 15
+    let kCarrotWidth: CGFloat = 16
+    let kCarrotHeight: CGFloat = 9
     let kBottomBorderThickness: CGFloat = 0.5
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         backgroundColor = .white
-        let carrotContainerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: kCarrotWidth, height: kCarrotHeight)))
-        carrotContainerView.center = CGPoint(x: bounds.maxX-kPadding-kCarrotWidth/2, y: bounds.midY)
-        downCarrotImageView = UIImageView(frame: carrotContainerView.bounds)
-        addSubview(carrotContainerView)
-        carrotContainerView.addSubview(downCarrotImageView)
-        downCarrotImageView.image = #imageLiteral(resourceName: "arrow")
+
+        downCarrotImageView = UIImageView(image: #imageLiteral(resourceName: "ArrowIcon"))
+        downCarrotImageView.frame = CGRect(origin: .zero, size: CGSize(width: kCarrotWidth, height: kCarrotHeight))
+        downCarrotImageView.center = CGPoint(x: bounds.maxX - kPadding - kCarrotWidth/2, y: bounds.midY)
+        addSubview(downCarrotImageView)
         
         findStopsLabel = UILabel()
-        findStopsLabel.text = "Find Big Red Shuttle"
-        findStopsLabel.sizeToFit()
-        findStopsLabel.center = CGPoint(x: kPadding+findStopsLabel.frame.width/2, y: bounds.midY)
+        findStopsLabel.text = "Find Big Red Shuttle stops"
+        findStopsLabel.font = UIFont(name: "SFUIDisplay-Regular", size: 14.0)!
         findStopsLabel.textColor = .brsblack
-        findStopsLabel.font = .systemFont(ofSize: 14)
+        findStopsLabel.sizeToFit()
+        findStopsLabel.center = CGPoint(x: kPadding + findStopsLabel.frame.width/2, y: bounds.midY)
         addSubview(findStopsLabel)
         
-        let bottomBorderView = UIView(frame: CGRect(x: 0, y: frame.height-kBottomBorderThickness, width: frame.width, height: kBottomBorderThickness))
-        bottomBorderView.backgroundColor = .bordergray
+        let bottomBorderView = UIView(frame: CGRect(x: 0, y: frame.height - kBottomBorderThickness, width: frame.width, height: kBottomBorderThickness))
+        bottomBorderView.backgroundColor = .searchbottombordergray
         addSubview(bottomBorderView)
     }
     
@@ -45,11 +46,12 @@ class StopSearchTableViewHeaderView: UIView {
     }
     
     func animate(open: Bool, duration: TimeInterval) {
-        let color = open ? UIColor.brsgrey : UIColor.brsblack
+        backgroundColor = open ? .brslightgrey : .white
+        
         let transform = CATransform3DRotate(downCarrotImageView.layer.transform, CGFloat(M_PI), 1.0, 0, 0)
         UIView.transition(with: findStopsLabel, duration: duration, options: .transitionCrossDissolve, animations: {
-            self.findStopsLabel.textColor = color
+            self.findStopsLabel.textColor = open ? .brsgrey : .brsblack
             self.downCarrotImageView.layer.transform = transform
-            }, completion: nil)
+        })
     }
 }
