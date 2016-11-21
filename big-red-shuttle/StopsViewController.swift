@@ -22,7 +22,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     let kSearchTableClosedHeight: CGFloat = 45
     let kStopZoom: Float = 16
     let polyline = Polyline()
-    let maxWayPoints = 8
+    let maxWayPoints = 6
 
     var viewIsSetup = false
     var searchTableView: UITableView!
@@ -215,7 +215,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         polyline.getPolyline(waypoints: stopsA, origin:stops[0], end:stops[maxWayPoints+1])
         drawRoute()
         
-        polyline.getPolyline(waypoints: [], origin: stops[9], end: stops[0])
+        polyline.getPolyline(waypoints: [], origin: stops[7], end: stops[0])
         drawRoute()
     }
 
