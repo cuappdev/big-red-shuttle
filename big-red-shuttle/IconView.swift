@@ -78,6 +78,11 @@ class IconView: UIView {
         layer.addSublayer(groundWhiteCircle)
     }
     
+    internal func setClicked(clicked: Bool) {
+        self.clicked = clicked
+        smallGrayCircle.strokeColor = clicked ? UIColor.brsred.cgColor : UIColor.iconlightgray.cgColor
+    }
+    
     internal func drawSmallGrayCircle() -> CAShapeLayer {
         let circlePath = UIBezierPath(
             arcCenter: CGPoint(x: circleView.frame.midX - edgePadding, y: circleView.frame.midY - edgePadding - yOffset),
@@ -150,7 +155,7 @@ class IconViewBig: IconView {
 
 class IconViewSmall: IconView {
     init() {
-        super.init(circleViewDiameter: 26, innerCircleRadiusOffset: 2.0, maxScale: 1.2, yOffset: 2.0, triangleWidthScale: 0.14, fontSize: 0)
+        super.init(circleViewDiameter: 26, innerCircleRadiusOffset: 2.0, maxScale: 1.1, yOffset: 2.0, triangleWidthScale: 0.14, fontSize: 0)
         timeLabel.isHidden = true
     }
     
