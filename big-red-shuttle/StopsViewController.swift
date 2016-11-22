@@ -73,16 +73,16 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         setLocations(locations: locations)
         viewIsSetup = true
         
-        //observe gps data changes
-        GPS.shared.addObserver(observer: self)
-        Location.shared.fetchedUserLocationCompletionBlock = {
-            if !GPS.shared.registeredToLogLocation {
-                API.shared.registerUserToLogLocation(key: "fedorko", success: { (json: JSON?) in
-                    GPS.shared.startLoggingShuttleLocation()
-                    GPS.shared.startFetchingShuttleLocation()
-                }, failure: nil)
-            }
-        }
+        // TODO: Uncomment when logging is implemented
+//        GPS.shared.addObserver(observer: self)
+//        Location.shared.fetchedUserLocationCompletionBlock = {
+//            if !GPS.shared.registeredToLogLocation {
+//                API.shared.registerUserToLogLocation(key: "fedorko", success: { (json: JSON?) in
+//                    GPS.shared.startLoggingShuttleLocation()
+//                    GPS.shared.startFetchingShuttleLocation()
+//                }, failure: nil)
+//            }
+//        }
     }
     
     // MARK: About Button Methods
