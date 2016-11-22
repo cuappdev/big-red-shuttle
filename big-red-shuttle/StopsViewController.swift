@@ -38,7 +38,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var aboutButton: UIButton!
     var popUpView = UIView()
 
-    var selectedMarker: GMSMarker!
+    var markers: [String:GMSMarker] = [:]
     var stops: [Stop] = []
     var selectedStop: Stop!
     var mapView: GMSMapView!
@@ -170,7 +170,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let stop = stops[indexPath.row]
         let cameraUpdate = GMSCameraUpdate.setTarget(stop.getCoordinate(), zoom: kStopZoom)
         mapView.animate(with: cameraUpdate)
-        displayPopUpView(stop: stop)
+        didSelectStop(stop: stop)
     }
     
     // MARK: SearchTableView UITableViewDataSource Methods
@@ -196,7 +196,10 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if searchTableExpanded {
             searchTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-            dismissPopUpView(newPopupStop: nil, fullyDismissed: true)
+            
+            if let stop = selectedStop {
+                dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
+            }
         }
         
         let finalFrame = (searchTableExpanded ? searchTableOpenFrame : searchTableClosedFrame)!
@@ -277,13 +280,15 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return collectionView
     }
     
-    // Display & Animate the pop up view when a marker is selected
+    // Display and animate the pop up view when a marker is selected
     func displayPopUpView(stop: Stop) {
         selectedStop = stop
         let collectionView = createPopUpView()
         let nudgeOffset: CGFloat = 20
         
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
+            let marker: GMSMarker = self.markers[self.selectedStop.name]!
+            self.animateMarker(marker: marker, select: true)
             self.popUpView.frame.origin.y = self.mapView.bounds.height - 120
         }, completion: { _ in
             let nudgeCount = UserDefaults.standard.value(forKey: "nudgeCount") as! Int
@@ -303,18 +308,19 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     // Dismiss the current pop up view
-    func dismissPopUpView(newPopupStop: Stop?, fullyDismissed: Bool) {
+    func dismissPopUpView(newPopupStop: Stop, fullyDismissed: Bool) {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+            let marker: GMSMarker = self.markers[self.selectedStop.name]!
+            self.animateMarker(marker: marker, select: false)
             self.popUpView.frame = CGRect(x: self.offset, y: self.view.bounds.height , width: self.view.bounds.width - 2*self.offset, height: self.popupHeight)
         }, completion: { _ in
             self.popUpView.subviews.forEach({$0.removeFromSuperview()})
             self.popUpView.removeFromSuperview()
+
             if fullyDismissed {
                 self.selectedStop = nil
             } else {
-                if let stop = newPopupStop {
-                   self.displayPopUpView(stop: stop)
-                }
+                self.displayPopUpView(stop: newPopupStop)
             }
         })
     }
@@ -412,29 +418,43 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func drawLocationPins() {
-        let stops = getUniqueStops()
-        
-        for (index, stop) in stops.enumerated() {
-            let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
-            let marker = GMSMarker(position: location)
-            marker.userData = stops[index]
-            marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
-            
-            let iconView = marker.iconView as! IconView
-            let fullString = stop.nextArrival()
-            let needles: [Character] = ["a", "p"]
-            
-            for needle in needles {
-                if let index = fullString.characters.index(of: needle) {
-                    iconView.timeLabel.text = fullString.substring(to: index)
+        for stop in stops {
+            if markers[stop.name] == nil {
+                let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
+                let marker = GMSMarker(position: location)
+                marker.userData = stop
+                marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
+                
+                let iconView = marker.iconView as! IconView
+                let fullString = stop.nextArrival()
+                let needles: [Character] = ["a", "p"]
+                
+                for needle in needles {
+                    if let index = fullString.characters.index(of: needle) {
+                        iconView.timeLabel.text = fullString.substring(to: index)
+                    }
                 }
+                
+                marker.map = mapView
+                markers[stop.name] = marker
             }
-            
-            marker.map = mapView
         }
     }
     
-    func animateMarker(iconView: IconView, select: Bool) {
+    func didSelectStop(stop: Stop) {
+        let marker: GMSMarker = markers[stop.name]!
+        let newStop = marker.userData as! Stop
+        
+        if let _ = selectedStop {
+            dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
+        } else { // no selected stop
+            displayPopUpView(stop: newStop)
+        }
+    }
+    
+    func animateMarker(marker: GMSMarker, select: Bool) {
+        let iconView = marker.iconView as! IconView
+        
         UIButton.animate(withDuration: 0.1, animations: {
             let scale: CGFloat = iconView is IconViewBig ? 1.2 : 1.1
             let yOffset: CGFloat = iconView is IconViewBig ? -4 : -2
@@ -444,13 +464,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             CATransaction.begin()
             CATransaction.setDisableActions(true)
             
-            iconView.smallGrayCircle.strokeColor = select ? UIColor.brsred.cgColor : UIColor.iconlightgray.cgColor
-            
+            iconView.setClicked(clicked: select)
+
             CATransaction.commit()
-        }, completion: { (finished: Bool) in
-            if finished {
-                iconView.clicked = select
-            }
         })
     }
     
@@ -467,10 +483,6 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        if let marker = selectedMarker {
-            let iconView = marker.iconView as! IconView
-            animateMarker(iconView: iconView, select: false)
-        }
         if let stop = selectedStop {
             dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
         }
@@ -478,21 +490,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // Display and hide the popUpView based on tapping the marker pin
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if let _ = selectedStop {
-            let newStop = marker.userData as! Stop
-            dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
-        } else {
-            displayPopUpView(stop: marker.userData as! Stop)
-        }
-        
-        if let currMarker = selectedMarker {
-            let iconView = currMarker.iconView as! IconView
-            animateMarker(iconView: iconView, select: false)
-        }
-        
-        let iconView = marker.iconView as! IconView
-        animateMarker(iconView: iconView, select: !iconView.clicked!)
-        selectedMarker = !iconView.clicked! ? marker : nil
+        didSelectStop(stop: marker.userData as! Stop)
         
         return true
     }
