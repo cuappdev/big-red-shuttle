@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "combinedShape.png",
+      "filename" : "RedPinIcon@0.5x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "combinedShape@2x.png",
+      "filename" : "RedPinIcon.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "combinedShape@3x.png",
+      "filename" : "RedPinIcon@1.5x.png",
       "scale" : "3x"
     }
   ],

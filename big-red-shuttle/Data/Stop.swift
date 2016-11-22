@@ -9,14 +9,9 @@
 import UIKit
 import GoogleMaps
 
-public enum Days: String{
-    case Monday = "Monday"
-    case Tuesday = "Tuesday"
-    case Wednesday = "Wednesday"
-    case Thursday = "Thursday"
-    case Friday = "Friday"
-    case Saturday = "Saturday"
-    case Sunday = "Sunday"
+// Sunday = "Sunday", ... Saturday = "Saturday"
+public enum Days: String {
+    case Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
     
     var number: Int {
         switch self {

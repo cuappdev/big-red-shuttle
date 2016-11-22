@@ -23,6 +23,12 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     let kStopZoom: Float = 16
     let polyline = Polyline()
     let maxWayPoints = 6
+    
+    // Popup view constants
+    let topContainerHeight: CGFloat = 64
+    let popupHeight: CGFloat = 106
+    let offset: CGFloat = 12
+    let leftOffset: CGFloat = 8
 
     var viewIsSetup = false
     var searchTableView: UITableView!
@@ -33,7 +39,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var popUpView = UIView()
 
     var selectedMarker: GMSMarker!
-    var stops: [Stop]!
+    var stops: [Stop] = []
     var selectedStop: Stop!
     var mapView: GMSMapView!
     var panBounds: GMSCoordinateBounds!
@@ -164,7 +170,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let stop = stops[indexPath.row]
         let cameraUpdate = GMSCameraUpdate.setTarget(stop.getCoordinate(), zoom: kStopZoom)
         mapView.animate(with: cameraUpdate)
-        popUp(stop: stop)
+        displayPopUpView(stop: stop)
     }
     
     // MARK: SearchTableView UITableViewDataSource Methods
@@ -201,30 +207,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    // MARK: - Shuttle Bus GPS Delegate Protocol Methods
-    
-    func gps(gps: GPS, movedToCoordinate coordinate: Coordinate) {
-        
-        if let localShuttleBusMarker = shuttleBusMarker {
-            
-            DispatchQueue.main.async {
-                CATransaction.begin()
-                CATransaction.setAnimationDuration(1.0)
-                let angle = atan2(localShuttleBusMarker.position.latitude - coordinate.latitude, localShuttleBusMarker.position.longitude - coordinate.longitude)
-                localShuttleBusMarker.position = coordinate.asCLLocationCoordinate2D()
-                localShuttleBusMarker.rotation = angle * 180.0 / M_PI
-                
-                CATransaction.commit()
-            }
-
-        } else {
-            shuttleBusMarker = GMSMarker(position: coordinate.asCLLocationCoordinate2D())
-            shuttleBusMarker?.icon = #imageLiteral(resourceName: "shuttle_icon")
-            shuttleBusMarker?.map = mapView
-        }
-    }
-    
-    // MARK: Custom Functions
+    // MARK: Map and Route Drawing Methods
     
     func setLocations(locations: [CLLocationCoordinate2D]) {
         let (north, south, east, west) =
@@ -270,16 +253,14 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
 
-    
-    //drawing
     func initPolyline() {
         let stops = getStops()
-        let stopsA = Array(stops[1...maxWayPoints]) //can only have a max of 8 waypoints (i.e. stops that don't include start and end)
+        let stopsA = Array(stops[1...maxWayPoints])
         
-        polyline.getPolyline(waypoints: stopsA, origin:stops[0], end:stops[maxWayPoints+1])
+        polyline.getPolyline(waypoints: stopsA, origin:stops.first!, end: stops.last!)
         drawRoute()
         
-        polyline.getPolyline(waypoints: [], origin: stops[7], end: stops[0])
+        polyline.getPolyline(waypoints: [], origin: stops.last!, end: stops.first!)
         drawRoute()
     }
 
@@ -293,13 +274,26 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         routePolyline.map = mapView
     }
     
+    func animateMarker(iconView: IconView, scale: CGFloat, select: Bool) {
+        UIButton.animate(withDuration: 0.15, animations: {
+            iconView.circleView.transform = CGAffineTransform(scaleX: scale, y: scale)
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            iconView.smallGrayCircle.strokeColor = select ? UIColor.brsred.cgColor : UIColor.iconlightgray.cgColor
+            
+            CATransaction.commit()
+            })
+        { (finished:Bool) in
+            if finished {
+                iconView.clicked = select
+            }
+        }
+    }
     
-    // MARK: GMSMapViewDelegate
+    // MARK: GMSMapViewDelegate Methods
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-        if panBounds.contains(position.target) {
-            return
-        }
+        if panBounds.contains(position.target) { return }
         
         let center = mapView.camera.target
         let newLong = min(max(center.longitude, panBounds.southWest.longitude), panBounds.northEast.longitude)
@@ -307,7 +301,6 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let update = GMSCameraUpdate.setTarget(CLLocationCoordinate2DMake(newLat, newLong))
         mapView.animate(with: update)
     }
-    
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         if let marker = selectedMarker {
@@ -319,10 +312,10 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    /*This function displays/hides the popUpView based on tapping the marker.*/
+    // Displays and hides the popUpView based on tapping the marker pin
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if selectedStop == nil {
-            popUp(stop: marker.userData as! Stop)
+            displayPopUpView(stop: marker.userData as! Stop)
         } else {
             let newStop = marker.userData as! Stop
             dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
@@ -344,37 +337,130 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return true
     }
     
-    func animateMarker(iconView: IconView, scale: CGFloat, select: Bool) {
-        UIButton.animate(withDuration: 0.15, animations: {
-            iconView.circleView.transform = CGAffineTransform(scaleX: scale, y: scale)
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-            iconView.smallGrayCircle.strokeColor = select ? UIColor.brsred.cgColor : UIColor.iconlightgray.cgColor
-
-            CATransaction.commit()
-        })
-        { (finished:Bool) in
-            if finished {
-                iconView.clicked = select
-            }
-        }
+    // MARK: Bus Stop Pop Up Methods
+    
+    // Create the bus stop popup view
+    func createPopUpView() -> UICollectionView {
+        let popupWidth: CGFloat = view.frame.width - 2*kEdgePadding
+        
+        popUpView.frame = CGRect(x: kEdgePadding, y: mapView.bounds.height, width: popupWidth, height: popupHeight)
+        popUpView.backgroundColor = .white
+        popUpView.layer.cornerRadius = 2
+        popUpView.layer.shadowColor = UIColor.bordergray.cgColor
+        popUpView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
+        popUpView.layer.shadowOpacity = 1
+        popUpView.layer.shadowRadius = 1
+        
+        let topContainerView = UIView(frame: CGRect(x: 0, y: 0, width: popupWidth, height: topContainerHeight))
+        topContainerView.layer.cornerRadius = 2
+        
+        let locationImageView = UIImageView(image: #imageLiteral(resourceName: "RedPinIcon"))
+        locationImageView.frame.size = CGSize(width: 18, height: 23.5)
+        locationImageView.center = CGPoint(x: kEdgePadding + locationImageView.frame.width/2, y: topContainerView.frame.midY)
+        topContainerView.addSubview(locationImageView)
+        
+        let stopNameLabel = UILabel(frame: CGRect(x: locationImageView.frame.maxX + offset, y: topContainerView.frame.midY,
+                                                  width: popupWidth/2, height: popupHeight - 2*offset))
+        stopNameLabel.text = selectedStop.name
+        stopNameLabel.font = UIFont(name: "SFUIDisplay-Semibold", size: 16)!
+        stopNameLabel.textColor = .brsblack
+        stopNameLabel.numberOfLines = 2
+        stopNameLabel.sizeToFit()
+        stopNameLabel.center.y = topContainerView.frame.midY
+        topContainerView.addSubview(stopNameLabel)
+        
+        let directionsArrowImageView = UIImageView(image: UIImage(cgImage: #imageLiteral(resourceName: "ArrowIcon").cgImage!, scale: 1.0, orientation: .left))
+        directionsArrowImageView.image = directionsArrowImageView.image!.withRenderingMode(.alwaysTemplate)
+        directionsArrowImageView.tintColor = .directionsgrey
+        directionsArrowImageView.frame.size = CGSize(width: 9, height: 15)
+        directionsArrowImageView.center = CGPoint(x: topContainerView.frame.width - kEdgePadding - directionsArrowImageView.frame.width/2, y: topContainerView.frame.midY)
+        topContainerView.addSubview(directionsArrowImageView)
+        
+        let directionsButton = UIButton()
+        directionsButton.setTitle("Directions", for: .normal)
+        directionsButton.setTitleColor(.directionsgrey, for: .normal)
+        directionsButton.titleLabel?.font = UIFont(name: "SFUIDisplay-Semibold", size: 14)!
+        directionsButton.addTarget(self, action: #selector(directionsButtonPressed), for: .touchUpInside)
+        directionsButton.sizeToFit()
+        directionsButton.center = CGPoint(x: directionsArrowImageView.frame.minX - directionsButton.frame.width/2 - offset/2, y: topContainerView.frame.midY)
+        topContainerView.addSubview(directionsButton)
+        
+        let middleBorderView = UIView(frame: CGRect(x: 0, y: topContainerView.frame.height - 1, width: topContainerView.frame.width, height: 1))
+        middleBorderView.backgroundColor = .brsgray
+        topContainerView.addSubview(middleBorderView)
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 80, height: popupHeight - topContainerHeight)
+        
+        let collectionView = UICollectionView(frame: CGRect(x: leftOffset, y: topContainerHeight, width: popupWidth - leftOffset, height: popupHeight - topContainerHeight), collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(CustomTimeCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        
+        popUpView.addSubview(topContainerView)
+        popUpView.addSubview(collectionView)
+        view.addSubview(popUpView)
+        
+        return collectionView
     }
     
-    func directionsButtonPressed(sender: UIButton) {
-        //prepare to redirect user to map app
+    // Display & Animate the pop up view when a marker is selected
+    func displayPopUpView(stop: Stop) {
+        selectedStop = stop
+        let collectionView = createPopUpView()
+        let nudgeOffset: CGFloat = 20
         
+        UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
+            self.popUpView.frame.origin.y = self.mapView.bounds.height - 120
+        }, completion: { _ in
+            let nudgeCount = UserDefaults.standard.value(forKey: "nudgeCount") as! Int
+            if nudgeCount < 3 && UserDefaults.standard.value(forKey: "didFireNudge") as! Bool {
+                UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
+                    collectionView.contentOffset.x += nudgeOffset
+                }, completion: { _ in
+                    UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+                        collectionView.contentOffset.x -= nudgeOffset
+                    })
+                })
+                
+                UserDefaults.standard.setValue(nudgeCount + 1, forKey: "nudgeCount")
+                UserDefaults.standard.setValue(false, forKey: "didFireNudge")
+            }
+        })
+    }
+    
+    // Dismiss the current pop up view
+    func dismissPopUpView(newPopupStop: Stop?, fullyDismissed: Bool) {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.popUpView.frame = CGRect(x: self.offset, y: self.view.bounds.height , width: self.view.bounds.width - 2*self.offset, height: self.popupHeight)
+        }, completion: { _ in
+            self.popUpView.subviews.forEach({$0.removeFromSuperview()})
+            self.popUpView.removeFromSuperview()
+            if fullyDismissed {
+                self.selectedStop = nil
+            } else {
+                if let stop = newPopupStop {
+                   self.displayPopUpView(stop: stop)
+                }
+            }
+        })
+    }
+    
+    // Redirect user to Apple Maps or Google Maps
+    func directionsButtonPressed(sender: UIButton) {
         let location = selectedStop.getLocation()
         let googleURL = "comgooglemaps://?saddr=&daddr=\(location.lat),\(location.long)&directionsmode=walking"
+        
         if UIApplication.shared.canOpenURL(URL(string: "comgooglemaps://")!) {
             if #available(iOS 10.0, *) {
-                UIApplication.shared.open(URL(string:
-                    googleURL)!)
+                UIApplication.shared.open(URL(string: googleURL)!)
             } else {
-                UIApplication.shared.openURL(URL(string:
-                    googleURL)!)
+                UIApplication.shared.openURL(URL(string: googleURL)!)
             }
         } else {
-            
             let regionDistance = 10000
             let coordinates = CLLocationCoordinate2DMake(CLLocationDegrees(location.lat), CLLocationDegrees(location.long))
             let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, CLLocationDistance(regionDistance), CLLocationDistance(regionDistance))
@@ -389,138 +475,55 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    // MARK: Bus Stop Popup CollectionView Datasource Methods
     
-    func getDayOfWeek(today: Date) -> Int {
-        return Calendar(identifier: .gregorian).component(.weekday, from: today)
-    }
-    
-    
-    /* Display & Animate the pop up view when a marker is selected */
-    func popUp(stop: Stop) {
-        selectedStop = stop
-        
-        let viewHeight = mapView.bounds.height
-        let viewWidth = view.bounds.width
-        let midHeight = CGFloat(32.0)
-        let popUpWidth = viewWidth - 24
-        
-        let popUpViewFrame = CGRect(x: 12, y: viewHeight, width: popUpWidth, height: 106)
-        popUpView.frame = popUpViewFrame
-        popUpView.backgroundColor = .white
-        
-        popUpView.layer.shadowColor = UIColor.lightGray.cgColor
-        popUpView.layer.shadowOpacity = 1.0
-        popUpView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
-        popUpView.layer.shadowRadius = 0.3
-        
-        let directionsButton = UIButton(frame: CGRect(x: popUpWidth - 103, y: 22.5, width: 80, height: 16.5))
-        directionsButton.titleLabel?.font = .systemFont(ofSize: 14, weight: UIFontWeightSemibold)
-        directionsButton.setTitle("Directions", for: .normal)
-        directionsButton.setTitleColor(.lightGray, for: .normal)
-        directionsButton.addTarget(self, action: #selector(directionsButtonPressed), for: .touchUpInside)
-        directionsButton.center.y = midHeight
-        
-        let directionImage = UIImageView()
-        directionImage.image = UIImage(cgImage: #imageLiteral(resourceName: "ArrowIcon").cgImage!, scale: 1.0, orientation: .left)
-        directionImage.frame = CGRect(x: popUpWidth - 25, y: 14.25, width: 9, height: 16)
-        directionImage.center.y = midHeight
-        
-        let locationLabelFrame = CGRect(x: 40, y: 11.75, width: popUpWidth * 0.50, height: 26)
-        let locationLabel = UILabel(frame: locationLabelFrame)
-        locationLabel.text = selectedStop.name
-        locationLabel.font = .systemFont(ofSize: 16, weight: UIFontWeightSemibold)
-        locationLabel.numberOfLines = 2
-        locationLabel.center.y = midHeight
-        locationLabel.sizeToFit()
-        
-        let locationImage = UIImageView(image: #imageLiteral(resourceName: "location"))
-        locationImage.frame = CGRect(x: 10, y: 18.5, width: 20, height: 26)
-        locationLabel.center.y = midHeight
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 70, height: 30)
-        let collectionView = UICollectionView(frame: CGRect(x: 8, y: 64, width: popUpViewFrame.width - 8, height: 40), collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(CustomTimeCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        
-        let middleBorder = CALayer()
-        middleBorder.frame = CGRect(x: 0, y: 64, width: popUpViewFrame.width, height: 1)
-        middleBorder.backgroundColor = UIColor.brsgray.cgColor
-        
-        popUpView.addSubview(collectionView)
-        popUpView.addSubview(directionsButton)
-        popUpView.addSubview(directionImage)
-        popUpView.addSubview(locationLabel)
-        popUpView.addSubview(locationImage)
-        popUpView.layer.addSublayer(middleBorder)
-        view.addSubview(popUpView)
-        
-        UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
-            self.popUpView.frame = CGRect(x: 12, y: viewHeight - 120 , width: popUpWidth, height: 106)
-        }, completion: { _ in
-            let nudgeCount = UserDefaults.standard.value(forKey: "nudgeCount") as! Int
-            if nudgeCount < 3 && UserDefaults.standard.value(forKey: "didFireNudge") as! Bool {
-                
-                UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
-                    collectionView.contentOffset.x = collectionView.contentOffset.x + 20
-                }, completion: { _ in
-                    UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
-                        collectionView.contentOffset.x = collectionView.contentOffset.x - 20
-                    }, completion: nil)
-                })
-                UserDefaults.standard.setValue(nudgeCount + 1, forKey: "nudgeCount")
-                UserDefaults.standard.setValue(false, forKey: "didFireNudge")
-            }
-        })
-    }
-    
-    
-    /* Dismiss the current pop up view */
-    func dismissPopUpView(newPopupStop: Stop?, fullyDismissed: Bool) {
-        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
-            self.popUpView.frame = CGRect(x: 12, y: self.view.bounds.height , width: self.view.bounds.width - 24, height: 130)
-        }, completion: { _ in
-            //remove from view after they animate off screen
-            self.popUpView.subviews.forEach({$0.removeFromSuperview()})
-            self.popUpView.removeFromSuperview()
-            if fullyDismissed {
-                self.selectedStop = nil
-            } else {
-                if let stop = newPopupStop {
-                   self.popUp(stop: stop)
-                }
-            }
-        })
-    }
-    
-    
-    //MARK: collectionView Datasource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
         let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
-        if selectedStop.days.contains(currentDay!){
+        
+        if selectedStop.days.contains(currentDay!) {
             let nextArrivalsToday = selectedStop.nextArrivalsToday()
             cell.textLabel.text = nextArrivalsToday[indexPath.row]
             cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
         } else {
-            cell.textLabel.text = "No Shuttles Running Today"
+            cell.textLabel.text = "No more shuttles available today"
             cell.textLabel.sizeToFit()
-            cell.textLabel.center.y = cell.bounds.midY
-            
+            cell.textLabel.center = CGPoint(x: collectionView.bounds.midX - leftOffset, y: cell.bounds.midY)
         }
+        
+        cell.textLabel.textColor = .brsgrey
+        cell.textLabel.font = UIFont(name: "SFUIDisplay-Regular", size: 14)
         
         return cell
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    
         let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
         return selectedStop.days.contains(currentDay!) ? selectedStop.nextArrivalsToday().count : 1
     }
+    
+    // MARK: - Shuttle Bus GPS Delegate Protocol Methods
+    
+    func gps(gps: GPS, movedToCoordinate coordinate: Coordinate) {
+        
+        if let localShuttleBusMarker = shuttleBusMarker {
+            
+            DispatchQueue.main.async {
+                CATransaction.begin()
+                CATransaction.setAnimationDuration(1.0)
+                let angle = atan2(localShuttleBusMarker.position.latitude - coordinate.latitude, localShuttleBusMarker.position.longitude - coordinate.longitude)
+                localShuttleBusMarker.position = coordinate.asCLLocationCoordinate2D()
+                localShuttleBusMarker.rotation = angle * 180.0 / M_PI
+                
+                CATransaction.commit()
+            }
+            
+        } else {
+            shuttleBusMarker = GMSMarker(position: coordinate.asCLLocationCoordinate2D())
+            shuttleBusMarker?.icon = #imageLiteral(resourceName: "shuttle_icon")
+            shuttleBusMarker?.map = mapView
+        }
+    }
+
 }
 
