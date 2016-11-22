@@ -21,12 +21,12 @@ class Polyline: NSObject {
         case UNKNOWN_ERROR = "UNKNOWN_ERROR"
     }
     
-    func getPolyline(waypoints:[Stop], origin:Stop, end:Stop) {
-        let baseURLDirections = "https://maps.googleapis.com/maps/api/directions/json?"
+    func getPolyline(waypoints: [Stop], origin: Stop, end: Stop) {
+        let baseDirectionsURL = "https://maps.googleapis.com/maps/api/directions/json?"
         let origin = "\(origin.lat),\(origin.long)"
         let destination = "\(end.lat),\(end.long)"
         
-        var directionsURLString = baseURLDirections + "origin=" + origin + "&destination=" + destination
+        var directionsURLString = baseDirectionsURL + "origin=" + origin + "&destination=" + destination
         
         if waypoints.count > 0 {
             directionsURLString += "&waypoints=optimize:true"
@@ -37,7 +37,7 @@ class Polyline: NSObject {
         }
         
         directionsURLString = directionsURLString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        print(directionsURLString)
+
         if let directionsURL = URL(string: directionsURLString) {
             if let data = try? Data(contentsOf: directionsURL) {
                 let json = JSON(data: data)

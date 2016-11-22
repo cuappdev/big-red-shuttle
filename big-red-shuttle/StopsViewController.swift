@@ -58,7 +58,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.mapView = mapView
         view = mapView
 
-        initPolyline()
+        drawBusRoute()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -205,136 +205,6 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.dropDownMenuShadowView.frame = finalFrame
             self.dropDownMenuContainerView.frame = self.dropDownMenuShadowView.bounds
         }
-    }
-    
-    // MARK: Map and Route Drawing Methods
-    
-    func setLocations(locations: [CLLocationCoordinate2D]) {
-        let (north, south, east, west) =
-            locations.reduce((0, 50, -80, 0), { prevResult, nextLocation in
-                return (max(nextLocation.latitude, prevResult.0),
-                        min(nextLocation.latitude, prevResult.1),
-                        max(nextLocation.longitude, prevResult.2),
-                        min(nextLocation.longitude, prevResult.3))
-        })
-        let startBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
-                                        coordinate: CLLocationCoordinate2DMake(south, west))
-        panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north+kMaxBoundPadding, east+kMaxBoundPadding),
-                                         coordinate: CLLocationCoordinate2DMake(south-kMaxBoundPadding, west-kMaxBoundPadding))
-        let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
-        mapView.moveCamera(cameraUpdate)
-        mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
-        drawPins()
-    }
-    
-    func drawPins() {
-        var counter = 0
-        let stops = getUniqueStops()
-        for stop in stops {
-            let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
-            let marker = GMSMarker(position: location)
-            
-            //add each stop to each marker
-            marker.userData = stops[counter]
-            
-            marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() :  IconViewSmall()
-            let iconView = marker.iconView as! IconView
-            let fullString = stop.nextArrival()
-            let needles:[Character] = ["a", "p"]
-            
-            for needle in needles {
-                if let index = fullString.characters.index(of: needle) {
-                    iconView.timeLabel.text = fullString.substring(to: index)
-                }
-            }
-            
-            marker.map = mapView
-            counter += 1
-        }
-    }
-
-    func initPolyline() {
-        let stops = getStops()
-        let stopsA = Array(stops[1...maxWayPoints])
-        
-        polyline.getPolyline(waypoints: stopsA, origin:stops.first!, end: stops.last!)
-        drawRoute()
-        
-        polyline.getPolyline(waypoints: [], origin: stops.last!, end: stops.first!)
-        drawRoute()
-    }
-
-    func drawRoute() {
-        let path = GMSMutablePath(fromEncodedPath: polyline.overviewPolyline)
-        let routePolyline = GMSPolyline(path: path)
-
-        routePolyline.strokeColor = .brsred
-        routePolyline.strokeWidth = 4.0
-        
-        routePolyline.map = mapView
-    }
-    
-    func animateMarker(iconView: IconView, scale: CGFloat, select: Bool) {
-        UIButton.animate(withDuration: 0.15, animations: {
-            iconView.circleView.transform = CGAffineTransform(scaleX: scale, y: scale)
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-            iconView.smallGrayCircle.strokeColor = select ? UIColor.brsred.cgColor : UIColor.iconlightgray.cgColor
-            
-            CATransaction.commit()
-            })
-        { (finished:Bool) in
-            if finished {
-                iconView.clicked = select
-            }
-        }
-    }
-    
-    // MARK: GMSMapViewDelegate Methods
-    
-    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-        if panBounds.contains(position.target) { return }
-        
-        let center = mapView.camera.target
-        let newLong = min(max(center.longitude, panBounds.southWest.longitude), panBounds.northEast.longitude)
-        let newLat = min(max(center.latitude, panBounds.southWest.latitude), panBounds.northEast.latitude)
-        let update = GMSCameraUpdate.setTarget(CLLocationCoordinate2DMake(newLat, newLong))
-        mapView.animate(with: update)
-    }
-    
-    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        if let marker = selectedMarker {
-            let iconView = marker.iconView as! IconView
-            animateMarker(iconView: iconView, scale: 1.0, select: false)
-        }
-        if let stop = selectedStop {
-            dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
-        }
-    }
-    
-    // Displays and hides the popUpView based on tapping the marker pin
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if selectedStop == nil {
-            displayPopUpView(stop: marker.userData as! Stop)
-        } else {
-            let newStop = marker.userData as! Stop
-            dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
-        }
-
-        if let markerCurr = selectedMarker {
-            let iconView = markerCurr.iconView as! IconView
-            animateMarker(iconView: iconView, scale: 1.0, select: false)
-        }
-
-        let iconView = marker.iconView as! IconView
-        if !iconView.clicked! {
-            animateMarker(iconView: iconView, scale: 1.1, select: true)
-            selectedMarker = marker
-        } else {
-            animateMarker(iconView: iconView, scale: 1.0, select: false)
-            selectedMarker = nil
-        }
-        return true
     }
     
     // MARK: Bus Stop Pop Up Methods
@@ -502,12 +372,135 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return selectedStop.days.contains(currentDay!) ? selectedStop.nextArrivalsToday().count : 1
     }
     
+    // MARK: Map and Route Drawing Methods
+    
+    func drawPath() {
+        let path = GMSMutablePath(fromEncodedPath: polyline.overviewPolyline)
+        let routePolyline = GMSPolyline(path: path)
+        
+        routePolyline.strokeColor = .brsred
+        routePolyline.strokeWidth = 4.0
+        routePolyline.map = mapView
+    }
+    
+    func drawBusRoute() {
+        let stops = getStops()
+        let stopsA = Array(stops[1...maxWayPoints])
+        
+        polyline.getPolyline(waypoints: stopsA, origin: stops.first!, end: stops.last!)
+        drawPath()
+        
+        polyline.getPolyline(waypoints: [], origin: stops.last!, end: stops.first!)
+        drawPath()
+    }
+    
+    func setLocations(locations: [CLLocationCoordinate2D]) {
+        let (north, south, east, west) =
+            locations.reduce((0, 50, -80, 0), { prevResult, nextLocation in
+                return (max(nextLocation.latitude, prevResult.0),
+                        min(nextLocation.latitude, prevResult.1),
+                        max(nextLocation.longitude, prevResult.2),
+                        min(nextLocation.longitude, prevResult.3))
+            })
+        let startBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
+                                              coordinate: CLLocationCoordinate2DMake(south, west))
+        panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north + kMaxBoundPadding, east + kMaxBoundPadding), coordinate: CLLocationCoordinate2DMake(south - kMaxBoundPadding, west - kMaxBoundPadding))
+        let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
+        mapView.moveCamera(cameraUpdate)
+        mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
+        drawLocationPins()
+    }
+    
+    func drawLocationPins() {
+        let stops = getUniqueStops()
+        
+        for (index, stop) in stops.enumerated() {
+            let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
+            let marker = GMSMarker(position: location)
+            marker.userData = stops[index]
+            marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
+            
+            let iconView = marker.iconView as! IconView
+            let fullString = stop.nextArrival()
+            let needles: [Character] = ["a", "p"]
+            
+            for needle in needles {
+                if let index = fullString.characters.index(of: needle) {
+                    iconView.timeLabel.text = fullString.substring(to: index)
+                }
+            }
+            
+            marker.map = mapView
+        }
+    }
+    
+    func animateMarker(iconView: IconView, select: Bool) {
+        UIButton.animate(withDuration: 0.1, animations: {
+            let scale: CGFloat = iconView is IconViewBig ? 1.2 : 1.1
+            let yOffset: CGFloat = iconView is IconViewBig ? -4 : -2
+            
+            iconView.circleView.transform = select ? CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: 0, y: yOffset) : .identity
+            
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            
+            iconView.smallGrayCircle.strokeColor = select ? UIColor.brsred.cgColor : UIColor.iconlightgray.cgColor
+            
+            CATransaction.commit()
+        }, completion: { (finished: Bool) in
+            if finished {
+                iconView.clicked = select
+            }
+        })
+    }
+    
+    // MARK: GMSMapViewDelegate Methods
+    
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        if panBounds.contains(position.target) { return }
+        
+        let center = mapView.camera.target
+        let newLong = min(max(center.longitude, panBounds.southWest.longitude), panBounds.northEast.longitude)
+        let newLat = min(max(center.latitude, panBounds.southWest.latitude), panBounds.northEast.latitude)
+        let update = GMSCameraUpdate.setTarget(CLLocationCoordinate2DMake(newLat, newLong))
+        mapView.animate(with: update)
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        if let marker = selectedMarker {
+            let iconView = marker.iconView as! IconView
+            animateMarker(iconView: iconView, select: false)
+        }
+        if let stop = selectedStop {
+            dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
+        }
+    }
+    
+    // Display and hide the popUpView based on tapping the marker pin
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        if let _ = selectedStop {
+            let newStop = marker.userData as! Stop
+            dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
+        } else {
+            displayPopUpView(stop: marker.userData as! Stop)
+        }
+        
+        if let currMarker = selectedMarker {
+            let iconView = currMarker.iconView as! IconView
+            animateMarker(iconView: iconView, select: false)
+        }
+        
+        let iconView = marker.iconView as! IconView
+        animateMarker(iconView: iconView, select: !iconView.clicked!)
+        selectedMarker = !iconView.clicked! ? marker : nil
+        
+        return true
+    }
+    
     // MARK: - Shuttle Bus GPS Delegate Protocol Methods
     
     func gps(gps: GPS, movedToCoordinate coordinate: Coordinate) {
-        
         if let localShuttleBusMarker = shuttleBusMarker {
-            
             DispatchQueue.main.async {
                 CATransaction.begin()
                 CATransaction.setAnimationDuration(1.0)
@@ -517,7 +510,6 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 
                 CATransaction.commit()
             }
-            
         } else {
             shuttleBusMarker = GMSMarker(position: coordinate.asCLLocationCoordinate2D())
             shuttleBusMarker?.icon = #imageLiteral(resourceName: "shuttle_icon")
