@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "combinedShape.png",
+      "filename" : "DownArrow@0.5x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "combinedShape@2x.png",
+      "filename" : "DownArrow.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "combinedShape@3x.png",
+      "filename" : "DownArrow@1.5x.png",
       "scale" : "3x"
     }
   ],

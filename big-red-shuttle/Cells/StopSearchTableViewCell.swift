@@ -9,8 +9,10 @@
 import UIKit
 
 class StopSearchTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var nextArrivesLabel: UILabel!
+    @IBOutlet weak var nextArrivalLabel: UILabel!
+    
     func setupCell(stop: Stop) {
         preservesSuperviewLayoutMargins = false
         separatorInset = .zero
@@ -18,7 +20,7 @@ class StopSearchTableViewCell: UITableViewCell {
         
         nameLabel.text = stop.name
         nameLabel.textColor = .brsblack
-        nextArrivesLabel.textColor = .brsgrey
-        nextArrivesLabel.text = "Next bus comes at \(stop.nextArrival())"
+        nextArrivalLabel.textColor = .brsgrey
+        nextArrivalLabel.text = "Next bus at \(stop.nextArrival())"
     }
 }
