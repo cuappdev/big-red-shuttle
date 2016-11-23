@@ -294,8 +294,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.animateMarker(marker: marker, select: true)
             self.popUpView.frame.origin.y = self.mapView.bounds.height - 120
         }, completion: { _ in
+            let nextArrivalsToday = self.selectedStop.nextArrivalsToday()
             let nudgeCount = UserDefaults.standard.value(forKey: "nudgeCount") as! Int
-            if nudgeCount < 3 && UserDefaults.standard.value(forKey: "didFireNudge") as! Bool {
+            if nextArrivalsToday.count > 0 && nudgeCount < 3 && UserDefaults.standard.value(forKey: "didFireNudge") as! Bool {
                 UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
                     collectionView.contentOffset.x += nudgeOffset
                 }, completion: { _ in
@@ -358,10 +359,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
-        let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
+        let nextArrivalsToday = selectedStop.nextArrivalsToday()
         
-        if selectedStop.days.contains(currentDay!) {
-            let nextArrivalsToday = selectedStop.nextArrivalsToday()
+        if nextArrivalsToday.count > 0 {
             cell.textLabel.text = nextArrivalsToday.joined(separator: spaceSeparator)
             cell.textLabel.sizeToFit()
             cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
@@ -382,12 +382,11 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
         let nextArrivalsToday = selectedStop.nextArrivalsToday()
         let timesString = nextArrivalsToday.joined(separator: spaceSeparator) as NSString
         let timesStringSize = timesString.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
         
-        return selectedStop.days.contains(currentDay!) ? CGSize(width: timesStringSize.width + 2*cellXOffset, height: collectionView.bounds.height) : collectionView.bounds.size
+        return (nextArrivalsToday.count > 0) ? CGSize(width: timesStringSize.width + 2*cellXOffset, height: collectionView.bounds.height) : collectionView.bounds.size
     }
 
     // MARK: Map and Route Drawing Methods
