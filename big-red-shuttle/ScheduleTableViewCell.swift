@@ -10,78 +10,64 @@ import UIKit
 
 class ScheduleTableViewCell: UITableViewCell {
     
-    var stop: UILabel = UILabel()
-    var time: UILabel = UILabel()
-    var dot: CAShapeLayer = CAShapeLayer()
-    var line: UIView = UIView()
+    let redLinePercOffset: CGFloat = 0.23
+    
+    var stopLabel: UILabel = UILabel()
+    var timeLabel: UILabel = UILabel()
+    var routeDot: CAShapeLayer = CAShapeLayer()
+    var routeLine: UIView = UIView()
     var separator: UIView = UIView()
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String!){
+    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .clear
         isUserInteractionEnabled = false
 
-        line.backgroundColor = .brsred
-
-        time.font = UIFont(name: "HelveticaNeue-Light", size: 11.5)
-        time.textColor = .brsblack
+        timeLabel.font = UIFont(name: "SFUIDisplay-Regular", size: 12.0)
+        timeLabel.textColor = .scheduletimegrey
         
-        stop.font = UIFont(name: "HelveticaNeue", size: 13.0)
-        stop.textColor = .brsblack
+        routeLine.backgroundColor = .brsred
+        routeDot.strokeColor = UIColor.brsred.cgColor
+        routeDot.lineWidth = 3.0
         
-        separator.backgroundColor = .brslightgrey
+        stopLabel.font = UIFont(name: "SFUIDisplay-Regular", size: 14.0)
+        stopLabel.textColor = .brsblack
         
-        dot.strokeColor = UIColor.brsred.cgColor
-        dot.lineWidth = 3.0
+        separator.backgroundColor = .brsgray
         
-        contentView.addSubview(stop)
-        contentView.addSubview(line)
-        contentView.addSubview(time)
+        contentView.addSubview(timeLabel)
+        contentView.addSubview(routeLine)
+        contentView.addSubview(stopLabel)
         contentView.addSubview(separator)
-        contentView.layer.addSublayer(dot)
+        contentView.layer.addSublayer(routeDot)
     }
     
     override func layoutSubviews() {
         let scheduleViewBounds = UIScreen.main.bounds
         let height = contentView.frame.height
         
-        line.frame = CGRect(x: scheduleViewBounds.width * 0.20, y: 0, width: 3.5, height: height)
-
-        time.center.y = contentView.center.y
-        time.center.x = scheduleViewBounds.width * 0.10
+        timeLabel.center = CGPoint(x: scheduleViewBounds.width * redLinePercOffset/2, y: contentView.frame.midY)
         
-        stop.frame = CGRect(x: line.frame.maxX+15, y: 0, width: scheduleViewBounds.width * 0.80, height: height)
-        stop.center.y = contentView.center.y
+        routeLine.frame = CGRect(x: scheduleViewBounds.width * redLinePercOffset, y: 0, width: 3.0, height: height)
         
-        separator.frame = CGRect(x: stop.frame.minX - 5, y: height - 1, width: scheduleViewBounds.width, height: 1)
+        stopLabel.frame = CGRect(x: routeLine.frame.maxX + 20, y: 0, width: scheduleViewBounds.width * (1 - redLinePercOffset), height: height)
+        stopLabel.center.y = contentView.frame.midY
         
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: line.center.x,y: contentView.center.y), radius: CGFloat(4.0), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
-        dot.path = circlePath.cgPath
-        dot.fillColor = UIColor.white.cgColor
-
+        separator.frame = CGRect(x: stopLabel.frame.minX, y: height - 1, width: scheduleViewBounds.width, height: 1)
+        
+        let circlePath = UIBezierPath(arcCenter: routeLine.center, radius: CGFloat(4.4), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+        routeDot.path = circlePath.cgPath
+        routeDot.fillColor = UIColor.white.cgColor
     }
     
     func configStop(loop: Bool){
-        stop.font = loop ? UIFont(name: "HelveticaNeue-Medium", size: 13.0) : UIFont(name: "HelveticaNeue", size: 13.0)
-        stop.sizeToFit()
-        time.font = loop ? UIFont(name: "HelveticaNeue-Medium", size: 12.0) : UIFont(name: "HelveticaNeue-Light", size: 11.5)
-        time.sizeToFit()
+        timeLabel.font = loop ? UIFont(name: "SFUIDisplay-Bold", size: 12.0) : UIFont(name: "SFUIDisplay-Regular", size: 12.0)
+        timeLabel.sizeToFit()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

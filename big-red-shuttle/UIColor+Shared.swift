@@ -27,4 +27,5 @@ extension UIColor {
     @nonobjc static let searchbottombordergray = UIColor(red: 224/255, green: 224/255, blue: 224/255, alpha: 0.5)
     @nonobjc static let navtitleblack = UIColor(red: 54/255, green: 53/255, blue: 67/255, alpha: 1.0)
     @nonobjc static let directionsgrey = UIColor(red: 179/255, green: 183/255, blue: 192/255, alpha: 1.0)
+    @nonobjc static let scheduletimegrey = UIColor(red: 89/255, green: 90/255, blue: 116/255, alpha: 1.0)
 }
