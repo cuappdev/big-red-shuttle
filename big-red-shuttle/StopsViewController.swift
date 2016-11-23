@@ -11,8 +11,9 @@ import GoogleMaps
 import MapKit
 import SwiftyJSON
 
+// TODO: add ShuttleBusGPSDelegate when logging is implemented
 class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate,
-                           UICollectionViewDataSource, GMSMapViewDelegate, ShuttleBusGPSDelegate {
+                           UICollectionViewDataSource, GMSMapViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // MARK: Properties
     
@@ -28,7 +29,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     let topContainerHeight: CGFloat = 64
     let popupHeight: CGFloat = 106
     let offset: CGFloat = 12
-    let leftOffset: CGFloat = 8
+    let cellXOffset: CGFloat = 11
+    let spaceSeparator: String = String(repeating: " ", count: 5)
 
     var viewIsSetup = false
     var searchTableView: UITableView!
@@ -261,12 +263,13 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let middleBorderView = UIView(frame: CGRect(x: 0, y: topContainerView.frame.height - 1, width: topContainerView.frame.width, height: 1))
         middleBorderView.backgroundColor = .brsgray
         topContainerView.addSubview(middleBorderView)
-        
+
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 80, height: popupHeight - topContainerHeight)
-        
-        let collectionView = UICollectionView(frame: CGRect(x: leftOffset, y: topContainerHeight, width: popupWidth - leftOffset, height: popupHeight - topContainerHeight), collectionViewLayout: layout)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: topContainerHeight, width: popupWidth, height: popupHeight - topContainerHeight), collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CustomTimeCell.self, forCellWithReuseIdentifier: "Cell")
@@ -359,25 +362,37 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if selectedStop.days.contains(currentDay!) {
             let nextArrivalsToday = selectedStop.nextArrivalsToday()
-            cell.textLabel.text = nextArrivalsToday[indexPath.row]
+            cell.textLabel.text = nextArrivalsToday.joined(separator: spaceSeparator)
+            cell.textLabel.sizeToFit()
             cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
         } else {
             cell.textLabel.text = "No more shuttles available today"
             cell.textLabel.sizeToFit()
-            cell.textLabel.center = CGPoint(x: collectionView.bounds.midX - leftOffset, y: cell.bounds.midY)
+            cell.textLabel.center = CGPoint(x: collectionView.bounds.midX, y: cell.bounds.midY)
         }
         
         cell.textLabel.textColor = .brsgrey
         cell.textLabel.font = UIFont(name: "SFUIDisplay-Regular", size: 14)
-        
+
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
-        return selectedStop.days.contains(currentDay!) ? selectedStop.nextArrivalsToday().count : 1
+        return 1
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets { return UIEdgeInsetsMake(0, 0, 0, 0)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let currentDay = Days.fromNumber(num: getDayOfWeek(today: Date()))
+        let nextArrivalsToday = selectedStop.nextArrivalsToday()
+        let timesString = nextArrivalsToday.joined(separator: spaceSeparator) as NSString
+        let timesStringSize = timesString.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+        
+        return selectedStop.days.contains(currentDay!) ? CGSize(width: timesStringSize.width + 2*cellXOffset, height: collectionView.bounds.height) : collectionView.bounds.size
+    }
+
     // MARK: Map and Route Drawing Methods
     
     func drawPath() {
@@ -497,23 +512,23 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // MARK: - Shuttle Bus GPS Delegate Protocol Methods
     
-    func gps(gps: GPS, movedToCoordinate coordinate: Coordinate) {
-        if let localShuttleBusMarker = shuttleBusMarker {
-            DispatchQueue.main.async {
-                CATransaction.begin()
-                CATransaction.setAnimationDuration(1.0)
-                let angle = atan2(localShuttleBusMarker.position.latitude - coordinate.latitude, localShuttleBusMarker.position.longitude - coordinate.longitude)
-                localShuttleBusMarker.position = coordinate.asCLLocationCoordinate2D()
-                localShuttleBusMarker.rotation = angle * 180.0 / M_PI
-                
-                CATransaction.commit()
-            }
-        } else {
-            shuttleBusMarker = GMSMarker(position: coordinate.asCLLocationCoordinate2D())
-            shuttleBusMarker?.icon = #imageLiteral(resourceName: "shuttle_icon")
-            shuttleBusMarker?.map = mapView
-        }
-    }
+//    func gps(gps: GPS, movedToCoordinate coordinate: Coordinate) {
+//        if let localShuttleBusMarker = shuttleBusMarker {
+//            DispatchQueue.main.async {
+//                CATransaction.begin()
+//                CATransaction.setAnimationDuration(1.0)
+//                let angle = atan2(localShuttleBusMarker.position.latitude - coordinate.latitude, localShuttleBusMarker.position.longitude - coordinate.longitude)
+//                localShuttleBusMarker.position = coordinate.asCLLocationCoordinate2D()
+//                localShuttleBusMarker.rotation = angle * 180.0 / M_PI
+//                
+//                CATransaction.commit()
+//            }
+//        } else {
+//            shuttleBusMarker = GMSMarker(position: coordinate.asCLLocationCoordinate2D())
+//            shuttleBusMarker?.icon = #imageLiteral(resourceName: "shuttle_icon")
+//            shuttleBusMarker?.map = mapView
+//        }
+//    }
 
 }
 
