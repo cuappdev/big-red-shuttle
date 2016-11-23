@@ -48,20 +48,6 @@ public func getStops() ->  [Stop] {
     return stops
 }
 
-public func getUniqueStops() -> [Stop] {
-    var names: [String] = []
-    var uniqueStops: [Stop] = []
-    
-    for stop in getStops() {
-        if !names.contains(stop.name) {
-            uniqueStops.append(stop)
-            names.append(stop.name)
-        }
-    }
-    
-    return uniqueStops
-}
-
 // Get BRS emergency contacts with service and name
 public func getEmergencyContacts() -> [EmergencyContact] {
     let emergencyContactsURLString = "\(Constants.brsStackBaseURL)brs-emergency-contacts.json"

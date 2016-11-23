@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ScheduleBarDelegate: class {
-    func scrollToCell(button: UIButton) -> Void
+    func scrollToCell(button: UIButton)
 }
 
 class ScheduleBar: UIScrollView {
@@ -112,7 +112,7 @@ class ScheduleBar: UIScrollView {
         scrollRectToVisible(CGRect(x: button.frame.minX, y: frame.minY, width: button.frame.width, height: button.frame.height), animated: true)
     }
     
-    func buttonPressed(button: UIButton) -> Void {
+    func buttonPressed(button: UIButton) {
         select(button: button, animation: true)
         sbDelegate?.scrollToCell(button: button)
     }
