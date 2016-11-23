@@ -10,22 +10,20 @@
 import Foundation
 
 public class Time: NSObject {
-    public var hour: Int //in 24 hours
+    public var hour: Int // in 24 hours
     public var minute: Int
     public var day: Int
     
     public var shortDescription: String {
-        let ampm = hour < 12 ? "am" : "pm"
-        var civilianHour = hour > 12 ? hour - 12 : hour
-        if hour == 0 {
-            civilianHour = 12
-        }
+        let civilianHour = hour == 0 ? 12 : hour % 12
         let displayMinute = minute < 10 ? "0\(minute)" : "\(minute)"
-        return "\(civilianHour):\(displayMinute)\(ampm)"
+        let ampm = hour < 12 ? "am" : "pm"
+        
+        return "\(civilianHour):\(displayMinute) \(ampm)"
     }
     
     override public var description: String {
-        let dayString = Days.fromNumber(num: day == 1 ? 7 : day-1)!.rawValue
+        let dayString = Days.fromNumber(num: day == 1 ? 7 : day - 1)!.rawValue
         return "\(shortDescription) on \(dayString) night"
     }
     
@@ -43,29 +41,20 @@ public class Time: NSObject {
     public init(hour: Int, minute: Int, technicallyNightBefore: Int){
         self.hour = hour
         self.minute = minute
-        self.day = technicallyNightBefore + 1
-        if self.day > 7 {
-            self.day = 1
-        }
+        self.day = technicallyNightBefore + 1 > 7 ? 1 : technicallyNightBefore + 1
     }
     
     public func isEarlier(than time: Time) -> Bool {
-        let t1 = self
-        let t2 = time
-        if t1.day < t2.day || t1.day == 7 && t2.day == 1  {
+        if self.day < time.day || self.day == 7 && time.day == 1  {
             return true
-        } else if t1.day > t2.day {
+        } else if self.day > time.day {
             return false
-        } else if t1.hour > t2.hour{
+        } else if self.hour > time.hour{
             return false
-        } else if t1.hour < t2.hour {
+        } else if self.hour < time.hour {
             return true
         } else{
-            if t1.minute > t2.minute{
-                return false
-            }else{
-                return true
-            }
+            return self.minute <= time.minute
         }
     }
     
@@ -74,6 +63,6 @@ public class Time: NSObject {
     }
     
     public func dayBefore(time: Time) -> Bool {
-        return time.day == 1 ? day == 7 : time.day-1 == day
+        return time.day == 1 ? day == 7 : time.day - 1 == day
     }
 }
