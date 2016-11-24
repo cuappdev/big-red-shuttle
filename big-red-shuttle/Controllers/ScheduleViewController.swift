@@ -31,7 +31,9 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         
         // Schedule Bar
         scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: barHeight))
-        scheduleBar.setUp(buttonsData: loopStop!.allArrivalsToday(), selected: 0)
+        if (loopStop != nil) {
+            scheduleBar.setUp(buttonsData: loopStop!.allArrivalsToday(), selected: 0)
+        }
         scheduleBar.sbDelegate = self
         view.addSubview(scheduleBar)
         
@@ -59,14 +61,16 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let nextArrivalsToday = loopStop!.nextArrivalsToday()
+        if (loopStop != nil) {
+            let nextArrivalsToday = loopStop!.nextArrivalsToday()
         
-        if nextArrivalsToday.count > 0 {
-            let nextArrival = nextArrivalsToday.first
-            for button in scheduleBar.timeButtons {
-                if button.titleLabel?.text == nextArrival {
-                    scheduleBar.scrollToButton(button: button)
-                    scrollToCell(button: button)
+            if nextArrivalsToday.count > 0 {
+                let nextArrival = nextArrivalsToday.first
+                for button in scheduleBar.timeButtons {
+                    if button.titleLabel?.text == nextArrival {
+                        scheduleBar.scrollToButton(button: button)
+                        scrollToCell(button: button)
+                    }
                 }
             }
         }
@@ -94,6 +98,9 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - TableView Datasource Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (stops.count == 0) {
+            return 0
+        }
         return stops.count * loopStop!.allArrivalsToday().count
     }
     
