@@ -19,18 +19,20 @@ class IconView: UIView {
     var innerCircleRadiusOffset: CGFloat!
     var maxScale: CGFloat!
     var yOffset: CGFloat!
+    var yGroundOffset: CGFloat!
     var triangleWidthScale: CGFloat!
     var fontSize: CGFloat!
     var edgePadding: CGFloat!
     var yGroundPos: CGFloat!
     
-    init(circleViewDiameter: CGFloat, innerCircleRadiusOffset: CGFloat, maxScale: CGFloat, yOffset: CGFloat, triangleWidthScale: CGFloat, fontSize: CGFloat) {
+    init(circleViewDiameter: CGFloat, innerCircleRadiusOffset: CGFloat, maxScale: CGFloat, yOffset: CGFloat, yGroundOffset: CGFloat, triangleWidthScale: CGFloat, fontSize: CGFloat) {
         super.init(frame: CGRect(x: 0, y: 0, width: maxScale * circleViewDiameter, height: 1.5*circleViewDiameter + yOffset))
 
         self.circleViewDiameter = circleViewDiameter
         self.innerCircleRadiusOffset = innerCircleRadiusOffset
         self.maxScale = maxScale
         self.yOffset = yOffset
+        self.yGroundOffset = yGroundOffset
         self.triangleWidthScale = triangleWidthScale
         self.fontSize = fontSize
         self.edgePadding = (frame.width - circleViewDiameter) / 2.0
@@ -88,7 +90,7 @@ class IconView: UIView {
             arcCenter: CGPoint(x: circleView.frame.midX - edgePadding, y: circleView.frame.midY - edgePadding - yOffset),
             radius: CGFloat(circleViewDiameter/2.0 - innerCircleRadiusOffset),
             startAngle: CGFloat(0),
-            endAngle:CGFloat(M_PI * 2),
+            endAngle: CGFloat(M_PI * 2),
             clockwise: true)
         
         let shapeLayer = CAShapeLayer()
@@ -127,10 +129,10 @@ class IconView: UIView {
     
     internal func drawCircle(radius: CGFloat, color: CGColor) -> CAShapeLayer {
         let circlePath = UIBezierPath(
-            arcCenter: CGPoint(x: frame.midX, y: yGroundPos + edgePadding),
+            arcCenter: CGPoint(x: frame.midX, y: CGFloat(yGroundPos) + CGFloat(yGroundOffset) + CGFloat(edgePadding)),
             radius: CGFloat(radius),
             startAngle: CGFloat(0),
-            endAngle:CGFloat(M_PI * 2),
+            endAngle: CGFloat(M_PI * 2),
             clockwise: true)
         
         let shapeLayer = CAShapeLayer()
@@ -145,7 +147,7 @@ class IconView: UIView {
 
 class IconViewBig: IconView {
     init() {
-        super.init(circleViewDiameter: 44, innerCircleRadiusOffset: 3.0, maxScale: 1.2, yOffset: 5.0, triangleWidthScale: 0.22, fontSize: 11)
+        super.init(circleViewDiameter: 44, innerCircleRadiusOffset: 3.0, maxScale: 1.2, yOffset: 5.0, yGroundOffset: 0, triangleWidthScale: 0.22, fontSize: 11)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -155,7 +157,7 @@ class IconViewBig: IconView {
 
 class IconViewSmall: IconView {
     init() {
-        super.init(circleViewDiameter: 26, innerCircleRadiusOffset: 2.0, maxScale: 1.1, yOffset: 2.0, triangleWidthScale: 0.14, fontSize: 0)
+        super.init(circleViewDiameter: 26, innerCircleRadiusOffset: 2.0, maxScale: 1.1, yOffset: 2.0, yGroundOffset: 1.0, triangleWidthScale: 0.14, fontSize: 0)
         timeLabel.isHidden = true
     }
     
