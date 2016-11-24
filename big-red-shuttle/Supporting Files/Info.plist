@@ -2,6 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).Schedule</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Schedule</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>View Stop List</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeDate</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).Emergency</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Emergency</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>View Contacts</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeContact</string>
+		</dict>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>&quot;Allow to enable location services for the Big Red Shuttle&quot;</string>
 	<key>LSApplicationQueriesSchemes</key>
