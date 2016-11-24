@@ -403,13 +403,15 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func drawBusRoute() {
         let stops = getStops()
-        let stopsA = Array(stops[1...maxWayPoints])
+        if (stops.count > 0) {
+            let stopsA = Array(stops[1...maxWayPoints])
         
-        polyline.getPolyline(waypoints: stopsA, origin: stops.first!, end: stops.last!)
-        drawPath()
+            polyline.getPolyline(waypoints: stopsA, origin: stops.first!, end: stops.last!)
+            drawPath()
         
-        polyline.getPolyline(waypoints: [], origin: stops.last!, end: stops.first!)
-        drawPath()
+            polyline.getPolyline(waypoints: [], origin: stops.last!, end: stops.first!)
+            drawPath()
+        }
     }
     
     func setLocations(locations: [CLLocationCoordinate2D]) {
