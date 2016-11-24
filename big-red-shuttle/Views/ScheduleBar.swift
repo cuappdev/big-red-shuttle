@@ -103,6 +103,9 @@ class ScheduleBar: UIScrollView {
         if animation {
             UIView.animate(withDuration: 0.25, animations: {
                 moveSelector()
+                self.scrollRectToVisible(CGRect(x: self.highlight.frame.minX - self.buttonMargin, y: self.highlight.frame.minY,
+                                                width: self.highlight.frame.width + 2*self.buttonMargin, height: self.highlight.frame.height),
+                                         animated: false)
             })
         } else {
             moveSelector()
