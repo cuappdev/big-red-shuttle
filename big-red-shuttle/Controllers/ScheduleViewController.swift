@@ -60,8 +60,19 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Scroll tableview to cell with correct time button
     func scrollToCell(button: UIButton) {
+        scheduleBar.isAnimating = true
+        
+        CATransaction.begin()
+        CATransaction.setCompletionBlock { self.scheduleBar.isAnimating = false }
+        
+        tableView.beginUpdates()
+        
         let indexPath = IndexPath(row: stops.count * button.tag, section: 0)
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        
+        tableView.endUpdates()
+        
+        CATransaction.commit()
     }
     
     // MARK: - TableView Datasource Methods
@@ -92,4 +103,20 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         return cell!
     }
     
+    // MARK: - TableView ScrollView Delegate Methods
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollViewHeight = scrollView.frame.height
+        let scrollContentSizeHeight = scrollView.contentSize.height
+        let scrollOffset = scrollView.contentOffset.y
+        
+        if !scheduleBar.isAnimating {
+            let index = Int(tableView.contentOffset.y / (cellHeight * CGFloat(stops.count)))
+            let buttons = scheduleBar.timeButtons as [UIButton]
+            let button = (scrollViewHeight + scrollOffset >= scrollContentSizeHeight) ? buttons.last : buttons[index]
+            
+            scheduleBar.scrollToButton(button: button!)
+        }
+    }
+
 }
