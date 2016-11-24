@@ -56,6 +56,22 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.register(ScheduleTableViewCell.classForCoder(), forCellReuseIdentifier: identifier)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let nextArrivalsToday = loopStop!.nextArrivalsToday()
+        
+        if nextArrivalsToday.count > 0 {
+            let nextArrival = nextArrivalsToday.first
+            for button in scheduleBar.timeButtons {
+                if button.titleLabel?.text == nextArrival {
+                    scheduleBar.scrollToButton(button: button)
+                    scrollToCell(button: button)
+                }
+            }
+        }
+    }
+    
     // MARK: - Schedule Bar Delegate Methods
     
     // Scroll tableview to cell with correct time button
