@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ScheduleBarDelegate: class {
-    func scrollToCell(button: UIButton) -> Void
+    func scrollToCell(button: UIButton)
 }
 
 class ScheduleBar: UIScrollView {
@@ -24,6 +24,7 @@ class ScheduleBar: UIScrollView {
     var highlight: UIView!
     var separator: UIView!
     var selectedButton: UIButton!
+    var isAnimating: Bool!
     weak var sbDelegate: ScheduleBarDelegate?
     
     override init(frame: CGRect) {
@@ -36,6 +37,7 @@ class ScheduleBar: UIScrollView {
     
     func setUp(buttonsData: [String], selected: Int) {
         backgroundColor = .white
+        isAnimating = false
         
         var contentWidth: CGFloat = 0
         timeButtons = []
@@ -96,25 +98,26 @@ class ScheduleBar: UIScrollView {
     
     func select(button: UIButton, animation: Bool) {
         let moveSelector = { self.highlight.frame = button.frame }
+        setButton(asSelected: button)
         
         if animation {
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.25, animations: {
                 moveSelector()
-            })
-            UIView.transition(with: button, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                self.setButton(asSelected: button)
+                self.scrollRectToVisible(CGRect(x: self.highlight.frame.minX - self.buttonMargin, y: self.highlight.frame.minY,
+                                                width: self.highlight.frame.width + 2*self.buttonMargin, height: self.highlight.frame.height),
+                                         animated: false)
             })
         } else {
             moveSelector()
-            setButton(asSelected: button)
         }
-        
-        scrollRectToVisible(CGRect(x: button.frame.minX, y: frame.minY, width: button.frame.width, height: button.frame.height), animated: true)
     }
     
-    func buttonPressed(button: UIButton) -> Void {
+    func buttonPressed(button: UIButton) {
         select(button: button, animation: true)
         sbDelegate?.scrollToCell(button: button)
     }
-
+    
+    func scrollToButton(button: UIButton) {
+        select(button: button, animation: true)
+    }
 }

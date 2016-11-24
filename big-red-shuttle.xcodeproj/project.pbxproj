@@ -64,49 +64,49 @@
 
 /* Begin PBXFileReference section */
 		127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.debug.xcconfig"; sourceTree = "<group>"; };
-		441C6ADE1DD42EFD0008EBE1 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		442D87181DC992D30075BBCA /* StopSearchTableViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StopSearchTableViewHeaderView.swift; path = Cells/StopSearchTableViewHeaderView.swift; sourceTree = "<group>"; };
+		441C6ADE1DD42EFD0008EBE1 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutViewController.swift; path = Controllers/AboutViewController.swift; sourceTree = "<group>"; };
+		442D87181DC992D30075BBCA /* StopSearchTableViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StopSearchTableViewHeaderView.swift; path = Views/StopSearchTableViewHeaderView.swift; sourceTree = "<group>"; };
 		442D871A1DC9A52F0075BBCA /* StopSearchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StopSearchTableViewCell.xib; path = Cells/StopSearchTableViewCell.xib; sourceTree = "<group>"; };
 		442D871C1DC9A71D0075BBCA /* StopSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StopSearchTableViewCell.swift; path = Cells/StopSearchTableViewCell.swift; sourceTree = "<group>"; };
 		44929BC21DAEF4E300B07EBF /* big-red-shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "big-red-shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44929BC51DAEF4E300B07EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		44929BC71DAEF4E300B07EBF /* StopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsViewController.swift; sourceTree = "<group>"; };
+		44929BC71DAEF4E300B07EBF /* StopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StopsViewController.swift; path = Controllers/StopsViewController.swift; sourceTree = "<group>"; };
 		44929BCC1DAEF4E300B07EBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		44929BCF1DAEF4E300B07EBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		44929BD11DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44929BD11DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		44929BD61DAEF4E300B07EBF /* big-red-shuttleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "big-red-shuttleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44929BDA1DAEF4E300B07EBF /* big_red_shuttleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = big_red_shuttleTests.swift; sourceTree = "<group>"; };
 		44929BDC1DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		44929BE11DAEF4E300B07EBF /* big-red-shuttleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "big-red-shuttleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44929BE51DAEF4E300B07EBF /* big_red_shuttleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = big_red_shuttleUITests.swift; sourceTree = "<group>"; };
 		44929BE71DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		500FA3151DC164ED00F9CD59 /* EmergencyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyViewController.swift; sourceTree = "<group>"; };
-		5034219F1DB8239F00560DB6 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		505DC3931DD18CA800774077 /* CustomTimeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTimeCell.swift; sourceTree = "<group>"; };
-		505DC3951DD3F82A00774077 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		500FA3151DC164ED00F9CD59 /* EmergencyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EmergencyViewController.swift; path = Controllers/EmergencyViewController.swift; sourceTree = "<group>"; };
+		5034219F1DB8239F00560DB6 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Network.swift; path = Models/Network.swift; sourceTree = "<group>"; };
+		505DC3931DD18CA800774077 /* CustomTimeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTimeCell.swift; path = Cells/CustomTimeCell.swift; sourceTree = "<group>"; };
+		505DC3951DD3F82A00774077 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Models/Location.swift; sourceTree = "<group>"; };
+		505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIViewControllerExtensions.swift; path = Utilities/UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_big_red_shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverViewController.swift; sourceTree = "<group>"; };
-		95FD9A881DD8524800CF5D1F /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
-		95FD9A8A1DD853B600CF5D1F /* GPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPS.swift; sourceTree = "<group>"; };
+		95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DriverViewController.swift; path = Controllers/DriverViewController.swift; sourceTree = "<group>"; };
+		95FD9A881DD8524800CF5D1F /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = config.json; path = "Supporting Files/config.json"; sourceTree = "<group>"; };
+		95FD9A8A1DD853B600CF5D1F /* GPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GPS.swift; path = Models/GPS.swift; sourceTree = "<group>"; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
-		983ECB551DD8FBF100DD717B /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
-		D1981AAC1DE56EF0005AB9E7 /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
-		D1C9D0761DE2A55E009B9234 /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
-		D1C9D0771DE2A55E009B9234 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
-		D1C9D0781DE2A55E009B9234 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
-		D1C9D0811DE2A55E009B9234 /* SF-UI-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Medium.otf"; sourceTree = "<group>"; };
-		D1C9D0851DE2A55E009B9234 /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
-		D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyContact.swift; sourceTree = "<group>"; };
-		D1C9D0921DE2D725009B9234 /* AboutSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutSection.swift; sourceTree = "<group>"; };
-		D1C9D0941DE3DEB6009B9234 /* Polyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Polyline.swift; sourceTree = "<group>"; };
-		D1C9D0961DE3E031009B9234 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
-		DD184ECE1DC170A90098D5F7 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
-		DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Shared.swift"; sourceTree = "<group>"; };
-		DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
-		DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleBar.swift; sourceTree = "<group>"; };
-		DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
-		DDE8FD211DB40B01006EDB5C /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = Data/Stop.swift; sourceTree = "<group>"; };
+		983ECB551DD8FBF100DD717B /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IconView.swift; path = Views/IconView.swift; sourceTree = "<group>"; };
+		D1981AAC1DE56EF0005AB9E7 /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Bold.otf"; path = "Resources/SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
+		D1C9D0761DE2A55E009B9234 /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Medium.otf"; path = "Resources/SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
+		D1C9D0771DE2A55E009B9234 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Regular.otf"; path = "Resources/SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
+		D1C9D0781DE2A55E009B9234 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Semibold.otf"; path = "Resources/SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
+		D1C9D0811DE2A55E009B9234 /* SF-UI-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Text-Medium.otf"; path = "Resources/SF-UI-Text-Medium.otf"; sourceTree = "<group>"; };
+		D1C9D0851DE2A55E009B9234 /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Text-Semibold.otf"; path = "Resources/SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
+		D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EmergencyContact.swift; path = Models/EmergencyContact.swift; sourceTree = "<group>"; };
+		D1C9D0921DE2D725009B9234 /* AboutSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutSection.swift; path = Models/AboutSection.swift; sourceTree = "<group>"; };
+		D1C9D0941DE3DEB6009B9234 /* Polyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Polyline.swift; path = Models/Polyline.swift; sourceTree = "<group>"; };
+		D1C9D0961DE3E031009B9234 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Global.swift; path = Models/Global.swift; sourceTree = "<group>"; };
+		DD184ECE1DC170A90098D5F7 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Time.swift; path = Models/Time.swift; sourceTree = "<group>"; };
+		DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Shared.swift"; path = "Utilities/UIColor+Shared.swift"; sourceTree = "<group>"; };
+		DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScheduleTableViewCell.swift; path = Cells/ScheduleTableViewCell.swift; sourceTree = "<group>"; };
+		DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScheduleBar.swift; path = Views/ScheduleBar.swift; sourceTree = "<group>"; };
+		DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScheduleViewController.swift; path = Controllers/ScheduleViewController.swift; sourceTree = "<group>"; };
+		DDE8FD211DB40B01006EDB5C /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stop.swift; path = Models/Stop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,10 +138,10 @@
 		442D87151DC963070075BBCA /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				95FD9A881DD8524800CF5D1F /* config.json */,
-				442D87181DC992D30075BBCA /* StopSearchTableViewHeaderView.swift */,
-				442D871A1DC9A52F0075BBCA /* StopSearchTableViewCell.xib */,
+				505DC3931DD18CA800774077 /* CustomTimeCell.swift */,
+				DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */,
 				442D871C1DC9A71D0075BBCA /* StopSearchTableViewCell.swift */,
+				442D871A1DC9A52F0075BBCA /* StopSearchTableViewCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -171,32 +171,16 @@
 		44929BC41DAEF4E300B07EBF /* big-red-shuttle */ = {
 			isa = PBXGroup;
 			children = (
-				442D87151DC963070075BBCA /* Cells */,
-				DD184ECE1DC170A90098D5F7 /* Time.swift */,
-				D1C9D0921DE2D725009B9234 /* AboutSection.swift */,
-				D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */,
 				44929BC51DAEF4E300B07EBF /* AppDelegate.swift */,
-				DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */,
-				DDE8FD211DB40B01006EDB5C /* Stop.swift */,
-				D1C9D0941DE3DEB6009B9234 /* Polyline.swift */,
-				505DC3951DD3F82A00774077 /* Location.swift */,
-				D1C9D0961DE3E031009B9234 /* Global.swift */,
-				DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */,
-				983ECB551DD8FBF100DD717B /* IconView.swift */,
-				DD2907601DCA733F00E1C316 /* ScheduleTableViewCell.swift */,
-				DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */,
-				44929BC71DAEF4E300B07EBF /* StopsViewController.swift */,
-				441C6ADE1DD42EFD0008EBE1 /* AboutViewController.swift */,
-				505DC3931DD18CA800774077 /* CustomTimeCell.swift */,
-				500FA3151DC164ED00F9CD59 /* EmergencyViewController.swift */,
-				5034219F1DB8239F00560DB6 /* Network.swift */,
-				95FD9A8A1DD853B600CF5D1F /* GPS.swift */,
-				95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */,
-				505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */,
+				D1ECC6EC1DE622B10047E17D /* Models */,
+				D1ECC6EB1DE622A60047E17D /* Controllers */,
+				442D87151DC963070075BBCA /* Cells */,
+				D1ECC6ED1DE622D80047E17D /* Views */,
+				D1ECC6EE1DE622E20047E17D /* Utilities */,
 				D1C9D0711DE2A41F009B9234 /* Resources */,
+				D1ECC6EF1DE623500047E17D /* Supporting Files */,
 				44929BCC1DAEF4E300B07EBF /* Assets.xcassets */,
 				44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */,
-				44929BD11DAEF4E300B07EBF /* Info.plist */,
 			);
 			path = "big-red-shuttle";
 			sourceTree = "<group>";
@@ -247,6 +231,62 @@
 				D1C9D0851DE2A55E009B9234 /* SF-UI-Text-Semibold.otf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		D1ECC6EB1DE622A60047E17D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				441C6ADE1DD42EFD0008EBE1 /* AboutViewController.swift */,
+				95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */,
+				500FA3151DC164ED00F9CD59 /* EmergencyViewController.swift */,
+				DD7C33D21DC6722700281E0A /* ScheduleViewController.swift */,
+				44929BC71DAEF4E300B07EBF /* StopsViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		D1ECC6EC1DE622B10047E17D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D1C9D0921DE2D725009B9234 /* AboutSection.swift */,
+				D1C9D0901DE2C3E2009B9234 /* EmergencyContact.swift */,
+				D1C9D0961DE3E031009B9234 /* Global.swift */,
+				95FD9A8A1DD853B600CF5D1F /* GPS.swift */,
+				505DC3951DD3F82A00774077 /* Location.swift */,
+				5034219F1DB8239F00560DB6 /* Network.swift */,
+				D1C9D0941DE3DEB6009B9234 /* Polyline.swift */,
+				DDE8FD211DB40B01006EDB5C /* Stop.swift */,
+				DD184ECE1DC170A90098D5F7 /* Time.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		D1ECC6ED1DE622D80047E17D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				983ECB551DD8FBF100DD717B /* IconView.swift */,
+				DD428E771DCB7D9F0063BCE5 /* ScheduleBar.swift */,
+				442D87181DC992D30075BBCA /* StopSearchTableViewHeaderView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		D1ECC6EE1DE622E20047E17D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */,
+				505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		D1ECC6EF1DE623500047E17D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				95FD9A881DD8524800CF5D1F /* config.json */,
+				44929BD11DAEF4E300B07EBF /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,7 +361,7 @@
 				TargetAttributes = {
 					44929BC11DAEF4E300B07EBF = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = ZGMCXU7X3U;
+						DevelopmentTeam = S9S784A2B4;
 						ProvisioningStyle = Automatic;
 					};
 					44929BD51DAEF4E300B07EBF = {
@@ -625,8 +665,8 @@
 			baseConfigurationReference = 127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = ZGMCXU7X3U;
-				INFOPLIST_FILE = "big-red-shuttle/Info.plist";
+				DEVELOPMENT_TEAM = S9S784A2B4;
+				INFOPLIST_FILE = "$(SRCROOT)/big-red-shuttle/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";
@@ -641,8 +681,8 @@
 			baseConfigurationReference = 96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = ZGMCXU7X3U;
-				INFOPLIST_FILE = "big-red-shuttle/Info.plist";
+				DEVELOPMENT_TEAM = S9S784A2B4;
+				INFOPLIST_FILE = "$(SRCROOT)/big-red-shuttle/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cuappdev.big-red-shuttle";

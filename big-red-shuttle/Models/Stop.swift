@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 import GoogleMaps
 
 // Sunday = "Sunday", ... Saturday = "Saturday"
@@ -62,7 +63,7 @@ public class Stop: NSObject {
     public var days: [Days]
     public var times: [Time]
     
-    public init(name: String, lat: Float, long: Float, days: [Days], times: [Time]){
+    public init(name: String, lat: Float, long: Float, days: [Days], times: [Time]) {
         self.name = name
         self.lat = lat
         self.long = long
@@ -70,12 +71,19 @@ public class Stop: NSObject {
         self.times = times
     }
     
-    public func getLocation() -> (lat: Float,long: Float){
+    public func getLocation() -> (lat: Float,long: Float) {
         return (lat: lat, long: long)
     }
     
     public func getCoordinate() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2DMake(CLLocationDegrees(lat), CLLocationDegrees(long))
+    }
+    
+    public func allArrivalsToday() -> [String] {
+        let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
+        let currentDay =  Days.fromNumber(num: components.weekday!)!.rawValue
+
+        return times.filter { $0.description.range(of: currentDay) != nil }.map { time in time.shortDescription }
     }
     
     public func nextArrivalsToday() -> [String] {
