@@ -24,7 +24,8 @@ extension UINavigationController{
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
-
+    let tabBarController = UITabBarController()
+    
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -39,7 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         GMSServices.provideAPIKey(json["google-maps"].stringValue)
 
         //Set up tab bar & VCs
-        let tabBarController = UITabBarController()
         let navigationVC = StopsViewController() //fill in w/ actual VCs
         let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
         let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
@@ -109,6 +109,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    // MARK: - Force Touch Shortcut
+    
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        let handleShortcutItem = self.handleShortcutItem(shortcutItem)
+        completionHandler(handleShortcutItem)
+    }
+    
+    enum ShortcutIdentifier: String {
+        case Schedule
+        case Emergency
+        
+        init?(fullType: String) {
+            guard let last = fullType.components(separatedBy: ".").last else {return nil}
+            self.init(rawValue: last)
+        }
+        
+        var type: String {
+            return Bundle.main.bundleIdentifier! + ".\(self.rawValue)"
+        }
+    }
+    
+    @available(iOS 9.0, *)
+    func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
+        guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
+        guard let shortcutType = shortcutItem.type as String? else { return false }
+        
+        func handleShortCutForMenuIndex(_ index: Int) {
+            tabBarController.selectedViewController = tabBarController.viewControllers?[index]
+        }
+        
+        switch (shortcutType) {
+        case ShortcutIdentifier.Schedule.type:
+            handleShortCutForMenuIndex(1)
+        case ShortcutIdentifier.Emergency.type:
+            handleShortCutForMenuIndex(2)
+        default:
+            return false
+        }
+        return true
     }
 }
 
