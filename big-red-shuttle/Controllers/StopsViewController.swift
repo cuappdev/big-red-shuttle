@@ -28,6 +28,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // Popup view constants
     let topContainerHeight: CGFloat = 64
     let popupHeight: CGFloat = 106
+    let popupYOffset: CGFloat = 120
     let offset: CGFloat = 12
     let cellXOffset: CGFloat = 11
     let spaceSeparator: String = String(repeating: " ", count: 5)
@@ -292,7 +293,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
             let marker: GMSMarker = self.markers[self.selectedStop.name]!
             self.animateMarker(marker: marker, select: true)
-            self.popUpView.frame.origin.y = self.mapView.bounds.height - 120
+            self.popUpView.frame.origin.y = self.mapView.bounds.height - self.popupYOffset
         }, completion: { _ in
             let nextArrivalsToday = self.selectedStop.nextArrivalsToday()
             let nudgeCount = UserDefaults.standard.value(forKey: "nudgeCount") as! Int
