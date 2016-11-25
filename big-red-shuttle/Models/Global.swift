@@ -18,6 +18,7 @@ struct Constants {
 // Get BRS stops with name, location, dates, and times
 public func getStops() ->  [Stop] {
     let stopJsonURLString = "\(Constants.brsStackBaseURL)brs-stops.json"
+    
     var stops = [Stop]()
     
     if let url = URL(string: stopJsonURLString) {
@@ -97,7 +98,7 @@ public func getDayOfWeek(today: Date) -> Int {
     return Calendar(identifier: .gregorian).component(.weekday, from: today)
 }
 
-// Creates time from JSON string, where time string must have format H:mm a
+// Create time from JSON string, where time string must have format H:mm a
 public func getTime(time: String) -> (Int, Int) {
     var hourArr = time.components(separatedBy: ":") // ["h","mm a"]
     let minArr = hourArr[1].components(separatedBy: " ") // ["mm","a"]
@@ -108,13 +109,38 @@ public func getTime(time: String) -> (Int, Int) {
     
     var hour = 0
     let aa = timeArr[2].lowercased()
-    if aa=="am" && hour12 == 12 { // 12:xx am = 0:xx
+    if aa == "am" && hour12 == 12 { // 12:xx am = 0:xx
         hour = 0
-    } else if aa=="pm" && hour12 != 12 { // 12:xx pm = 12:xx
+    } else if aa == "pm" && hour12 != 12 { // 12:xx pm = 12:xx
         hour = hour12 + 12 // h:xx pm = (h+12):xx
     } else {
         hour = hour12
     }
     
     return (hour, minute)
+}
+
+// Get minutes from now until given time (HH:mm a)
+public func getMinutesUntilTime(time: String) -> Int {
+    let todayString = DateFormatter.dateTimeFormatter.string(from: Date())
+    let currDate = DateFormatter.dateTimeFormatter.date(from: todayString)
+    
+    let todayDateString = DateFormatter.yearMonthDayFormatter.string(from: Date())
+    let timeString = "\(todayDateString) \(time)"
+    let toDate = DateFormatter.dateTimeFormatter.date(from: timeString)
+    
+    if let currDate = currDate, var toDate = toDate {
+        if currDate > toDate {
+            toDate = Calendar.current.date(byAdding: .day, value: 1, to: toDate)!
+        }
+        
+        return minutes(from: currDate, to: toDate)
+    } else {
+        return -1
+    }
+}
+
+// Return the number of minutes from one date to another date
+public func minutes(from date1: Date, to date2: Date) -> Int {
+    return Calendar.current.dateComponents([.minute], from: date1, to: date2).minute ?? 0
 }

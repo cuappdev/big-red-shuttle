@@ -109,7 +109,7 @@ public class Stop: NSObject {
                 return currentTime.sameDay(asTime: time) ? time.shortDescription : time.description
             }
         }
-        return times.first?.description ?? "––"
+        return times.first?.description ?? "--"
     }
 }
 

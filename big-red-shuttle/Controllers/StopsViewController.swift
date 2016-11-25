@@ -24,6 +24,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     let kStopZoom: Float = 16
     let polyline = Polyline()
     let maxWayPoints = 6
+    let minsThreshold: Int = 20
     
     // Popup view constants
     let topContainerHeight: CGFloat = 64
@@ -437,18 +438,43 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 marker.userData = stop
                 marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
                 
-                let iconView = marker.iconView as! IconView
-                let fullString = stop.nextArrival()
-                let needles: [Character] = ["a", "p"]
-                
-                for needle in needles {
-                    if let index = fullString.characters.index(of: needle) {
-                        iconView.timeLabel.text = fullString.substring(to: index)
-                    }
-                }
+                updateStopTimeLabel(marker: marker, selected: false)
                 
                 marker.map = mapView
                 markers[stop.name] = marker
+            }
+        }
+    }
+    
+    func updateIconView(marker: GMSMarker) {
+        let stop = marker.userData as! Stop
+//        let iconView = marker.iconView as! IconView
+//        let nextArrivalsToday = stop.nextArrivalsToday()
+        
+        marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
+    }
+    
+    func updateStopTimeLabel(marker: GMSMarker, selected: Bool) {
+        let stop = marker.userData as! Stop
+        let iconView = marker.iconView as! IconView
+        
+        // Show next arrival time in HH:mm format
+        let nextArrivalString = stop.nextArrival()
+        let needles: [Character] = ["a", "p"]
+        
+        for needle in needles {
+            if let index = nextArrivalString.characters.index(of: needle) {
+                let timeString = nextArrivalString.substring(to: index)
+                iconView.timeLabel.text = timeString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            }
+        }
+        
+        if selected {
+            // If minutes until next arrival < minsThreshold, show minutes until next arrival
+            let remainingMins = getMinutesUntilTime(time: nextArrivalString)
+            
+            if remainingMins != -1 && remainingMins <= minsThreshold {
+                iconView.timeLabel.text = "\(remainingMins) min"
             }
         }
     }
@@ -459,7 +485,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if let _ = selectedStop {
             dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
-        } else { // no selected stop
+        } else {
             displayPopUpView(stop: newStop)
         }
     }
@@ -472,6 +498,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let yOffset: CGFloat = iconView is IconViewBig ? -4 : -2
             
             iconView.circleView.transform = select ? CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: 0, y: yOffset) : .identity
+            self.updateStopTimeLabel(marker: marker, selected: select)
             
             CATransaction.begin()
             CATransaction.setDisableActions(true)
