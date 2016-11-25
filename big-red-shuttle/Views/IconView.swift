@@ -13,7 +13,7 @@ class IconView: UIView {
     var timeLabel: UILabel!
     var circleView: UIView!
     var smallGrayCircle: CAShapeLayer!
-    var clicked: Bool?
+    var clicked: Bool!
     
     var circleViewDiameter: CGFloat!
     var innerCircleRadiusOffset: CGFloat!
