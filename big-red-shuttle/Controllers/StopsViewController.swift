@@ -383,7 +383,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func createPopUpView() -> UICollectionView {
         let popupWidth: CGFloat = view.frame.width - 2*kEdgePadding
         
-        popUpView.frame = CGRect(x: kEdgePadding, y: mapView.bounds.height, width: popupWidth, height: popupHeight)
+        popUpView.frame = CGRect(x: kEdgePadding, y: view.frame.height, width: popupWidth, height: popupHeight)
         popUpView.backgroundColor = .white
         popUpView.layer.cornerRadius = 2
         popUpView.layer.shadowColor = UIColor.bordergray.cgColor
@@ -460,7 +460,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
             let marker: GMSMarker = self.markers[self.selectedStop.name]!
             self.animateMarker(marker: marker, select: true)
-            self.popUpView.frame.origin.y = self.mapView.bounds.height - self.popupYOffset
+            self.popUpView.frame.origin.y = self.view.frame.height - self.popupYOffset
         }, completion: { _ in
             let nextArrivalsToday = self.selectedStop.nextArrivalsToday()
             let nudgeCount = UserDefaults.standard.value(forKey: "nudgeCount") as! Int
@@ -502,18 +502,18 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // Dismiss popup if user swipes down low enough on popup view 
     func didPanPopupView(sender: UIPanGestureRecognizer) {
         let deltaY = sender.translation(in: view).y
-        let newY = max(mapView.bounds.height - popupYOffset, popUpView.frame.minY + deltaY)
+        let newY = max(view.frame.height - popupYOffset, popUpView.frame.minY + deltaY)
         popUpView.frame = CGRect(origin: CGPoint(x: kEdgePadding, y: newY), size: popUpView.frame.size)
         sender.setTranslation(.zero, in: view)
         
         if sender.state == .ended {
-            let lowEnoughToDismiss = popUpView.frame.minY > mapView.bounds.height - 0.6*popupYOffset
+            let lowEnoughToDismiss = popUpView.frame.minY > view.frame.height - 0.6*popupYOffset
             if lowEnoughToDismiss {
                 if let stop = selectedStop {
                     dismissPopUpView(newPopupStop: stop, fullyDismissed: true, completionHandler: { _ in })
                 }
             } else {
-                let newFrame = CGRect(x: kEdgePadding, y: mapView.bounds.height - popupYOffset, width: popUpView.frame.width, height: popUpView.frame.height)
+                let newFrame = CGRect(x: kEdgePadding, y: view.frame.height - popupYOffset, width: popUpView.frame.width, height: popUpView.frame.height)
                 UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
                     self.popUpView.frame = newFrame
                 })
