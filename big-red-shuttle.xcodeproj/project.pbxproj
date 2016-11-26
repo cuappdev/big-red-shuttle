@@ -28,6 +28,7 @@
 		95FD9A8B1DD853B600CF5D1F /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FD9A8A1DD853B600CF5D1F /* GPS.swift */; };
 		983ECB561DD8FBF100DD717B /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983ECB551DD8FBF100DD717B /* IconView.swift */; };
 		D1981AAD1DE56F1D005AB9E7 /* SF-UI-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1981AAC1DE56EF0005AB9E7 /* SF-UI-Display-Bold.otf */; };
+		D1AB03781DE77EFF00EB0036 /* DateFormatter+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB03771DE77EFF00EB0036 /* DateFormatter+Shared.swift */; };
 		D1C9D0891DE2A674009B9234 /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0851DE2A55E009B9234 /* SF-UI-Text-Semibold.otf */; };
 		D1C9D08A1DE2A67F009B9234 /* SF-UI-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0781DE2A55E009B9234 /* SF-UI-Display-Semibold.otf */; };
 		D1C9D08B1DE2A689009B9234 /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0771DE2A55E009B9234 /* SF-UI-Display-Regular.otf */; };
@@ -92,6 +93,7 @@
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		983ECB551DD8FBF100DD717B /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IconView.swift; path = Views/IconView.swift; sourceTree = "<group>"; };
 		D1981AAC1DE56EF0005AB9E7 /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Bold.otf"; path = "Resources/SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
+		D1AB03771DE77EFF00EB0036 /* DateFormatter+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DateFormatter+Shared.swift"; path = "Utilities/DateFormatter+Shared.swift"; sourceTree = "<group>"; };
 		D1C9D0761DE2A55E009B9234 /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Medium.otf"; path = "Resources/SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
 		D1C9D0771DE2A55E009B9234 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Regular.otf"; path = "Resources/SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
 		D1C9D0781DE2A55E009B9234 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Semibold.otf"; path = "Resources/SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			children = (
 				DD1F26931DD3EE09005358ED /* UIColor+Shared.swift */,
 				505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */,
+				D1AB03771DE77EFF00EB0036 /* DateFormatter+Shared.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1C9D0911DE2C3E2009B9234 /* EmergencyContact.swift in Sources */,
+				D1AB03781DE77EFF00EB0036 /* DateFormatter+Shared.swift in Sources */,
 				505DC3981DD3F85500774077 /* UIViewControllerExtensions.swift in Sources */,
 				DD184ED01DC170A90098D5F7 /* Time.swift in Sources */,
 				442D87191DC992D30075BBCA /* StopSearchTableViewHeaderView.swift in Sources */,
