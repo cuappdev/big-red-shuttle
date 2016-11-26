@@ -23,7 +23,6 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     let kSearchTableClosedHeight: CGFloat = 42
     let kStopZoom: Float = 16
     let polyline = Polyline()
-    let maxWayPoints = 6
     let minsThreshold: Int = 20
     
     // Popup view constants
@@ -87,6 +86,170 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 //                }, failure: nil)
 //            }
 //        }
+        
+        // Not most elegant solution, should figure out a better way to check when time changes by a minute
+        Timer.scheduledTimer(timeInterval: 5,
+                             target: self,
+                             selector: #selector(self.updateLocationPins),
+                             userInfo: nil,
+                             repeats: true)
+    }
+    
+    // MARK: Map and Route Drawing Methods
+    
+    func drawPath() {
+        let path = GMSMutablePath(fromEncodedPath: polyline.overviewPolyline)
+        let routePolyline = GMSPolyline(path: path)
+        
+        routePolyline.strokeColor = .brsred
+        routePolyline.strokeWidth = 4.0
+        routePolyline.map = mapView
+    }
+    
+    func drawBusRoute() {
+        let stops = getStops()
+ 
+        if stops.count > 1 {
+            let stopsA = Array(stops[1...stops.count - 1])
+            
+            polyline.getPolyline(waypoints: stopsA, origin: stops.first!, end: stops.last!)
+            drawPath()
+            
+            polyline.getPolyline(waypoints: [], origin: stops.last!, end: stops.first!)
+            drawPath()
+        }
+    }
+    
+    func setLocations(locations: [CLLocationCoordinate2D]) {
+        let (north, south, east, west) =
+            locations.reduce((0, 50, -80, 0), { prevResult, nextLocation in
+                return (max(nextLocation.latitude, prevResult.0),
+                        min(nextLocation.latitude, prevResult.1),
+                        max(nextLocation.longitude, prevResult.2),
+                        min(nextLocation.longitude, prevResult.3))
+            })
+        let startBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
+                                              coordinate: CLLocationCoordinate2DMake(south, west))
+        panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north + kMaxBoundPadding, east + kMaxBoundPadding), coordinate: CLLocationCoordinate2DMake(south - kMaxBoundPadding, west - kMaxBoundPadding))
+        let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
+        mapView.moveCamera(cameraUpdate)
+        mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
+        drawLocationPins()
+    }
+    
+    func drawLocationPins() {
+        for stop in stops {
+            if markers[stop.name] == nil {
+                let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
+                let marker = GMSMarker(position: location)
+                marker.userData = stop
+                marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
+                
+                updateStopTimeLabel(marker: marker, selected: false)
+                
+                marker.map = mapView
+                markers[stop.name] = marker
+            }
+        }
+    }
+    
+    // Update location pins every minute
+    func updateLocationPins() {
+        for (_, marker) in markers {
+            updateIconView(marker: marker)
+        }
+    }
+    
+    // Update the icon view when necessary
+    func updateIconView(marker: GMSMarker) {
+        let stop = marker.userData as! Stop
+        var iconView = marker.iconView as! IconView
+        
+        if stop.nextArrivalsToday().count > 0 {
+            if iconView is IconViewSmall {
+                changeIconView(marker: marker)
+            }
+        } else {
+            if iconView is IconViewBig {
+                changeIconView(marker: marker)
+            }
+        }
+        
+        iconView = marker.iconView as! IconView
+        updateStopTimeLabel(marker: marker, selected: iconView.clicked)
+    }
+    
+    // Change small icon view to big and vice versa when necessary
+    func changeIconView(marker: GMSMarker) {
+        let stop = marker.userData as! Stop
+        let iconView = marker.iconView as! IconView
+        let newIconView = (iconView is IconViewSmall) ? IconViewBig() : IconViewSmall()
+        
+        if iconView.clicked! {
+            dismissPopUpView(newPopupStop: stop, fullyDismissed: true, completionHandler: { finished in
+                if finished {
+                    marker.iconView = newIconView
+                }
+            })
+        } else {
+            marker.iconView = newIconView
+        }
+    }
+    
+    // Update the time label on the marker
+    func updateStopTimeLabel(marker: GMSMarker, selected: Bool) {
+        let stop = marker.userData as! Stop
+        let iconView = marker.iconView as! IconView
+        
+        // Show next arrival time in HH:mm format
+        let nextArrivalString = stop.nextArrival()
+        let needles: [Character] = ["a", "p"]
+        
+        for needle in needles {
+            if let index = nextArrivalString.characters.index(of: needle) {
+                let timeString = nextArrivalString.substring(to: index)
+                iconView.timeLabel.text = timeString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            }
+        }
+        
+        if selected {
+            // If minutes until next arrival < minsThreshold, show minutes until next arrival
+            let remainingMins = getMinutesUntilTime(time: nextArrivalString)
+            
+            if remainingMins != -1 && remainingMins <= minsThreshold {
+                iconView.timeLabel.text = "\(remainingMins) min"
+            }
+        }
+    }
+    
+    func didSelectStop(stop: Stop) {
+        let marker: GMSMarker = markers[stop.name]!
+        let newStop = marker.userData as! Stop
+        
+        if let _ = selectedStop {
+            dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop, completionHandler: { _ in })
+        } else {
+            displayPopUpView(stop: newStop)
+        }
+    }
+    
+    func animateMarker(marker: GMSMarker, select: Bool) {
+        let iconView = marker.iconView as! IconView
+        
+        UIButton.animate(withDuration: 0.1, animations: {
+            let scale: CGFloat = iconView is IconViewBig ? 1.2 : 1.1
+            let yOffset: CGFloat = iconView is IconViewBig ? -4 : -2
+            
+            iconView.circleView.transform = select ? CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: 0, y: yOffset) : .identity
+            self.updateStopTimeLabel(marker: marker, selected: select)
+            
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            
+            iconView.setClicked(clicked: select)
+            
+            CATransaction.commit()
+        })
     }
     
     // MARK: About Button Methods
@@ -202,7 +365,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             searchTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             
             if let stop = selectedStop {
-                dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
+                dismissPopUpView(newPopupStop: stop, fullyDismissed: true, completionHandler: { _ in })
             }
         }
         
@@ -314,12 +477,12 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     // Dismiss the current pop up view
-    func dismissPopUpView(newPopupStop: Stop, fullyDismissed: Bool) {
+    func dismissPopUpView(newPopupStop: Stop, fullyDismissed: Bool, completionHandler: @escaping (Bool) -> ()) {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
             let marker: GMSMarker = self.markers[self.selectedStop.name]!
             self.animateMarker(marker: marker, select: false)
             self.popUpView.frame = CGRect(x: self.offset, y: self.view.bounds.height , width: self.view.bounds.width - 2*self.offset, height: self.popupHeight)
-        }, completion: { _ in
+        }, completion: { finished in
             self.popUpView.subviews.forEach({$0.removeFromSuperview()})
             self.popUpView.removeFromSuperview()
 
@@ -328,6 +491,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             } else {
                 self.displayPopUpView(stop: newPopupStop)
             }
+            
+            completionHandler(finished)
         })
     }
     
@@ -390,124 +555,6 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         return (nextArrivalsToday.count > 0) ? CGSize(width: timesStringSize.width + 2*cellXOffset, height: collectionView.bounds.height) : collectionView.bounds.size
     }
-
-    // MARK: Map and Route Drawing Methods
-    
-    func drawPath() {
-        let path = GMSMutablePath(fromEncodedPath: polyline.overviewPolyline)
-        let routePolyline = GMSPolyline(path: path)
-        
-        routePolyline.strokeColor = .brsred
-        routePolyline.strokeWidth = 4.0
-        routePolyline.map = mapView
-    }
-    
-    func drawBusRoute() {
-        let stops = getStops()
-        let stopsA = Array(stops[1...maxWayPoints])
-        
-        polyline.getPolyline(waypoints: stopsA, origin: stops.first!, end: stops.last!)
-        drawPath()
-        
-        polyline.getPolyline(waypoints: [], origin: stops.last!, end: stops.first!)
-        drawPath()
-    }
-    
-    func setLocations(locations: [CLLocationCoordinate2D]) {
-        let (north, south, east, west) =
-            locations.reduce((0, 50, -80, 0), { prevResult, nextLocation in
-                return (max(nextLocation.latitude, prevResult.0),
-                        min(nextLocation.latitude, prevResult.1),
-                        max(nextLocation.longitude, prevResult.2),
-                        min(nextLocation.longitude, prevResult.3))
-            })
-        let startBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
-                                              coordinate: CLLocationCoordinate2DMake(south, west))
-        panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north + kMaxBoundPadding, east + kMaxBoundPadding), coordinate: CLLocationCoordinate2DMake(south - kMaxBoundPadding, west - kMaxBoundPadding))
-        let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
-        mapView.moveCamera(cameraUpdate)
-        mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
-        drawLocationPins()
-    }
-    
-    func drawLocationPins() {
-        for stop in stops {
-            if markers[stop.name] == nil {
-                let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
-                let marker = GMSMarker(position: location)
-                marker.userData = stop
-                marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
-                
-                updateStopTimeLabel(marker: marker, selected: false)
-                
-                marker.map = mapView
-                markers[stop.name] = marker
-            }
-        }
-    }
-    
-    func updateIconView(marker: GMSMarker) {
-        let stop = marker.userData as! Stop
-//        let iconView = marker.iconView as! IconView
-//        let nextArrivalsToday = stop.nextArrivalsToday()
-        
-        marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
-    }
-    
-    func updateStopTimeLabel(marker: GMSMarker, selected: Bool) {
-        let stop = marker.userData as! Stop
-        let iconView = marker.iconView as! IconView
-        
-        // Show next arrival time in HH:mm format
-        let nextArrivalString = stop.nextArrival()
-        let needles: [Character] = ["a", "p"]
-        
-        for needle in needles {
-            if let index = nextArrivalString.characters.index(of: needle) {
-                let timeString = nextArrivalString.substring(to: index)
-                iconView.timeLabel.text = timeString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            }
-        }
-        
-        if selected {
-            // If minutes until next arrival < minsThreshold, show minutes until next arrival
-            let remainingMins = getMinutesUntilTime(time: nextArrivalString)
-            
-            if remainingMins != -1 && remainingMins <= minsThreshold {
-                iconView.timeLabel.text = "\(remainingMins) min"
-            }
-        }
-    }
-    
-    func didSelectStop(stop: Stop) {
-        let marker: GMSMarker = markers[stop.name]!
-        let newStop = marker.userData as! Stop
-        
-        if let _ = selectedStop {
-            dismissPopUpView(newPopupStop: newStop, fullyDismissed: selectedStop == newStop)
-        } else {
-            displayPopUpView(stop: newStop)
-        }
-    }
-    
-    func animateMarker(marker: GMSMarker, select: Bool) {
-        let iconView = marker.iconView as! IconView
-        
-        UIButton.animate(withDuration: 0.1, animations: {
-            let scale: CGFloat = iconView is IconViewBig ? 1.2 : 1.1
-            let yOffset: CGFloat = iconView is IconViewBig ? -4 : -2
-            
-            iconView.circleView.transform = select ? CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: 0, y: yOffset) : .identity
-            self.updateStopTimeLabel(marker: marker, selected: select)
-            
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-            
-            iconView.setClicked(clicked: select)
-
-            CATransaction.commit()
-        })
-    }
     
     // MARK: GMSMapViewDelegate Methods
     
@@ -523,7 +570,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         if let stop = selectedStop {
-            dismissPopUpView(newPopupStop: stop, fullyDismissed: true)
+            dismissPopUpView(newPopupStop: stop, fullyDismissed: true, completionHandler: { _ in })
         }
     }
     

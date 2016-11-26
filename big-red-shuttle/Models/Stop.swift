@@ -90,14 +90,8 @@ public class Stop: NSObject {
         let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
         guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return [] }
         let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
-        let technicallyPreviousDay = currentHour > 3
-        if technicallyPreviousDay {
-            return times.filter { time in currentTime.isEarlier(than: time) && currentTime.dayBefore(time: time) }
-                .map { time in time.shortDescription }
-        } else {
-            return times.filter { time in currentTime.isEarlier(than: time) && currentTime.sameDay(asTime: time) }
-                .map { time in time.shortDescription }
-        }
+        
+        return times.filter { time in currentTime.sameDay(asTime: time) && currentTime.isEarlier(than: time) }.map { time in time.shortDescription }
     }
     
     public func nextArrival() -> String {
