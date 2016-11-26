@@ -45,21 +45,21 @@ public class Time: NSObject {
     }
     
     public func isEarlier(than time: Time) -> Bool {
-        if self.day < time.day || self.day == 7 && time.day == 1  {
+        if day < time.day || day == 7 && time.day == 1 {
             return true
-        } else if self.day > time.day {
+        } else if day > time.day {
             return false
-        } else if self.hour > time.hour{
+        } else if hour > time.hour {
             return false
-        } else if self.hour < time.hour {
+        } else if hour < time.hour {
             return true
         } else{
-            return self.minute <= time.minute
+            return minute <= time.minute
         }
     }
     
     public func sameDay(asTime time: Time) -> Bool {
-        return time.day == day
+        return day == time.day
     }
     
     public func dayBefore(time: Time) -> Bool {
