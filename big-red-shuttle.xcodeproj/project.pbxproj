@@ -27,6 +27,9 @@
 		95FD9A891DD8524800CF5D1F /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 95FD9A881DD8524800CF5D1F /* config.json */; };
 		95FD9A8B1DD853B600CF5D1F /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FD9A8A1DD853B600CF5D1F /* GPS.swift */; };
 		983ECB561DD8FBF100DD717B /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983ECB551DD8FBF100DD717B /* IconView.swift */; };
+		D16B93881DE9507800EE3514 /* brs-about-sections.json in Resources */ = {isa = PBXBuildFile; fileRef = D16B93871DE9507800EE3514 /* brs-about-sections.json */; };
+		D16B938A1DE950A700EE3514 /* brs-emergency-contacts.json in Resources */ = {isa = PBXBuildFile; fileRef = D16B93891DE950A700EE3514 /* brs-emergency-contacts.json */; };
+		D16B938C1DE950C200EE3514 /* brs-stops.json in Resources */ = {isa = PBXBuildFile; fileRef = D16B938B1DE950C200EE3514 /* brs-stops.json */; };
 		D1981AAD1DE56F1D005AB9E7 /* SF-UI-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1981AAC1DE56EF0005AB9E7 /* SF-UI-Display-Bold.otf */; };
 		D1AB03781DE77EFF00EB0036 /* DateFormatter+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AB03771DE77EFF00EB0036 /* DateFormatter+Shared.swift */; };
 		D1C9D0891DE2A674009B9234 /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1C9D0851DE2A55E009B9234 /* SF-UI-Text-Semibold.otf */; };
@@ -92,6 +95,9 @@
 		95FD9A8A1DD853B600CF5D1F /* GPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GPS.swift; path = Models/GPS.swift; sourceTree = "<group>"; };
 		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		983ECB551DD8FBF100DD717B /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IconView.swift; path = Views/IconView.swift; sourceTree = "<group>"; };
+		D16B93871DE9507800EE3514 /* brs-about-sections.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "brs-about-sections.json"; path = "Data/brs-about-sections.json"; sourceTree = "<group>"; };
+		D16B93891DE950A700EE3514 /* brs-emergency-contacts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "brs-emergency-contacts.json"; path = "Data/brs-emergency-contacts.json"; sourceTree = "<group>"; };
+		D16B938B1DE950C200EE3514 /* brs-stops.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "brs-stops.json"; path = "Data/brs-stops.json"; sourceTree = "<group>"; };
 		D1981AAC1DE56EF0005AB9E7 /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Bold.otf"; path = "Resources/SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
 		D1AB03771DE77EFF00EB0036 /* DateFormatter+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DateFormatter+Shared.swift"; path = "Utilities/DateFormatter+Shared.swift"; sourceTree = "<group>"; };
 		D1C9D0761DE2A55E009B9234 /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Medium.otf"; path = "Resources/SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
@@ -174,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				44929BC51DAEF4E300B07EBF /* AppDelegate.swift */,
+				D16B93861DE9505800EE3514 /* Data */,
 				D1ECC6EC1DE622B10047E17D /* Models */,
 				D1ECC6EB1DE622A60047E17D /* Controllers */,
 				442D87151DC963070075BBCA /* Cells */,
@@ -220,6 +227,16 @@
 				86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D16B93861DE9505800EE3514 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				D16B93871DE9507800EE3514 /* brs-about-sections.json */,
+				D16B93891DE950A700EE3514 /* brs-emergency-contacts.json */,
+				D16B938B1DE950C200EE3514 /* brs-stops.json */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		D1C9D0711DE2A41F009B9234 /* Resources */ = {
@@ -405,6 +422,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1981AAD1DE56F1D005AB9E7 /* SF-UI-Display-Bold.otf in Resources */,
+				D16B938C1DE950C200EE3514 /* brs-stops.json in Resources */,
+				D16B93881DE9507800EE3514 /* brs-about-sections.json in Resources */,
+				D16B938A1DE950A700EE3514 /* brs-emergency-contacts.json in Resources */,
 				D1C9D08D1DE2A6A5009B9234 /* SF-UI-Text-Medium.otf in Resources */,
 				D1C9D08C1DE2A694009B9234 /* SF-UI-Display-Medium.otf in Resources */,
 				D1C9D08B1DE2A689009B9234 /* SF-UI-Display-Regular.otf in Resources */,

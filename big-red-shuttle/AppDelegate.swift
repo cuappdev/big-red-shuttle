@@ -12,8 +12,9 @@ import SwiftyJSON
 
 enum FileReadingError : Error { case fileNotFound }
 
-extension UINavigationController{
+var appEnteredForeground: Bool = true
 
+extension UINavigationController{
     override open func viewDidLoad() {
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.brsblack, NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium" , size: 18.0)!]
         navigationBar.barTintColor = .brslightgrey
@@ -30,17 +31,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        // Styling
+        UIApplication.shared.statusBarStyle = .lightContent
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.navtitleblack,
+                                                            NSFontAttributeName: UIFont(name: "SFUIText-Semibold", size: 16)!]
         
+        // Set nudge count for stop popup view
         if UserDefaults.standard.value(forKey: "nudgeCount") as? Int == nil {
             UserDefaults.standard.setValue(0, forKey: "nudgeCount")
         }
         UserDefaults.standard.setValue(true, forKey: "didFireNudge")
         
+        // Set up Google Maps Services
         let json = try! JSON(data: Data(contentsOf: Bundle.main.url(forResource: "config", withExtension: "json")!))
         GMSServices.provideAPIKey(json["google-maps"].stringValue)
 
-        //Set up tab bar & VCs
-        let navigationVC = StopsViewController() //fill in w/ actual VCs
+        // Set up tab bar & VCs
+        let navigationVC = StopsViewController()
         let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
         let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
         
@@ -67,13 +74,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         window!.makeKeyAndVisible()
         window?.rootViewController = tabBarController
         
+        displayNoInternetAlert(vc: (window?.rootViewController)!)
+        
         //Kickstart location services
 //        _ = Location.shared
-        
-        //Styling
-        UIApplication.shared.statusBarStyle = .lightContent
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.navtitleblack,
-                                                            NSFontAttributeName: UIFont(name: "SFUIText-Semibold", size: 16)!]
 
         return true
     }
@@ -101,6 +105,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        
+        displayNoInternetAlert(vc: (window?.rootViewController)!)
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
