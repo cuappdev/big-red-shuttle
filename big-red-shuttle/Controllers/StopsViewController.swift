@@ -445,6 +445,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         popUpView.addSubview(collectionView)
         view.addSubview(popUpView)
         
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.didPanPopupView(sender:)))
+        popUpView.addGestureRecognizer(panGestureRecognizer)
+
         return collectionView
     }
     
@@ -494,6 +497,28 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
             completionHandler(finished)
         })
+    }
+    
+    // Dismiss popup if user swipes down low enough on popup view 
+    func didPanPopupView(sender: UIPanGestureRecognizer) {
+        let deltaY = sender.translation(in: view).y
+        let newY = max(mapView.bounds.height - popupYOffset, popUpView.frame.minY + deltaY)
+        popUpView.frame = CGRect(origin: CGPoint(x: kEdgePadding, y: newY), size: popUpView.frame.size)
+        sender.setTranslation(.zero, in: view)
+        
+        if sender.state == .ended {
+            let lowEnoughToDismiss = popUpView.frame.minY > mapView.bounds.height - 0.6*popupYOffset
+            if lowEnoughToDismiss {
+                if let stop = selectedStop {
+                    dismissPopUpView(newPopupStop: stop, fullyDismissed: true, completionHandler: { _ in })
+                }
+            } else {
+                let newFrame = CGRect(x: kEdgePadding, y: mapView.bounds.height - popupYOffset, width: popUpView.frame.width, height: popUpView.frame.height)
+                UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+                    self.popUpView.frame = newFrame
+                })
+            }
+        }
     }
     
     // Redirect user to Apple Maps or Google Maps
