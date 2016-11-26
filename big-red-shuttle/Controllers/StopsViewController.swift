@@ -276,7 +276,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         aboutButton.setTitleColor(.brsgrey, for: .normal)
         aboutButton.setTitle("About", for: .normal)
         aboutButton.titleLabel?.font = UIFont(name: "SFUIDisplay-Regular", size: 12.0)!
-        aboutButton.setImage(#imageLiteral(resourceName: "about-icon"), for: .normal)
+        aboutButton.setImage(#imageLiteral(resourceName: "AboutIcon"), for: .normal)
         aboutButton.titleEdgeInsets.right = -6
         aboutButton.imageEdgeInsets.left = -8
         
@@ -626,7 +626,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 //            }
 //        } else {
 //            shuttleBusMarker = GMSMarker(position: coordinate.asCLLocationCoordinate2D())
-//            shuttleBusMarker?.icon = #imageLiteral(resourceName: "shuttle_icon")
+//            shuttleBusMarker?.icon = ShuttleIcon
 //            shuttleBusMarker?.map = mapView
 //        }
 //    }

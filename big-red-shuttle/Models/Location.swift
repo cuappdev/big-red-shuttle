@@ -34,7 +34,7 @@ class Location: NSObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         
-        // Ask for Authorization from the User.
+        // Ask for Authorization from the User
         locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {

@@ -24,7 +24,7 @@ class API {
     static let shared = API()
     let baseURLString = "https://big-red-shuttle.herokuapp.com"
     
-    /// registers a user to log location using an authentication key
+    // Register a user to log location using an authentication key
     func registerUserToLogLocation(key: String, success: ((JSON?) -> ())?, failure: ((JSON?) -> ())?) {
         
         guard let uid = system().uid() else {
@@ -38,7 +38,7 @@ class API {
         request(endpoint: "/register", parameters: parameters, method: .post, encoding: JSONEncoding.default, success: success, failure: failure)
     }
     
-    /// logs the location of the shuttle
+    // Log the location of the shuttle
     func logLocation(success: ((JSON?) -> ())?, failure: ((JSON?) -> ())?) {
         
         guard let uid = system().uid() else {
@@ -58,7 +58,7 @@ class API {
         request(endpoint: "/log", parameters: parameters, method: .post, encoding: JSONEncoding.default, success: success, failure: failure)
     }
     
-    /// fetches the last logged location of the shuttle
+    // Fetch the last logged location of the shuttle
     func getLocation(success: ((JSON?) -> ())?, failure: ((JSON?) -> ())?) {
         
         guard let uid = system().uid() else {
@@ -78,11 +78,7 @@ class API {
             if let latitude = response["latitude"].double,
             let longitude = response["longitude"].double,
             let date = response["date"].string {
-                
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
-                
-                if let timestamp = dateFormatter.date(from: date) {
+                if let timestamp = DateFormatter.longDateTimeFormatter.date(from: date) {
                     let coordinate = Coordinate(latitude: latitude, longitude: longitude, timestamp: timestamp)
                     GPS.shared.currentBusLocation = coordinate
                 }

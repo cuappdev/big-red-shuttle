@@ -120,4 +120,5 @@ class ScheduleBar: UIScrollView {
     func scrollToButton(button: UIButton) {
         select(button: button, animation: true)
     }
+    
 }

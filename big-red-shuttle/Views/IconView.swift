@@ -143,9 +143,11 @@ class IconView: UIView {
         
         return shapeLayer
     }
+    
 }
 
 class IconViewBig: IconView {
+    
     init() {
         super.init(circleViewDiameter: 44, innerCircleRadiusOffset: 3.0, maxScale: 1.2, yOffset: 5.0, yGroundOffset: 0, triangleWidthScale: 0.22, fontSize: 11)
     }
@@ -153,9 +155,11 @@ class IconViewBig: IconView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
 }
 
 class IconViewSmall: IconView {
+    
     init() {
         super.init(circleViewDiameter: 26, innerCircleRadiusOffset: 2.0, maxScale: 1.1, yOffset: 2.0, yGroundOffset: 1.0, triangleWidthScale: 0.14, fontSize: 0)
         timeLabel.isHidden = true
@@ -184,4 +188,5 @@ class IconViewSmall: IconView {
         
         return shapeLayer
     }
+    
 }

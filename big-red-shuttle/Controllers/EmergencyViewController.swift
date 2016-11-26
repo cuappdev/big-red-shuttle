@@ -151,4 +151,5 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         present(alertController, animated: true, completion: nil)
         tableView.deselectRow(at: indexPath, animated: false)
     }
+    
 }

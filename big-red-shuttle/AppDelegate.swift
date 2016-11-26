@@ -14,17 +14,17 @@ enum FileReadingError : Error { case fileNotFound }
 
 var appEnteredForeground: Bool = true
 
-extension UINavigationController{
+extension UINavigationController {
     override open func viewDidLoad() {
-        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.brsblack, NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium" , size: 18.0)!]
+        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.navtitleblack, NSFontAttributeName: UIFont(name: "SFUIText-Semibold" , size: 16)!]
         navigationBar.barTintColor = .brslightgrey
         navigationBar.isTranslucent = false
     }
 }
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
+    
     let tabBarController = UITabBarController()
     
     var window: UIWindow?
@@ -33,8 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         
         // Styling
         UIApplication.shared.statusBarStyle = .lightContent
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.navtitleblack,
-                                                            NSFontAttributeName: UIFont(name: "SFUIText-Semibold", size: 16)!]
         
         // Set nudge count for stop popup view
         if UserDefaults.standard.value(forKey: "nudgeCount") as? Int == nil {
@@ -46,30 +44,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         let json = try! JSON(data: Data(contentsOf: Bundle.main.url(forResource: "config", withExtension: "json")!))
         GMSServices.provideAPIKey(json["google-maps"].stringValue)
 
-        // Set up tab bar & VCs
+        // Set up view controllers
         let navigationVC = StopsViewController()
         let emergencyVC = UINavigationController(rootViewController: EmergencyViewController())
         let scheduleVC = UINavigationController(rootViewController: ScheduleViewController())
         
-        let navigationIcon = UITabBarItem(title: "Navigation", image: UIImage(named: "navigation"), selectedImage: UIImage(named: "navigation-s"))
-        let scheduleIcon = UITabBarItem(title: "Schedule", image: UIImage(named: "schedule"), selectedImage: UIImage(named: "schedule-s"))
-        let emergencyIcon = UITabBarItem(title: "Emergency", image: UIImage(named: "emergency"), selectedImage: UIImage(named: "emergency-s"))
+        let navigationIcon = UITabBarItem(title: "Navigation", image: #imageLiteral(resourceName: "NavigationIcon"), selectedImage: #imageLiteral(resourceName: "SelectedNavigationIcon"))
+        let scheduleIcon = UITabBarItem(title: "Schedule", image: #imageLiteral(resourceName: "ScheduleIcon"), selectedImage: #imageLiteral(resourceName: "SelectedScheduleIcon"))
+        let emergencyIcon = UITabBarItem(title: "Emergency", image: #imageLiteral(resourceName: "EmergencyIcon"), selectedImage: #imageLiteral(resourceName: "SelectedEmergencyIcon"))
         navigationVC.tabBarItem = navigationIcon
         scheduleVC.tabBarItem = scheduleIcon
         emergencyVC.tabBarItem = emergencyIcon
         
-        tabBarController.viewControllers = [navigationVC,scheduleVC,emergencyVC]
+        // Set up tab controller
+        tabBarController.viewControllers = [navigationVC, scheduleVC, emergencyVC]
         tabBarController.tabBar.tintColor = .brsred
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsblack], for:.normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsred], for:.selected)
+        tabBarController.tabBar.barTintColor = .brslightgrey
         tabBarController.tabBar.clipsToBounds = true
         tabBarController.tabBar.isTranslucent = false
-        tabBarController.tabBar.barTintColor = .brslightgrey
         tabBarController.tabBar.layer.borderWidth = 0.5
         tabBarController.tabBar.layer.borderColor = UIColor.lightGray.cgColor
         tabBarController.delegate = self
         
-        //Set up window
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsblack], for:.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsred], for:.selected)
+        
+        // Set up window
         window = UIWindow(frame: UIScreen.main.bounds)
         window!.makeKeyAndVisible()
         window?.rootViewController = tabBarController

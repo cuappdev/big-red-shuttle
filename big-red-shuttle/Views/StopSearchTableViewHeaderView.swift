@@ -54,4 +54,5 @@ class StopSearchTableViewHeaderView: UIView {
             self.downCarrotImageView.layer.transform = transform
         })
     }
+    
 }

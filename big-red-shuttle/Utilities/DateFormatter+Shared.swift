@@ -22,4 +22,10 @@ extension DateFormatter {
         return $0
     }(DateFormatter())
     
+    @nonobjc static let longDateTimeFormatter: DateFormatter = {
+        $0.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
+        $0.locale = Locale(identifier: "en_US_POSIX")
+        return $0
+    }(DateFormatter())
+    
 }

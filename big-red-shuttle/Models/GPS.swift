@@ -41,7 +41,7 @@ import SwiftyJSON
         }
     }
     
-    //MARK: - Logging
+    // MARK: - Logging
     
     func startLoggingShuttleLocation() {
         if !isLoggingShuttleLocation {
@@ -72,7 +72,7 @@ import SwiftyJSON
         })
     }
     
-    //MARK: - Fetching
+    // MARK: - Fetching
 
     func startFetchingShuttleLocation() {
         if !isFetchingShuttleLocation {
@@ -110,7 +110,7 @@ import SwiftyJSON
         
     }
     
-    //MARK: - Nofify Observers
+    // MARK: - Notify Observers
     
     func notifyObserversGPSMovedToCoordinate(coordinate: Coordinate) {
         let _ = self.observers.map({ $0?.gps?(gps: self, movedToCoordinate: coordinate) })
