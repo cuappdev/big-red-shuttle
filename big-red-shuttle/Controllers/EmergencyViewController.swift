@@ -19,7 +19,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         title = "Emergency"
         emergencyArray = getEmergencyContacts()
         
-        let tableViewFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - (tabBarController?.tabBar.frame.height)!)
+        let tableViewFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.frame.height - UIApplication.shared.statusBarFrame.height - (navigationController?.navigationBar.frame.height)! - (navigationController?.tabBarController?.tabBar.frame.height)!)
         tableView = UITableView(frame: tableViewFrame, style: .grouped)
         tableView.delegate = self
         tableView.dataSource = self
