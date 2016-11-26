@@ -40,6 +40,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var searchTableExpanded = false
     var aboutButton: UIButton!
     var popUpView = UIView()
+    var popupCollectionView: UICollectionView?
 
     var markers: [String:GMSMarker] = [:]
     var stops: [Stop] = []
@@ -158,6 +159,10 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func updateLocationPins() {
         for (_, marker) in markers {
             updateIconView(marker: marker)
+        }
+        
+        if let collectionView = popupCollectionView {
+            collectionView.reloadData()
         }
     }
     
@@ -381,7 +386,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // MARK: Bus Stop Pop Up Methods
     
     // Create the bus stop popup view
-    func createPopUpView() -> UICollectionView {
+    func createPopUpView() {
         let popupWidth: CGFloat = view.frame.width - 2*kEdgePadding
         
         popUpView.frame = CGRect(x: kEdgePadding, y: view.frame.height, width: popupWidth, height: popupHeight)
@@ -435,27 +440,25 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
 
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: topContainerHeight, width: popupWidth, height: popupHeight - topContainerHeight), collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(CustomTimeCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
+        popupCollectionView = UICollectionView(frame: CGRect(x: 0, y: topContainerHeight, width: popupWidth, height: popupHeight - topContainerHeight), collectionViewLayout: layout)
+        popupCollectionView?.delegate = self
+        popupCollectionView?.dataSource = self
+        popupCollectionView?.register(CustomTimeCell.self, forCellWithReuseIdentifier: "Cell")
+        popupCollectionView?.backgroundColor = .clear
+        popupCollectionView?.showsHorizontalScrollIndicator = false
         
         popUpView.addSubview(topContainerView)
-        popUpView.addSubview(collectionView)
+        popUpView.addSubview(popupCollectionView!)
         view.addSubview(popUpView)
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.didPanPopupView(sender:)))
         popUpView.addGestureRecognizer(panGestureRecognizer)
-
-        return collectionView
     }
     
     // Display and animate the pop up view when a marker is selected
     func displayPopUpView(stop: Stop) {
         selectedStop = stop
-        let collectionView = createPopUpView()
+        createPopUpView()
         let nudgeOffset: CGFloat = 20
         
         UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
@@ -467,10 +470,10 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let nudgeCount = UserDefaults.standard.value(forKey: "nudgeCount") as! Int
             if nextArrivalsToday.count > 0 && nudgeCount < 3 && UserDefaults.standard.value(forKey: "didFireNudge") as! Bool {
                 UIView.animate(withDuration: 0.2, delay: 0.3, options: .curveEaseInOut, animations: {
-                    collectionView.contentOffset.x += nudgeOffset
+                    self.popupCollectionView?.contentOffset.x += nudgeOffset
                 }, completion: { _ in
                     UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
-                        collectionView.contentOffset.x -= nudgeOffset
+                        self.popupCollectionView?.contentOffset.x -= nudgeOffset
                     })
                 })
                 
@@ -489,6 +492,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }, completion: { finished in
             self.popUpView.subviews.forEach({$0.removeFromSuperview()})
             self.popUpView.removeFromSuperview()
+            self.popupCollectionView = nil
 
             if fullyDismissed {
                 self.selectedStop = nil
