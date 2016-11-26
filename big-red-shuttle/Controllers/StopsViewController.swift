@@ -63,9 +63,10 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         drawBusRoute()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         if viewIsSetup { return }
         
         mapView.isMyLocationEnabled = true
