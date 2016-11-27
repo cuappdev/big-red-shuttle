@@ -81,9 +81,10 @@ public class Stop: NSObject {
     
     public func allArrivalsToday() -> [String] {
         let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
-        let currentDay =  Days.fromNumber(num: components.weekday!)!.rawValue
-
-        return times.filter { $0.description.range(of: currentDay) != nil }.map { time in time.shortDescription }
+        guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return [] }
+        let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
+        
+        return times.filter { time in currentTime.sameDay(asTime: time) }.map { time in time.shortDescription }
     }
     
     public func nextArrivalsToday() -> [String] {
