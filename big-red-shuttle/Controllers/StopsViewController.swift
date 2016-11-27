@@ -208,7 +208,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let iconView = marker.iconView as! IconView
         
         // Show next arrival time in HH:mm format
-        let nextArrivalString = stop.nextArrival()
+        let nextArrivalString = stop.nextArrivalToday()
         let needles: [Character] = ["a", "p"]
         
         for needle in needles {
@@ -366,6 +366,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func didTapSearchBar() {
         searchTableExpanded = !searchTableExpanded
+        searchTableView.reloadData()
         
         if searchTableExpanded {
             searchTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)

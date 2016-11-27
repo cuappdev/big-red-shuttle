@@ -45,7 +45,7 @@ public class Time: NSObject {
     }
     
     public func isEarlier(than time: Time) -> Bool {
-        if day < time.day || day == 7 && time.day == 1 {
+        if day < time.day || (day == 7 && time.day == 1) {
             return true
         } else if day > time.day {
             return false

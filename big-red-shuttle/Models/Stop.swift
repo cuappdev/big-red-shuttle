@@ -95,15 +95,21 @@ public class Stop: NSObject {
         return times.filter { time in currentTime.sameDay(asTime: time) && currentTime.isEarlier(than: time) }.map { time in time.shortDescription }
     }
     
+    public func nextArrivalToday() -> String {
+        return nextArrivalsToday().first ?? "--"
+    }
+    
     public func nextArrival() -> String {
         let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
         guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return "––" }
         let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
+
         for time in times {
             if currentTime.isEarlier(than: time) {
                 return currentTime.sameDay(asTime: time) ? time.shortDescription : time.description
             }
         }
+        
         return times.first?.description ?? "--"
     }
 }
