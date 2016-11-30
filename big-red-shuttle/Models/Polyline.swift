@@ -36,8 +36,6 @@ class Polyline: NSObject {
             }
         }
         
-        print(directionsURLString)
-        
         directionsURLString = directionsURLString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
 
         if let directionsURL = URL(string: directionsURLString) {
