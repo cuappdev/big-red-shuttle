@@ -29,12 +29,14 @@ class Polyline: NSObject {
         var directionsURLString = baseDirectionsURL + "origin=" + origin + "&destination=" + destination
         
         if waypoints.count > 0 {
-            directionsURLString += "&waypoints=optimize:true"
-            for i in 0..<waypoints.count {
-                let coords = "\(waypoints[i].lat),\(waypoints[i].long)"
-                directionsURLString +=  "|" + coords
+            directionsURLString += "&waypoints=optimize:false"
+            for waypoint in waypoints {
+                let coords = "\(waypoint.lat),\(waypoint.long)"
+                directionsURLString +=  "|\(coords)"
             }
         }
+        
+        print(directionsURLString)
         
         directionsURLString = directionsURLString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
 
