@@ -2,15 +2,11 @@
 
 The Big Red Shuttle is Cornell's first free, student-run, late-night transportation service for students in need of a safe ride home. The Big Red Shuttle runs a 20-minute route every Friday and Saturday from 12am-3am with a professional paid driver and two managers trained by Cayuga's Watchers. In the app, users can check out the shuttle schedule and map of the route and enter in their destination to find the quickest route home. To learn more, visit http://www.cornellbigredshuttle.com/.
 
-![BRS Schedule](https://raw.githubusercontent.com/cuappdev/assets/master/big-red-shuttle/schedule.png)
+## Schedule & Route
+![BRS Schedule](https://raw.githubusercontent.com/cuappdev/assets/master/big-red-shuttle/BRS-Schedule.png)
+![BRS Map Route](https://raw.githubusercontent.com/cuappdev/assets/master/big-red-shuttle/BRS-Route.png)
 
-## Basic Features
-1. See full map & schedule
-2. Enter current location and destination to find the nearest stop or fastest stop
-
-## Other Features
-
-1. Sign in process to read BRS mission statement
-2. Share location with friends through app
-3. Have emergency contacts & Ithaca emergency contacts loaded into app
-4. Map that shows where bus is currently located (live GPS tracking)
+## Features
+1. Navigation Tab: View shuttle route on map with live time information for stops
+2. Schedule Tab: See the full shuttle schedule for a day regardless of whether shuttles are running today
+3. Emergency Tab: Have access to main Emergency services at Cornell University
