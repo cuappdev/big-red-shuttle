@@ -65,7 +65,6 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         
         if let loopStop = loopStop {
             let nextArrival = loopStop.nextArrivalInDay()
-            print("nextArrival: \(nextArrival)")
             
             for button in scheduleBar.timeButtons {
                 if button.titleLabel?.text == nextArrival {
