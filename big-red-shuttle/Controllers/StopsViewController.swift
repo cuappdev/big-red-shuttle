@@ -114,9 +114,11 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if stops.count > 1 {
             let stopsA = Array(stops[1...stops.count - 1])
             
+            // Draw entire route from first stop to last stop
             polyline.getPolyline(waypoints: stopsA, origin: stops.first!, end: stops.last!)
             drawPath()
-            
+
+            // Drop direct route from last stop back to first stop
             polyline.getPolyline(waypoints: [], origin: stops.last!, end: stops.first!)
             drawPath()
         }
