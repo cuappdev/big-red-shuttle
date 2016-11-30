@@ -79,6 +79,36 @@ public class Stop: NSObject {
         return CLLocationCoordinate2DMake(CLLocationDegrees(lat), CLLocationDegrees(long))
     }
     
+    public func allArrivalTimesInDay() -> [String] {
+        var allTimes: [String] = []
+        
+        for time in times {
+            let timeString = time.shortDescription
+            if !allTimes.contains(timeString) {
+                allTimes.append(timeString)
+            }
+        }
+        
+        return allTimes
+    }
+    
+    public func nextArrivalInDay() -> String {
+        let allArrivalsInDay = allArrivalTimesInDay()
+        let todayString = DateFormatter.dateTimeFormatter.string(from: Date())
+        let currDate = DateFormatter.dateTimeFormatter.date(from: todayString)
+        let todayDateString = DateFormatter.yearMonthDayFormatter.string(from: Date())
+        
+        for arrival in allArrivalsInDay {
+            let arrivalDate = DateFormatter.dateTimeFormatter.date(from: "\(todayDateString) \(arrival)")
+            
+            if currDate! <= arrivalDate! {
+                return arrival
+            }
+        }
+        
+        return "--"
+    }
+    
     public func allArrivalsToday() -> [String] {
         let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
         guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return [] }

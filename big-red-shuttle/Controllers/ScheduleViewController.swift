@@ -31,8 +31,12 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         
         // Schedule Bar
         scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: barHeight))
-        scheduleBar.setUp(buttonsData: loopStop!.allArrivalsToday(), selected: 0)
         scheduleBar.sbDelegate = self
+        
+        if let loopStop = loopStop {
+            scheduleBar.setUp(buttonsData: loopStop.allArrivalTimesInDay(), selected: 0)
+        }
+        
         view.addSubview(scheduleBar)
         
         // Table View
@@ -59,10 +63,10 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let nextArrivalsToday = loopStop!.nextArrivalsToday()
-        
-        if nextArrivalsToday.count > 0 {
-            let nextArrival = nextArrivalsToday.first
+        if let loopStop = loopStop {
+            let nextArrival = loopStop.nextArrivalInDay()
+            print("nextArrival: \(nextArrival)")
+            
             for button in scheduleBar.timeButtons {
                 if button.titleLabel?.text == nextArrival {
                     scheduleBar.scrollToButton(button: button)
@@ -94,7 +98,9 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - TableView Datasource Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stops.count * loopStop!.allArrivalsToday().count
+        let numLoops = loopStop?.allArrivalTimesInDay().count ?? 0
+        
+        return stops.count * numLoops
     }
     
     // MARK: - TableView Delegate Methods
@@ -110,8 +116,11 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         let timeIndex = indexPath.row / stops.count
         let stop = stops[stopIndex]
         
-        cell?.configStop(loop: stop.name == loopStop?.name)
-        cell?.timeLabel.text = stop.allArrivalsToday()[timeIndex]
+        if let loopStop = loopStop {
+            cell?.configStop(loop: stop.name == loopStop.name)
+        }
+        
+        cell?.timeLabel.text = stop.allArrivalTimesInDay()[timeIndex]
         cell?.stopLabel.text = stop.name
         cell?.timeLabel.sizeToFit()
         cell?.stopLabel.sizeToFit()
