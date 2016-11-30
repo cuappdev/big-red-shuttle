@@ -93,19 +93,18 @@ public class Stop: NSObject {
     }
     
     public func nextArrivalInDay() -> String {
+        let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
+        guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return "--" }
+        let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
         let allArrivalsInDay = allArrivalTimesInDay()
-        let todayString = DateFormatter.dateTimeFormatter.string(from: Date())
-        let currDate = DateFormatter.dateTimeFormatter.date(from: todayString)
-        let todayDateString = DateFormatter.yearMonthDayFormatter.string(from: Date())
         
         for arrival in allArrivalsInDay {
-            let arrivalDate = DateFormatter.dateTimeFormatter.date(from: "\(todayDateString) \(arrival)")
+            let arrivalTimeTuple = getTime(time: arrival)
+            let arrivalTime = Time(hour: arrivalTimeTuple.0, minute: arrivalTimeTuple.1, day: currentDay)
             
-            if currDate! <= arrivalDate! {
-                return arrival
-            }
+            if currentTime.isEarlier(than: arrivalTime) { return arrival }
         }
-        
+
         return "--"
     }
     
