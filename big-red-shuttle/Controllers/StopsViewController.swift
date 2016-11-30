@@ -118,7 +118,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             polyline.getPolyline(waypoints: stopsA, origin: stops.first!, end: stops.last!)
             drawPath()
 
-            // Drop direct route from last stop back to first stop
+            // Draw direct route from last stop back to first stop
             polyline.getPolyline(waypoints: [], origin: stops.last!, end: stops.first!)
             drawPath()
         }
