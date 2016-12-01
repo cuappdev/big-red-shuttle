@@ -215,8 +215,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         for needle in needles {
             if let index = nextArrivalString.characters.index(of: needle) {
-                let timeString = nextArrivalString.substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-                iconView.timeLabel.text = timeString + String(needle)
+                let timeString = nextArrivalString.substring(to: index)
+                iconView.timeLabel.text = timeString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             }
         }
         
