@@ -1,0 +1,19 @@
+{
+    "sections": [
+        {
+            "title": "Collaboration between Big Red Shuttle and AppDev",
+            "summary": "In order to help the Big Red Shuttle fulfill its mission in providing safe, free, and late-night transportation to the Cornell community, the AppDev project team designed and developed this iOS application.",
+            "link": ""
+        },
+        {
+            "title": "AppDev",
+            "summary": "AppDev is an engineering project team at Cornell University dedicated to mobile app development. The team consists of talented iOS developers, backend developers, and designers who collaborate to create open-source mobile apps. AppDev members work in a startup-like environment and gain practical experience in software development, design, and product management.",
+            "link": "http://www.cuappdev.org/"
+        },
+        {
+            "title": "Big Red Shuttle",
+            "summary": "The Big Red Shuttle is Cornell's first free, student-run, late-night transportation service for students in need of a safe ride home. It strives to promote a safer campus climate to prevent alcohol-related incidents and sexual assault. The Big Red Shuttle runs a 20-minute route every Friday and Saturday from 12am-3am with a professional paid driver and two managers trained by Cayuga's Watchers.",
+            "link": "http://www.cornellbigredshuttle.com/"
+        }
+    ]
+}
