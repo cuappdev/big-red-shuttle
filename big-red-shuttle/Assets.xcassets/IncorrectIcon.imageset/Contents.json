@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Checkmark_V2.png",
+      "filename" : "IncorrectIcon@0.5x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Checkmark_V2@2x.png",
+      "filename" : "IncorrectIcon.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Checkmark_V2@3x.png",
+      "filename" : "IncorrectIcon@1.5x.png",
       "scale" : "3x"
     }
   ],

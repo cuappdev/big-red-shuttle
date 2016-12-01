@@ -73,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         window = UIWindow(frame: UIScreen.main.bounds)
         window!.makeKeyAndVisible()
         window?.rootViewController = tabBarController
+        window!.tintColor = .brsred
         
         displayNoInternetAlert(vc: (window?.rootViewController)!)
         
