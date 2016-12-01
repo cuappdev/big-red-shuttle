@@ -161,7 +161,7 @@ class IconViewBig: IconView {
 class IconViewSmall: IconView {
     
     init() {
-        super.init(circleViewDiameter: 26, innerCircleRadiusOffset: 2.0, maxScale: 1.1, yOffset: 2.0, yGroundOffset: 1.0, triangleWidthScale: 0.14, fontSize: 0)
+        super.init(circleViewDiameter: 32, innerCircleRadiusOffset: 2.4, maxScale: 1.1, yOffset: 2.0, yGroundOffset: 1.0, triangleWidthScale: 0.14, fontSize: 0)
         timeLabel.isHidden = true
     }
     
