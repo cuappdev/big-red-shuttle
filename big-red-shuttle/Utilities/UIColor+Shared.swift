@@ -26,4 +26,7 @@ extension UIColor {
     @nonobjc static let bordergray = UIColor(white: 0, alpha: 0.5)
     @nonobjc static let directionsgrey = UIColor(red: 179/255, green: 183/255, blue: 192/255, alpha: 1.0)
     @nonobjc static let scheduletimegrey = UIColor(red: 89/255, green: 90/255, blue: 116/255, alpha: 1.0)
+    @nonobjc static let offblack = UIColor(red: 20/255, green: 24/255, blue: 35/255, alpha: 1.0)
+    @nonobjc static let switchtintgrey = UIColor(red: 229/255, green: 229/255, blue: 229/255, alpha: 1.0)
+    @nonobjc static let logginggrey = UIColor(red: 140/255, green: 152/255, blue: 163/255, alpha: 1.0)
 }
