@@ -23,7 +23,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     let kSearchTableClosedHeight: CGFloat = 42
     let kStopZoom: Float = 16
     let polyline = Polyline()
-    let minsThreshold: Int = 20
+    let minsThreshold: Int = 60
     
     // Popup view constants
     let topContainerHeight: CGFloat = 64
@@ -135,7 +135,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let startBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
                                               coordinate: CLLocationCoordinate2DMake(south, west))
         panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north + kMaxBoundPadding, east + kMaxBoundPadding), coordinate: CLLocationCoordinate2DMake(south - kMaxBoundPadding, west - kMaxBoundPadding))
-        let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
+        let cameraUpdate = GMSCameraUpdate.fit(startBounds, with: UIEdgeInsets(top: kBoundPadding + kEdgePadding+kSearchTableClosedHeight, left: kBoundPadding, bottom: kBoundPadding, right: kBoundPadding))
         mapView.moveCamera(cameraUpdate)
         mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
         drawLocationPins()
@@ -215,8 +215,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         for needle in needles {
             if let index = nextArrivalString.characters.index(of: needle) {
-                let timeString = nextArrivalString.substring(to: index)
-                iconView.timeLabel.text = timeString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                let timeString = nextArrivalString.substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                iconView.timeLabel.text = timeString + String(needle)
             }
         }
         
