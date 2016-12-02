@@ -15,6 +15,7 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     let barHeight: CGFloat = 58
     let redLinePercOffset: CGFloat = 0.23
     
+    var noBusLabel: UILabel!
     var scheduleBar: ScheduleBar!
     var tableView: UITableView!
     var stops: [Stop] = []
@@ -29,8 +30,19 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         stops = getStops()
         loopStop = stops.first
         
+        if loopStop?.nextArrivalToday() == "--" {
+            noBusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: cellHeight))
+            noBusLabel.backgroundColor = .brsgray
+            noBusLabel.text = "No shuttles running today"
+            noBusLabel.textAlignment = .center
+            view.addSubview(noBusLabel)
+            
+            scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: noBusLabel.frame.height, width: view.frame.width, height: barHeight))
+        } else {
+            scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: barHeight))
+        }
+        
         // Schedule Bar
-        scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: barHeight))
         scheduleBar.sbDelegate = self
         
         if let loopStop = loopStop {

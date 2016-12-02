@@ -49,7 +49,7 @@ class ScheduleBar: UIScrollView {
             
             contentWidth += button.frame.width
 
-            button.center.y = frame.midY
+            button.center.y = bounds.midY
             button.setTitle(time, for: .normal)
             button.setTitleColor(.brsgrey, for: .normal)
             button.titleLabel?.font = UIFont(name: "SFUIText-Semibold", size: 14.0)!
