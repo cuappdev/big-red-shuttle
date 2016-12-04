@@ -1,4 +1,6 @@
+#ifdef __OBJC__
 #import <UIKit/UIKit.h>
+#endif
 
 
 FOUNDATION_EXPORT double Pods_big_red_shuttleVersionNumber;

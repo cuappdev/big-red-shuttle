@@ -22,11 +22,11 @@
 		505DC3941DD18CA800774077 /* CustomTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DC3931DD18CA800774077 /* CustomTimeCell.swift */; };
 		505DC3961DD3F82A00774077 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DC3951DD3F82A00774077 /* Location.swift */; };
 		505DC3981DD3F85500774077 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */; };
-		7C158D5F3005ED65924F1821 /* Pods_big_red_shuttle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */; };
 		95FD9A871DD8520A00CF5D1F /* DriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */; };
 		95FD9A891DD8524800CF5D1F /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 95FD9A881DD8524800CF5D1F /* config.json */; };
 		95FD9A8B1DD853B600CF5D1F /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FD9A8A1DD853B600CF5D1F /* GPS.swift */; };
 		983ECB561DD8FBF100DD717B /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983ECB551DD8FBF100DD717B /* IconView.swift */; };
+		9F52E2EB5C47959747CCA36A /* Pods_big_red_shuttle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A1740267A241F84E0704AB4 /* Pods_big_red_shuttle.framework */; };
 		D16B93881DE9507800EE3514 /* brs-about-sections.json in Resources */ = {isa = PBXBuildFile; fileRef = D16B93871DE9507800EE3514 /* brs-about-sections.json */; };
 		D16B938A1DE950A700EE3514 /* brs-emergency-contacts.json in Resources */ = {isa = PBXBuildFile; fileRef = D16B93891DE950A700EE3514 /* brs-emergency-contacts.json */; };
 		D16B938C1DE950C200EE3514 /* brs-stops.json in Resources */ = {isa = PBXBuildFile; fileRef = D16B938B1DE950C200EE3514 /* brs-stops.json */; };
@@ -67,7 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.debug.xcconfig"; sourceTree = "<group>"; };
+		2A1740267A241F84E0704AB4 /* Pods_big_red_shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_big_red_shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D40914A456E2D1EA8D54E69 /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		441C6ADE1DD42EFD0008EBE1 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutViewController.swift; path = Controllers/AboutViewController.swift; sourceTree = "<group>"; };
 		442D87181DC992D30075BBCA /* StopSearchTableViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StopSearchTableViewHeaderView.swift; path = Views/StopSearchTableViewHeaderView.swift; sourceTree = "<group>"; };
 		442D871A1DC9A52F0075BBCA /* StopSearchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StopSearchTableViewCell.xib; path = Cells/StopSearchTableViewCell.xib; sourceTree = "<group>"; };
@@ -89,11 +90,10 @@
 		505DC3931DD18CA800774077 /* CustomTimeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTimeCell.swift; path = Cells/CustomTimeCell.swift; sourceTree = "<group>"; };
 		505DC3951DD3F82A00774077 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Models/Location.swift; sourceTree = "<group>"; };
 		505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIViewControllerExtensions.swift; path = Utilities/UIViewControllerExtensions.swift; sourceTree = "<group>"; };
-		86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_big_red_shuttle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		63188085D7A38B81519FBF7D /* Pods-big-red-shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.debug.xcconfig"; sourceTree = "<group>"; };
 		95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DriverViewController.swift; path = Controllers/DriverViewController.swift; sourceTree = "<group>"; };
 		95FD9A881DD8524800CF5D1F /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = config.json; path = "Supporting Files/config.json"; sourceTree = "<group>"; };
 		95FD9A8A1DD853B600CF5D1F /* GPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GPS.swift; path = Models/GPS.swift; sourceTree = "<group>"; };
-		96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.release.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.release.xcconfig"; sourceTree = "<group>"; };
 		983ECB551DD8FBF100DD717B /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IconView.swift; path = Views/IconView.swift; sourceTree = "<group>"; };
 		D16B93871DE9507800EE3514 /* brs-about-sections.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "brs-about-sections.json"; path = "Data/brs-about-sections.json"; sourceTree = "<group>"; };
 		D16B93891DE950A700EE3514 /* brs-emergency-contacts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "brs-emergency-contacts.json"; path = "Data/brs-emergency-contacts.json"; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C158D5F3005ED65924F1821 /* Pods_big_red_shuttle.framework in Frameworks */,
+				9F52E2EB5C47959747CCA36A /* Pods_big_red_shuttle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,8 +161,8 @@
 				44929BD91DAEF4E300B07EBF /* big-red-shuttleTests */,
 				44929BE41DAEF4E300B07EBF /* big-red-shuttleUITests */,
 				44929BC31DAEF4E300B07EBF /* Products */,
-				AE72D96E63DB91E09022713C /* Pods */,
-				CFB47E522262E51010823767 /* Frameworks */,
+				AB5DF2C84BDC9E2D8586EEDB /* Pods */,
+				F8810C9AD1E044C9FEDC12BF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -212,21 +212,13 @@
 			path = "big-red-shuttleUITests";
 			sourceTree = "<group>";
 		};
-		AE72D96E63DB91E09022713C /* Pods */ = {
+		AB5DF2C84BDC9E2D8586EEDB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */,
-				96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */,
+				63188085D7A38B81519FBF7D /* Pods-big-red-shuttle.debug.xcconfig */,
+				2D40914A456E2D1EA8D54E69 /* Pods-big-red-shuttle.release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		CFB47E522262E51010823767 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				86AE1E74EC18D2264824A4F1 /* Pods_big_red_shuttle.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		D16B93861DE9505800EE3514 /* Data */ = {
@@ -309,6 +301,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		F8810C9AD1E044C9FEDC12BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A1740267A241F84E0704AB4 /* Pods_big_red_shuttle.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -316,13 +316,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 44929BEA1DAEF4E300B07EBF /* Build configuration list for PBXNativeTarget "big-red-shuttle" */;
 			buildPhases = (
-				0E4FC69ABB41FC546A0264A8 /* [CP] Check Pods Manifest.lock */,
+				361A2CA2E5C10289A66CB580 /* [CP] Check Pods Manifest.lock */,
 				44929BBE1DAEF4E300B07EBF /* Sources */,
 				44929BBF1DAEF4E300B07EBF /* Frameworks */,
 				44929BC01DAEF4E300B07EBF /* Resources */,
-				2C8EDCE9F1151EEE1807F43E /* [CP] Embed Pods Frameworks */,
-				677157F5163417FE2B03BBEB /* [CP] Copy Pods Resources */,
-				F3CB05397D24E016703DDEB7 /* Embed Pods Frameworks */,
+				006B57EF5E8AF5CD1C6C8BAD /* [CP] Embed Pods Frameworks */,
+				08412CCCD2C67C08242C0498 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -454,22 +453,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E4FC69ABB41FC546A0264A8 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		2C8EDCE9F1151EEE1807F43E /* [CP] Embed Pods Frameworks */ = {
+		006B57EF5E8AF5CD1C6C8BAD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -484,7 +468,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		677157F5163417FE2B03BBEB /* [CP] Copy Pods Resources */ = {
+		08412CCCD2C67C08242C0498 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -499,19 +483,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F3CB05397D24E016703DDEB7 /* Embed Pods Frameworks */ = {
+		361A2CA2E5C10289A66CB580 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -686,7 +670,7 @@
 		};
 		44929BEB1DAEF4E300B07EBF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 127274D115A1B753761A14C2 /* Pods-big-red-shuttle.debug.xcconfig */;
+			baseConfigurationReference = 63188085D7A38B81519FBF7D /* Pods-big-red-shuttle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
@@ -702,7 +686,7 @@
 		};
 		44929BEC1DAEF4E300B07EBF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96E0CB64C6D5B4552074C28E /* Pods-big-red-shuttle.release.xcconfig */;
+			baseConfigurationReference = 2D40914A456E2D1EA8D54E69 /* Pods-big-red-shuttle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
