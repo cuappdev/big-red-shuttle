@@ -113,7 +113,7 @@ public class Stop: NSObject {
         guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return [] }
         let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
         
-        return times.filter { time in currentTime.atMost24HoursLater(than: time) }.map { time in time.shortDescription }
+        return times.filter { time in time.atMost24HoursLater(than: currentTime) }.map { time in time.shortDescription }
     }
     
     public func nextArrivalToday() -> String {
