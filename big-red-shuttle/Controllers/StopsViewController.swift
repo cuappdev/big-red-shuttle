@@ -18,12 +18,12 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // MARK: Properties
     
     let kMaxBoundPadding: Double = 0.01
-    let kBoundPadding: CGFloat = 40
+    let kBoundPadding: CGFloat = 60
     let kEdgePadding: CGFloat = 16
     let kSearchTableClosedHeight: CGFloat = 42
     let kStopZoom: Float = 16
     let polyline = Polyline()
-    let minsThreshold: Int = 20
+    let minsThreshold: Int = 60
     
     // Popup view constants
     let topContainerHeight: CGFloat = 64
@@ -132,12 +132,14 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         max(nextLocation.longitude, prevResult.2),
                         min(nextLocation.longitude, prevResult.3))
             })
-        let startBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north, east),
+        let topMapOffset: Double = 0.003
+        let startBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north + topMapOffset, east),
                                               coordinate: CLLocationCoordinate2DMake(south, west))
         panBounds = GMSCoordinateBounds(coordinate: CLLocationCoordinate2DMake(north + kMaxBoundPadding, east + kMaxBoundPadding), coordinate: CLLocationCoordinate2DMake(south - kMaxBoundPadding, west - kMaxBoundPadding))
-        let cameraUpdate = GMSCameraUpdate.fit(startBounds, withPadding: kBoundPadding)
+        let cameraUpdate = GMSCameraUpdate.fit(startBounds, with: UIEdgeInsets(top: kBoundPadding + kEdgePadding+kSearchTableClosedHeight, left: kBoundPadding, bottom: kBoundPadding, right: kBoundPadding))
         mapView.moveCamera(cameraUpdate)
         mapView.setMinZoom(mapView.camera.zoom, maxZoom: mapView.maxZoom)
+        
         drawLocationPins()
     }
     
