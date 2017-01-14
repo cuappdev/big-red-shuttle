@@ -73,7 +73,24 @@ public class Time: NSObject {
             }
         }
         return false
-//        return (day == time.day && hour >= time.hour && minute >= time.minute) || (time.dayBefore(time: self) && hour <= time.hour && minute <= time.minute)
+    }
+    
+    public func atMost12HoursLater(than time: Time) -> Bool {
+        if day == time.day {
+            if hour == time.hour {
+                return minute >= time.minute
+            } else if hour < time.hour + 12 {
+                return true
+            }
+        } else if time.dayBefore(time: self) {
+            let hourDiff = 24 - hour + time.hour
+            if hourDiff == 12 {
+                return minute <= time.minute
+            } else if hourDiff < 12 {
+                return true
+            }
+        }
+        return false
     }
     
     public func sameDay(asTime time: Time) -> Bool {
