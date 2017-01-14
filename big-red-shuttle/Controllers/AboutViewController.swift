@@ -90,7 +90,10 @@ class AboutViewController: UIViewController {
             let spacingString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Semibold", size: 11)!])
             textString.append(spacingString)
             
-            let summaryString = NSAttributedString(string: "\(aboutSection.summary)\n", attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+            let linkText = "\(aboutSection.title) Website"
+            let summaryText = aboutSection.link.isEmpty ? "\(aboutSection.summary)\n" : "\(aboutSection.summary) Learn more at the \(linkText).\n"
+            let summaryString = NSMutableAttributedString(string: summaryText, attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+            summaryString.hyperlink(text: "\(linkText)", linkURL: "\(aboutSection.link)")
             textString.append(summaryString)
             
             if index != aboutSections.count - 1 {

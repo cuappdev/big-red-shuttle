@@ -83,19 +83,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         return true
     }
     
-    var hiddenTabCounter = 0
+    // TODO: Uncomment when logging has been implemented
+//    var hiddenTabCounter = 0
     
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        hiddenTabCounter = tabBarController.selectedIndex == 0 ? hiddenTabCounter + 1 : 0
-        
-        if hiddenTabCounter == 5 {
-            let driverVC = DriverViewController()
-            let navControler = UINavigationController(rootViewController: driverVC)
-            viewController.present(navControler, animated: true, completion: nil)
-            //viewController.present(DriverViewController(), animated: true, completion: nil)
-            hiddenTabCounter = 0
-        }
-    }
+//    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+//        hiddenTabCounter = tabBarController.selectedIndex == 0 ? hiddenTabCounter + 1 : 0
+//        
+//        if hiddenTabCounter == 5 {
+//            let driverVC = DriverViewController()
+//            let navControler = UINavigationController(rootViewController: driverVC)
+//            viewController.present(navControler, animated: true, completion: nil)
+//            hiddenTabCounter = 0
+//        }
+//    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
