@@ -59,7 +59,7 @@ public class Time: NSObject {
     }
     
     public func atMost24HoursLater(than time: Time) -> Bool {
-        return (day == time.day && hour >= time.hour) || (time.dayBefore(time: self) && hour <= time.hour)
+        return (day == time.day && hour >= time.hour && minute >= time.minute) || (time.dayBefore(time: self) && hour <= time.hour && minute <= time.minute)
     }
     
     public func sameDay(asTime time: Time) -> Bool {
