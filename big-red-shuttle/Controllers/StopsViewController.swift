@@ -568,7 +568,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cell.textLabel.sizeToFit()
             cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
         } else {
-            cell.textLabel.text = "No more shuttles available today"
+            cell.textLabel.text = "Next shuttle at \(selectedStop.nextArrival())"
             cell.textLabel.sizeToFit()
             cell.textLabel.center = CGPoint(x: collectionView.bounds.midX, y: cell.bounds.midY)
         }
