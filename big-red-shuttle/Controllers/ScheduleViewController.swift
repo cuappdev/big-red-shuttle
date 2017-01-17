@@ -12,7 +12,7 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     
     let identifier: String = "Schedule Cell"
     let cellHeight: CGFloat = 42
-    let noBusLabelHeight: CGFloat = 40
+    let noBusLabelHeight: CGFloat = 60
     let barHeight: CGFloat = 58
     let redLinePercOffset: CGFloat = 0.23
     let separatorHeight: CGFloat = 1.2
@@ -34,7 +34,9 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         
         if loopStop?.nextArrivalToday() == "--" {
             noBusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: noBusLabelHeight))
-            noBusLabel.text = "No shuttles are running today"
+            noBusLabel.numberOfLines = 2
+            let nextArrivalText = stops.first?.nextArrival() ?? "--"
+            noBusLabel.text = "The shuttle will start running again\nat \(nextArrivalText)"
             noBusLabel.font = UIFont(name: "SFUIDisplay-Medium", size: 14.0)
             noBusLabel.textColor = .brsgrey
             noBusLabel.backgroundColor = .brslightgrey
