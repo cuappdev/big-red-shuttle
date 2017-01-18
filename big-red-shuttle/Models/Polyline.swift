@@ -47,15 +47,15 @@ class Polyline: NSObject {
                 case .OK:
                     overviewPolyline = json["routes"][0]["overview_polyline"]["points"].stringValue
                 case .ZERO_RESULTS:
-                    print("zero results, can't draw bus routes")
+                    print("zero results, can't draw shuttle routes")
                 case .OVER_QUERY_LIMIT:
-                    print("over query limit, can't draw bus routes")
+                    print("over query limit, can't draw shuttle routes")
                 case .REQUEST_DENIED:
-                    print("request was denied, can't draw bus routes")
+                    print("request was denied, can't draw shuttle routes")
                 case .INVALID_REQUEST:
-                    print("invalid request, can't draw bus routes")
+                    print("invalid request, can't draw shuttle routes")
                 case .UNKNOWN_ERROR:
-                    print("unknown, can't draw bus routes")
+                    print("unknown, can't draw shuttle routes")
                 }
             }
         }

@@ -388,9 +388,9 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    // MARK: Bus Stop Pop Up Methods
+    // MARK: Shuttle Stop Pop Up Methods
     
-    // Create the bus stop popup view
+    // Create the shuttle stop popup view
     func createPopUpView() {
         let popupWidth: CGFloat = view.frame.width - 2*kEdgePadding
         
@@ -557,7 +557,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    // MARK: Bus Stop Popup CollectionView Datasource Methods
+    // MARK: Shuttle Stop Popup CollectionView Datasource Methods
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
@@ -616,7 +616,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return true
     }
     
-    // MARK: - Shuttle Bus GPS Delegate Protocol Methods
+    // MARK: - Shuttle Shuttle GPS Delegate Protocol Methods
     
 //    func gps(gps: GPS, movedToCoordinate coordinate: Coordinate) {
 //        if let localShuttleBusMarker = shuttleBusMarker {

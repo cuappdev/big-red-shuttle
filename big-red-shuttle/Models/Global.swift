@@ -42,7 +42,7 @@ public func connectedToInternet() -> Bool {
 // Display warning if user is not connected to Internet
 public func displayNoInternetAlert(vc: UIViewController) {
     if !connectedToInternet() {
-        let alert = UIAlertController(title: "No Internet Connection!", message: "The bus schedule displayed may be outdated. You should connect to the Internet for the most accurate bus stop and route information.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "No Internet Connection!", message: "The shuttle schedule displayed may be outdated. You should connect to the Internet for the most accurate shuttle stop and route information.", preferredStyle: .alert)
         let connectAction = UIAlertAction(title: "Connect", style: .default, handler: { _ in
             guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
             
