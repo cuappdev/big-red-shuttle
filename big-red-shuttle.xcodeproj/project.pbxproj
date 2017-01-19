@@ -14,7 +14,6 @@
 		44929BC61DAEF4E300B07EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC51DAEF4E300B07EBF /* AppDelegate.swift */; };
 		44929BC81DAEF4E300B07EBF /* StopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BC71DAEF4E300B07EBF /* StopsViewController.swift */; };
 		44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44929BCC1DAEF4E300B07EBF /* Assets.xcassets */; };
-		44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */; };
 		44929BDB1DAEF4E300B07EBF /* big_red_shuttleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BDA1DAEF4E300B07EBF /* big_red_shuttleTests.swift */; };
 		44929BE61DAEF4E300B07EBF /* big_red_shuttleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44929BE51DAEF4E300B07EBF /* big_red_shuttleUITests.swift */; };
 		500FA3161DC164ED00F9CD59 /* EmergencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500FA3151DC164ED00F9CD59 /* EmergencyViewController.swift */; };
@@ -22,6 +21,7 @@
 		505DC3941DD18CA800774077 /* CustomTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DC3931DD18CA800774077 /* CustomTimeCell.swift */; };
 		505DC3961DD3F82A00774077 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DC3951DD3F82A00774077 /* Location.swift */; };
 		505DC3981DD3F85500774077 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */; };
+		95E387D21E305CF2006DE182 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95E387D11E305CF2006DE182 /* LaunchScreen.storyboard */; };
 		95FD9A871DD8520A00CF5D1F /* DriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */; };
 		95FD9A891DD8524800CF5D1F /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = 95FD9A881DD8524800CF5D1F /* config.json */; };
 		95FD9A8B1DD853B600CF5D1F /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FD9A8A1DD853B600CF5D1F /* GPS.swift */; };
@@ -77,7 +77,6 @@
 		44929BC51DAEF4E300B07EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44929BC71DAEF4E300B07EBF /* StopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StopsViewController.swift; path = Controllers/StopsViewController.swift; sourceTree = "<group>"; };
 		44929BCC1DAEF4E300B07EBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		44929BCF1DAEF4E300B07EBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44929BD11DAEF4E300B07EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		44929BD61DAEF4E300B07EBF /* big-red-shuttleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "big-red-shuttleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44929BDA1DAEF4E300B07EBF /* big_red_shuttleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = big_red_shuttleTests.swift; sourceTree = "<group>"; };
@@ -91,6 +90,7 @@
 		505DC3951DD3F82A00774077 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Models/Location.swift; sourceTree = "<group>"; };
 		505DC3971DD3F85500774077 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIViewControllerExtensions.swift; path = Utilities/UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		63188085D7A38B81519FBF7D /* Pods-big-red-shuttle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-big-red-shuttle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-big-red-shuttle/Pods-big-red-shuttle.debug.xcconfig"; sourceTree = "<group>"; };
+		95E387D11E305CF2006DE182 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95FD9A861DD8520A00CF5D1F /* DriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DriverViewController.swift; path = Controllers/DriverViewController.swift; sourceTree = "<group>"; };
 		95FD9A881DD8524800CF5D1F /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = config.json; path = "Supporting Files/config.json"; sourceTree = "<group>"; };
 		95FD9A8A1DD853B600CF5D1F /* GPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GPS.swift; path = Models/GPS.swift; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 				D1C9D0711DE2A41F009B9234 /* Resources */,
 				D1ECC6EF1DE623500047E17D /* Supporting Files */,
 				44929BCC1DAEF4E300B07EBF /* Assets.xcassets */,
-				44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */,
+				95E387D11E305CF2006DE182 /* LaunchScreen.storyboard */,
 			);
 			path = "big-red-shuttle";
 			sourceTree = "<group>";
@@ -375,7 +375,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = cuappdev;
 				TargetAttributes = {
 					44929BC11DAEF4E300B07EBF = {
@@ -421,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1981AAD1DE56F1D005AB9E7 /* SF-UI-Display-Bold.otf in Resources */,
+				95E387D21E305CF2006DE182 /* LaunchScreen.storyboard in Resources */,
 				D16B938C1DE950C200EE3514 /* brs-stops.json in Resources */,
 				D16B93881DE9507800EE3514 /* brs-about-sections.json in Resources */,
 				D16B938A1DE950A700EE3514 /* brs-emergency-contacts.json in Resources */,
@@ -429,7 +430,6 @@
 				D1C9D08B1DE2A689009B9234 /* SF-UI-Display-Regular.otf in Resources */,
 				D1C9D08A1DE2A67F009B9234 /* SF-UI-Display-Semibold.otf in Resources */,
 				D1C9D0891DE2A674009B9234 /* SF-UI-Text-Semibold.otf in Resources */,
-				44929BD01DAEF4E300B07EBF /* LaunchScreen.storyboard in Resources */,
 				95FD9A891DD8524800CF5D1F /* config.json in Resources */,
 				442D871B1DC9A52F0075BBCA /* StopSearchTableViewCell.xib in Resources */,
 				44929BCD1DAEF4E300B07EBF /* Assets.xcassets in Resources */,
@@ -563,17 +563,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		44929BCE1DAEF4E300B07EBF /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				44929BCF1DAEF4E300B07EBF /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		44929BE81DAEF4E300B07EBF /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -593,6 +582,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -643,6 +633,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -672,6 +663,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63188085D7A38B81519FBF7D /* Pods-big-red-shuttle.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				INFOPLIST_FILE = "$(SRCROOT)/big-red-shuttle/Supporting Files/Info.plist";
@@ -688,6 +680,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2D40914A456E2D1EA8D54E69 /* Pods-big-red-shuttle.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ZGMCXU7X3U;
 				INFOPLIST_FILE = "$(SRCROOT)/big-red-shuttle/Supporting Files/Info.plist";
