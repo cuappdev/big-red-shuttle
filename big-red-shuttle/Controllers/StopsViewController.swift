@@ -97,6 +97,11 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                              repeats: true)
     }
     
+    // Update schedule bar every 5 seconds
+    func updateScheduleBar() {
+        
+    }
+    
     // MARK: Map and Route Drawing Methods
     
     func drawPath() {
@@ -159,7 +164,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    // Update location pins every minute
+    // Update location pins every 5 seconds
     func updateLocationPins() {
         for (_, marker) in markers {
             updateIconView(marker: marker)
@@ -561,18 +566,14 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
-        let nextArrivalsToday = selectedStop.nextArrivalsToday()
+        let cellText = getMessage(messageType: .Popup, stop: selectedStop)
+        let timesStringSize = cellText.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+        let timeStringWidth = timesStringSize.width + 2*cellXOffset
+        let labelX = (timeStringWidth > collectionView.bounds.width) ? cell.bounds.midX : collectionView.bounds.midX
         
-        if nextArrivalsToday.count > 0 {
-            cell.textLabel.text = nextArrivalsToday.joined(separator: spaceSeparator)
-            cell.textLabel.sizeToFit()
-            cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
-        } else {
-            cell.textLabel.text = "Next shuttle at \(selectedStop.nextArrival())"
-            cell.textLabel.sizeToFit()
-            cell.textLabel.center = CGPoint(x: collectionView.bounds.midX, y: cell.bounds.midY)
-        }
-        
+        cell.textLabel.text = cellText
+        cell.textLabel.sizeToFit()
+        cell.textLabel.center = CGPoint(x: labelX, y: cell.bounds.midY)
         cell.textLabel.textColor = .brsgrey
         cell.textLabel.font = UIFont(name: "SFUIDisplay-Regular", size: 14)
 
@@ -584,11 +585,11 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let nextArrivalsToday = selectedStop.nextArrivalsToday()
-        let timesString = nextArrivalsToday.joined(separator: spaceSeparator) as NSString
-        let timesStringSize = timesString.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+        let cellText = getMessage(messageType: .Popup, stop: selectedStop)
+        let timesStringSize = cellText.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+        let maxWidth = max(timesStringSize.width + 2*cellXOffset, collectionView.bounds.width)
         
-        return (nextArrivalsToday.count > 0) ? CGSize(width: timesStringSize.width + 2*cellXOffset, height: collectionView.bounds.height) : collectionView.bounds.size
+        return CGSize(width: maxWidth, height: collectionView.bounds.height)
     }
     
     // MARK: GMSMapViewDelegate Methods

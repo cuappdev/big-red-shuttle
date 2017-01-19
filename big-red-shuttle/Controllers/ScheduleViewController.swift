@@ -34,14 +34,13 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         
         if loopStop?.nextArrivalToday() == "--" {
             noBusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: noBusLabelHeight))
-            noBusLabel.numberOfLines = 2
-            let nextArrivalText = stops.first?.nextArrival() ?? "--"
-            noBusLabel.text = "The shuttle will start running again\nat \(nextArrivalText)"
+            noBusLabel.text = getMessage(messageType: .Schedule, stop: loopStop!)
             noBusLabel.font = UIFont(name: "SFUIDisplay-Medium", size: 14.0)
             noBusLabel.textColor = .brsgrey
             noBusLabel.backgroundColor = .brslightgrey
             noBusLabel.textAlignment = .center
-            
+            noBusLabel.numberOfLines = 2
+
             let separator = UIView(frame: CGRect(x: 0, y: noBusLabel.frame.height - separatorHeight, width: view.frame.width, height: separatorHeight))
             separator.backgroundColor = .brsgray
             noBusLabel.addSubview(separator)
@@ -96,6 +95,9 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         }
+        
+        noBusLabel.text = getMessage(messageType: .Schedule, stop: loopStop!)
+        scheduleBar.frame.origin.y = (loopStop?.nextArrivalToday() == "--") ? noBusLabel.frame.height : 0
     }
     
     // MARK: - Schedule Bar Delegate Methods

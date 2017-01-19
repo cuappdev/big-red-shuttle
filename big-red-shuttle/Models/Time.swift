@@ -10,9 +10,9 @@ import Foundation
 
 // Stores time using 24-hour system
 public class Time: NSObject {
-    public var hour: Int // in 24 hours
-    public var minute: Int
     public var day: Int
+    public var hour: Int // 0 - 23
+    public var minute: Int
     
     public var shortDescription: String {
         let civilianHour = hour == 0 ? 12 : hour % 12
@@ -24,7 +24,7 @@ public class Time: NSObject {
     
     override public var description: String {
         let dayString = Days.fromNumber(num: day == 1 ? 7 : day - 1)!.rawValue
-        return "\(shortDescription) on \(dayString) night"
+        return "\(dayString) night at \(shortDescription)"
     }
     
     public convenience init(day: Int, time: String) {
@@ -32,13 +32,7 @@ public class Time: NSObject {
         self.init(day: day, hour: hour, minute: minute)
     }
     
-    public init(hour: Int, minute: Int, day: Int){
-        self.hour = hour
-        self.minute = minute
-        self.day = day
-    }
-    
-    public init(day: Int, hour: Int, minute: Int){
+    public init(day: Int, hour: Int, minute: Int) {
         self.day = day
         self.hour = hour
         self.minute = minute

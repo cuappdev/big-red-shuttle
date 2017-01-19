@@ -20,9 +20,8 @@ class StopSearchTableViewCell: UITableViewCell {
         
         nameLabel.text = stop.name
         nameLabel.textColor = .brsblack
- 
-        let nextArrivalToday = stop.nextArrivalToday()
-        nextArrivalLabel.text = (nextArrivalToday != "--") ? "Next shuttle at \(nextArrivalToday) today" : "Next shuttle at \(stop.nextArrival())"
+        
+        nextArrivalLabel.text = getMessage(messageType: .Search, stop: stop)
         nextArrivalLabel.textColor = .brsgrey
     }
 }
