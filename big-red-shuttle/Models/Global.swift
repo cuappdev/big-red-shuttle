@@ -89,7 +89,7 @@ public func getStops() ->  [Stop] {
             let dayObject = Days(rawValue: day as! String)!
             dayArray.append(Days(rawValue: day as! String)!)
             for tStr in timeStrings {
-                times.append(Time(time: tStr, technicallyNightBefore: dayObject.number))
+                times.append(Time(day: dayObject.number, time: tStr))
             }
         }
         

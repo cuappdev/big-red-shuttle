@@ -6,9 +6,9 @@
 //  Copyright © 2016 cuappdev. All rights reserved.
 //
 
-//Note: stores time using 24-hour system
 import Foundation
 
+// Stores time using 24-hour system
 public class Time: NSObject {
     public var hour: Int // in 24 hours
     public var minute: Int
@@ -27,9 +27,9 @@ public class Time: NSObject {
         return "\(shortDescription) on \(dayString) night"
     }
     
-    public convenience init(time: String, technicallyNightBefore: Int) {
+    public convenience init(day: Int, time: String) {
         let (hour, minute) = getTime(time: time)
-        self.init(hour: hour, minute: minute, technicallyNightBefore: technicallyNightBefore)
+        self.init(day: day, hour: hour, minute: minute)
     }
     
     public init(hour: Int, minute: Int, day: Int){
@@ -38,10 +38,10 @@ public class Time: NSObject {
         self.day = day
     }
     
-    public init(hour: Int, minute: Int, technicallyNightBefore: Int){
+    public init(day: Int, hour: Int, minute: Int){
+        self.day = day
         self.hour = hour
         self.minute = minute
-        self.day = technicallyNightBefore + 1 > 7 ? 1 : technicallyNightBefore + 1
     }
     
     public func isEarlier(than time: Time) -> Bool {
