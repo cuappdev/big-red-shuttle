@@ -97,6 +97,11 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                              repeats: true)
     }
     
+    // Update schedule bar every 5 seconds
+    func updateScheduleBar() {
+        
+    }
+    
     // MARK: Map and Route Drawing Methods
     
     func drawPath() {
@@ -149,7 +154,15 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
                 let marker = GMSMarker(position: location)
                 marker.userData = stop
-                marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
+                
+                let hasArrivalsToday = stop.nextArrivalsToday().count > 0
+                var previewTime = false
+                
+                if let currentTime = getCurrentTime() {
+                    previewTime = [6, 7].contains(currentTime.day) && currentTime.hour >= 13
+                }
+
+                marker.iconView = (hasArrivalsToday || previewTime) ? IconViewBig() : IconViewSmall()
                 
                 updateStopTimeLabel(marker: marker, selected: false)
                 
@@ -159,7 +172,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    // Update location pins every minute
+    // Update location pins every 5 seconds
     func updateLocationPins() {
         for (_, marker) in markers {
             updateIconView(marker: marker)
@@ -175,7 +188,14 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let stop = marker.userData as! Stop
         var iconView = marker.iconView as! IconView
         
-        if stop.nextArrivalsToday().count > 0 {
+        let hasArrivalsToday = stop.nextArrivalsToday().count > 0
+        var previewTime = false
+        
+        if let currentTime = getCurrentTime() {
+            previewTime = [6, 7].contains(currentTime.day) && currentTime.hour >= 13
+        }
+        
+        if hasArrivalsToday || previewTime {
             if iconView is IconViewSmall {
                 changeIconView(marker: marker)
             }
@@ -212,20 +232,26 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let iconView = marker.iconView as! IconView
         
         // Show next arrival time in HH:mm format
-        let nextArrivalString = stop.nextArrivalToday()
+        var preview = false
+        if let currentTime = getCurrentTime() {
+            preview = [6, 7].contains(currentTime.day) && currentTime.hour >= 13
+        }
+        
+        let firstArrivalTomorrow = stop.allArrivalsTomorrow().first ?? "--"
+        let nextArrivalString = preview ? firstArrivalTomorrow : stop.nextArrivalToday()
         let needles: [Character] = ["a", "p"]
         
         for needle in needles {
             if let index = nextArrivalString.characters.index(of: needle) {
                 let timeString = nextArrivalString.substring(to: index)
-                iconView.timeLabel.text = timeString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                iconView.timeLabel.text = timeString.trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }
         
         if selected {
             // If minutes until next arrival < minsThreshold, show minutes until next arrival
             let remainingMins = getMinutesUntilTime(time: nextArrivalString)
-            
+   
             if remainingMins != -1 && remainingMins <= minsThreshold {
                 iconView.timeLabel.text = "\(remainingMins) min"
             }
@@ -561,18 +587,15 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
+        let cellText = getMessage(messageType: .Popup, stop: selectedStop)
+        let timesStringSize = cellText.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+        let timeStringWidth = timesStringSize.width + 2*cellXOffset
         let nextArrivalsToday = selectedStop.nextArrivalsToday()
+        let labelX = (timeStringWidth > collectionView.bounds.width || nextArrivalsToday.count > 0) ? cell.bounds.midX : collectionView.bounds.midX
         
-        if nextArrivalsToday.count > 0 {
-            cell.textLabel.text = nextArrivalsToday.joined(separator: spaceSeparator)
-            cell.textLabel.sizeToFit()
-            cell.textLabel.center = CGPoint(x: cell.bounds.midX, y: cell.bounds.midY)
-        } else {
-            cell.textLabel.text = "Next shuttle at \(selectedStop.nextArrival())"
-            cell.textLabel.sizeToFit()
-            cell.textLabel.center = CGPoint(x: collectionView.bounds.midX, y: cell.bounds.midY)
-        }
-        
+        cell.textLabel.text = cellText
+        cell.textLabel.sizeToFit()
+        cell.textLabel.center = CGPoint(x: labelX, y: cell.bounds.midY)
         cell.textLabel.textColor = .brsgrey
         cell.textLabel.font = UIFont(name: "SFUIDisplay-Regular", size: 14)
 
@@ -584,11 +607,13 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellText = getMessage(messageType: .Popup, stop: selectedStop)
+        let timesStringSize = cellText.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+        let timeStringWidth = timesStringSize.width + 2*cellXOffset
         let nextArrivalsToday = selectedStop.nextArrivalsToday()
-        let timesString = nextArrivalsToday.joined(separator: spaceSeparator) as NSString
-        let timesStringSize = timesString.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+        let cellWidth = (timeStringWidth > collectionView.bounds.width || nextArrivalsToday.count > 0) ? timeStringWidth : collectionView.bounds.width
         
-        return (nextArrivalsToday.count > 0) ? CGSize(width: timesStringSize.width + 2*cellXOffset, height: collectionView.bounds.height) : collectionView.bounds.size
+        return CGSize(width: cellWidth, height: collectionView.bounds.height)
     }
     
     // MARK: GMSMapViewDelegate Methods

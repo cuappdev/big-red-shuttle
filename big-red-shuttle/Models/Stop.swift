@@ -93,44 +93,45 @@ public class Stop: NSObject {
     }
     
     public func nextArrivalInDay() -> String {
-        let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
-        guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return "--" }
-        let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
-        let allArrivalsInDay = allArrivalTimesInDay()
-        
-        for arrival in allArrivalsInDay {
-            let arrivalTimeTuple = getTime(time: arrival)
-            let arrivalTime = Time(hour: arrivalTimeTuple.0, minute: arrivalTimeTuple.1, day: currentDay)
+        if let currentTime = getCurrentTime(), nextArrivalToday() != "--" {
+            let allArrivalsInDay = allArrivalTimesInDay()
             
-            if currentTime.isEarlier(than: arrivalTime) { return arrival }
+            for arrival in allArrivalsInDay {
+                let arrivalTimeTuple = getTime(time: arrival)
+                let arrivalTime = Time(day: currentTime.day, hour: arrivalTimeTuple.0, minute: arrivalTimeTuple.1)
+                
+                if currentTime.isEarlier(than: arrivalTime) { return arrival }
+            }
         }
-
+        
         return "--"
     }
     
     public func nextArrivalsToday() -> [String] {
-        let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
-        guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return [] }
-        let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
+        guard let currentTime = getCurrentTime() else { return [] }
         
-        return times.filter { time in time.atMost12HoursLater(than: currentTime) }.map { time in time.shortDescription }
+        return times.filter { time in currentTime.sameDay(asTime: time) && currentTime.isEarlier(than: time) }.map { time in time.shortDescription }
+    }
+    
+    public func allArrivalsTomorrow() -> [String] {
+        guard let currentTime = getCurrentTime() else { return [] }
+       
+        return times.filter { time in currentTime.dayBefore(time: time) }.map { time in time.shortDescription }
     }
     
     public func nextArrivalToday() -> String {
         return nextArrivalsToday().first ?? "--"
     }
     
-    public func nextArrival() -> String {
-        let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
-        guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return "––" }
-        let currentTime = Time(hour: currentHour, minute: currentMinute, day: currentDay)
-
-        for time in times {
-            if currentTime.isEarlier(than: time) {
-                return currentTime.sameDay(asTime: time) ? time.shortDescription : time.description
+    public func nextArrival(description: Bool) -> String {
+        if let currentTime = getCurrentTime() {
+            for time in times {
+                if currentTime.isEarlier(than: time) {
+                    return description ? time.description : time.shortDescription
+                }
             }
         }
-        
+
         return times.first?.description ?? "--"
     }
 }

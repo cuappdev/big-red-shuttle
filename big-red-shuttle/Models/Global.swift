@@ -89,7 +89,7 @@ public func getStops() ->  [Stop] {
             let dayObject = Days(rawValue: day as! String)!
             dayArray.append(Days(rawValue: day as! String)!)
             for tStr in timeStrings {
-                times.append(Time(time: tStr, technicallyNightBefore: dayObject.number))
+                times.append(Time(day: dayObject.number, time: tStr))
             }
         }
         
@@ -152,11 +152,71 @@ public func getAboutSections() -> [AboutSection] {
     return aboutSections
 }
 
+// MARK: - Time Message Methods
+
+public enum MessageType: String {
+    case Search
+    case Popup
+    case Schedule
+}
+
+// Customize the time messsages in the app
+public func getMessage(messageType: MessageType, stop: Stop) -> String {
+    let nextArrivalsToday = stop.nextArrivalsToday()
+    let nextArrivalToday = stop.nextArrivalToday()
+    let allArrivalsTomorrow = stop.allArrivalsTomorrow()
+    let nextArrivalTime = stop.nextArrival(description: false)
+    let nextArrivalDescription = stop.nextArrival(description: true)
+    let spaceSeparator = String(repeating: " ", count: 5)
+    
+    if let currentTime = getCurrentTime() {
+        let (currentDay, currentHour) = (currentTime.day, currentTime.hour)
+        
+        switch messageType {
+        case .Search:
+            if [6, 7].contains(currentDay) && currentHour >= 3 { // Friday/Saturday after 3am
+                return "Next shuttle tonight at \(nextArrivalTime)"
+            } else if [7, 1].contains(currentDay) && (0...2) ~= currentHour && nextArrivalsToday.count > 0 { // Saturday/Sunday 12am until last arrival
+                return "Next shuttle today at \(nextArrivalToday)"
+            } else { // Shuttle is not running today or for the rest of the day
+                return "Next shuttle on \(nextArrivalDescription)"
+            }
+        case .Popup:
+            if [6, 7].contains(currentDay) && (3...12) ~= currentHour { // Friday/Saturday 3am - 1pm
+                return "Next shuttle tonight at \(nextArrivalTime)"
+            } else if [6, 7].contains(currentDay) && currentHour >= 13 { // Friday/Saturday after 1pm
+                return allArrivalsTomorrow.joined(separator: spaceSeparator)
+            } else if [7, 1].contains(currentDay) && (0...2) ~= currentHour && nextArrivalsToday.count > 0 { // Saturday/Sunday 12am until last arrival
+                return nextArrivalsToday.joined(separator: spaceSeparator)
+            } else { // Shuttle is not running today or for the rest of the day
+                return "Next shuttle on \(nextArrivalDescription)"
+            }
+        case .Schedule:
+            if [6, 7].contains(currentDay) && currentHour >= 3 { // Friday/Saturday after 3am
+                return "The shuttle is not currently running. \nIt will run tonight at \(nextArrivalTime)."
+            } else if [7, 1].contains(currentDay) && (0...2) ~= currentHour { // Saturday/Sunday 12am - 3am
+                return "--"
+            } else { // Shuttle is not running today or for the rest of the day
+                return "The shuttle is not currently running. \nIt will run again on \(nextArrivalDescription)."
+            }
+        }
+    }
+    
+    return "--"
+}
+
 // MARK: - Date and Time Methods
 
 // Get the current day of the week in int format
 public func getDayOfWeek(today: Date) -> Int {
     return Calendar(identifier: .gregorian).component(.weekday, from: today)
+}
+
+// Get the current time as a time object
+public func getCurrentTime() -> Time? {
+    let components = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
+    guard let currentHour = components.hour, let currentMinute = components.minute, let currentDay = components.weekday else { return nil }
+    return Time(day: currentDay, hour: currentHour, minute: currentMinute)
 }
 
 // Create time from JSON string, where time string must have format H:mm a
