@@ -47,7 +47,11 @@ public func displayNoInternetAlert(vc: UIViewController) {
             guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
             
             if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl, completionHandler: nil)
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(settingsUrl, completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(settingsUrl)
+                }
             }
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
