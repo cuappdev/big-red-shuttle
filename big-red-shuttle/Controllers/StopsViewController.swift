@@ -569,7 +569,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cellText = getMessage(messageType: .Popup, stop: selectedStop)
         let timesStringSize = cellText.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
         let timeStringWidth = timesStringSize.width + 2*cellXOffset
-        let labelX = (timeStringWidth > collectionView.bounds.width) ? cell.bounds.midX : collectionView.bounds.midX
+        let nextArrivalsToday = selectedStop.nextArrivalsToday()
+        let labelX = (timeStringWidth > collectionView.bounds.width || nextArrivalsToday.count > 0) ? cell.bounds.midX : collectionView.bounds.midX
         
         cell.textLabel.text = cellText
         cell.textLabel.sizeToFit()
@@ -587,9 +588,11 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellText = getMessage(messageType: .Popup, stop: selectedStop)
         let timesStringSize = cellText.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
-        let maxWidth = max(timesStringSize.width + 2*cellXOffset, collectionView.bounds.width)
+        let timeStringWidth = timesStringSize.width + 2*cellXOffset
+        let nextArrivalsToday = selectedStop.nextArrivalsToday()
+        let cellWidth = (timeStringWidth > collectionView.bounds.width || nextArrivalsToday.count > 0) ? timeStringWidth : collectionView.bounds.width
         
-        return CGSize(width: maxWidth, height: collectionView.bounds.height)
+        return CGSize(width: cellWidth, height: collectionView.bounds.height)
     }
     
     // MARK: GMSMapViewDelegate Methods
