@@ -12,7 +12,7 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
     
     let identifier: String = "Schedule Cell"
     let cellHeight: CGFloat = 42
-    let noBusLabelHeight: CGFloat = 60
+    let noBusLabelHeight: CGFloat = 58
     let barHeight: CGFloat = 58
     let redLinePercOffset: CGFloat = 0.23
     let separatorHeight: CGFloat = 1.2
@@ -31,28 +31,27 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         
         stops = getStops()
         loopStop = stops.first
-
-        if loopStop?.nextArrivalToday() == "--" {
-            noBusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: noBusLabelHeight))
-            noBusLabel.text = getMessage(messageType: .Schedule, stop: loopStop!)
-            noBusLabel.font = UIFont(name: "SFUIDisplay-Medium", size: 14.0)
-            noBusLabel.textColor = .brsgrey
-            noBusLabel.backgroundColor = .brslightgrey
-            noBusLabel.textAlignment = .center
-            noBusLabel.numberOfLines = 2
-
-            let separator = UIView(frame: CGRect(x: 0, y: noBusLabel.frame.height - separatorHeight, width: view.frame.width, height: separatorHeight))
-            separator.backgroundColor = .brsgray
-            noBusLabel.addSubview(separator)
-            
-            view.addSubview(noBusLabel)
-            
-            let labelY = (noBusLabel.text != "--") ? noBusLabel.frame.height : 0
-            scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: labelY, width: view.frame.width, height: barHeight))
-        } else {
-            scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: barHeight))
-        }
         
+        // Message Label
+        noBusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: noBusLabelHeight))
+        noBusLabel.text = getMessage(messageType: .Schedule, stop: loopStop!)
+        noBusLabel.font = UIFont(name: "SFUIDisplay-Medium", size: 14.0)
+        noBusLabel.textColor = .brsgrey
+        noBusLabel.backgroundColor = .brslightgrey
+        noBusLabel.textAlignment = .center
+        noBusLabel.numberOfLines = 2
+        
+        let separator = UIView(frame: CGRect(x: 0, y: noBusLabelHeight - separatorHeight, width: view.frame.width, height: separatorHeight))
+        separator.backgroundColor = .brsgray
+        noBusLabel.addSubview(separator)
+        
+        view.addSubview(noBusLabel)
+        
+        // Display or hide message label
+        let labelY = (noBusLabel.text != "--") ? noBusLabelHeight : 0
+        scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: labelY, width: view.frame.width, height: barHeight))
+        noBusLabel.isHidden = (noBusLabel.text == "--")
+
         // Schedule Bar
         scheduleBar.sbDelegate = self
         
@@ -63,14 +62,14 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         view.addSubview(scheduleBar)
         
         // Table View
-        tableView = UITableView(frame: CGRect(x: 0, y: scheduleBar.frame.maxY, width: view.frame.width, height: view.frame.height - UIApplication.shared.statusBarFrame.height - (navigationController?.navigationBar.frame.height)! - scheduleBar.frame.height - (navigationController?.tabBarController?.tabBar.frame.height)!))
+        tableView = UITableView(frame: CGRect(x: 0, y: scheduleBar.frame.maxY, width: view.frame.width, height: UIScreen.main.bounds.height - UIApplication.shared.statusBarFrame.height - (navigationController?.navigationBar.frame.height)! - scheduleBar.frame.maxY - (navigationController?.tabBarController?.tabBar.frame.height)!))
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.rowHeight = cellHeight
         view.addSubview(tableView)
-        
+   
         // Red Route Line
         let line = UIView(frame: CGRect(x: view.frame.width * redLinePercOffset, y: 0, width: 3.0, height: view.frame.height))
         line.backgroundColor = .brsred
@@ -96,12 +95,14 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         }
-        
+
+        // Update message label
         if let stop = loopStop, let messageLabel = noBusLabel, let scheduleBar = scheduleBar, let tableView = tableView {
             messageLabel.text = getMessage(messageType: .Schedule, stop: stop)
             messageLabel.isHidden = (messageLabel.text == "--")
-            scheduleBar.frame.origin.y = (messageLabel.text != "--") ? messageLabel.frame.height : 0
+            scheduleBar.frame.origin.y = (messageLabel.text != "--") ? noBusLabelHeight : 0
             tableView.frame.origin.y = scheduleBar.frame.maxY
+            tableView.frame.size.height = UIScreen.main.bounds.height - UIApplication.shared.statusBarFrame.height - (navigationController?.navigationBar.frame.height)! - scheduleBar.frame.maxY - (navigationController?.tabBarController?.tabBar.frame.height)!
         }
     }
     
