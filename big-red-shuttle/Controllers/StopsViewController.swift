@@ -154,7 +154,15 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 let location = CLLocationCoordinate2DMake(CLLocationDegrees(stop.lat), CLLocationDegrees(stop.long))
                 let marker = GMSMarker(position: location)
                 marker.userData = stop
-                marker.iconView = stop.nextArrivalsToday().count > 0 ? IconViewBig() : IconViewSmall()
+                
+                let hasArrivalsToday = stop.nextArrivalsToday().count > 0
+                var previewTime = false
+                
+                if let currentTime = getCurrentTime() {
+                    previewTime = [6, 7].contains(currentTime.day) && currentTime.hour >= 13
+                }
+
+                marker.iconView = (hasArrivalsToday || previewTime) ? IconViewBig() : IconViewSmall()
                 
                 updateStopTimeLabel(marker: marker, selected: false)
                 
@@ -180,7 +188,14 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let stop = marker.userData as! Stop
         var iconView = marker.iconView as! IconView
         
-        if stop.nextArrivalsToday().count > 0 {
+        let hasArrivalsToday = stop.nextArrivalsToday().count > 0
+        var previewTime = false
+        
+        if let currentTime = getCurrentTime() {
+            previewTime = [6, 7].contains(currentTime.day) && currentTime.hour >= 13
+        }
+        
+        if hasArrivalsToday || previewTime {
             if iconView is IconViewSmall {
                 changeIconView(marker: marker)
             }
@@ -217,20 +232,26 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let iconView = marker.iconView as! IconView
         
         // Show next arrival time in HH:mm format
-        let nextArrivalString = stop.nextArrivalToday()
+        var preview = false
+        if let currentTime = getCurrentTime() {
+            preview = [6, 7].contains(currentTime.day) && currentTime.hour >= 13
+        }
+        
+        let firstArrivalTomorrow = stop.allArrivalsTomorrow().first ?? "--"
+        let nextArrivalString = preview ? firstArrivalTomorrow : stop.nextArrivalToday()
         let needles: [Character] = ["a", "p"]
         
         for needle in needles {
             if let index = nextArrivalString.characters.index(of: needle) {
                 let timeString = nextArrivalString.substring(to: index)
-                iconView.timeLabel.text = timeString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                iconView.timeLabel.text = timeString.trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }
         
         if selected {
             // If minutes until next arrival < minsThreshold, show minutes until next arrival
             let remainingMins = getMinutesUntilTime(time: nextArrivalString)
-            
+   
             if remainingMins != -1 && remainingMins <= minsThreshold {
                 iconView.timeLabel.text = "\(remainingMins) min"
             }
