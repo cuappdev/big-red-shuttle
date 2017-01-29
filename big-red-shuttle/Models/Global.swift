@@ -163,6 +163,7 @@ public enum MessageType: String {
 // Customize the time messsages in the app
 public func getMessage(messageType: MessageType, stop: Stop) -> String {
     let nextArrivalsToday = stop.nextArrivalsToday()
+    let nextArrivalToday = stop.nextArrivalToday()
     let allArrivalsTomorrow = stop.allArrivalsTomorrow()
     let nextArrivalTime = stop.nextArrival(description: false)
     let nextArrivalDescription = stop.nextArrival(description: true)
@@ -176,7 +177,7 @@ public func getMessage(messageType: MessageType, stop: Stop) -> String {
             if [6, 7].contains(currentDay) && currentHour >= 3 { // Friday/Saturday after 3am
                 return "Next shuttle tonight at \(nextArrivalTime)"
             } else if [7, 1].contains(currentDay) && (0...2) ~= currentHour && nextArrivalsToday.count > 0 { // Saturday/Sunday 12am until last arrival
-                return "Next shuttle today at \(nextArrivalTime)"
+                return "Next shuttle today at \(nextArrivalToday)"
             } else { // Shuttle is not running today or for the rest of the day
                 return "Next shuttle on \(nextArrivalDescription)"
             }
