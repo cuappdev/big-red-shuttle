@@ -93,7 +93,7 @@ public class Stop: NSObject {
     }
     
     public func nextArrivalInDay() -> String {
-        if let currentTime = getCurrentTime() {
+        if let currentTime = getCurrentTime(), nextArrivalToday() != "--" {
             let allArrivalsInDay = allArrivalTimesInDay()
             
             for arrival in allArrivalsInDay {
@@ -108,19 +108,15 @@ public class Stop: NSObject {
     }
     
     public func nextArrivalsToday() -> [String] {
-        if let currentTime = getCurrentTime() {
-            return times.filter { time in currentTime.sameDay(asTime: time) && currentTime.isEarlier(than: time) }.map { time in time.shortDescription }
-        }
+        guard let currentTime = getCurrentTime() else { return [] }
         
-        return []
+        return times.filter { time in currentTime.sameDay(asTime: time) && currentTime.isEarlier(than: time) }.map { time in time.shortDescription }
     }
     
     public func allArrivalsTomorrow() -> [String] {
-        if let currentTime = getCurrentTime() {
-            return times.filter { time in currentTime.dayBefore(time: time) }.map { time in time.shortDescription }
-        }
-        
-        return []
+        guard let currentTime = getCurrentTime() else { return [] }
+       
+        return times.filter { time in currentTime.dayBefore(time: time) }.map { time in time.shortDescription }
     }
     
     public func nextArrivalToday() -> String {

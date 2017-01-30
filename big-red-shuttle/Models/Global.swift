@@ -193,8 +193,8 @@ public func getMessage(messageType: MessageType, stop: Stop) -> String {
         case .Schedule:
             if [6, 7].contains(currentDay) && currentHour >= 3 { // Friday/Saturday after 3am
                 return "The shuttle is not currently running. \nIt will run tonight at \(nextArrivalTime)."
-            } else if [7, 1].contains(currentDay) && (0...2) ~= currentHour && nextArrivalsToday.count > 0 { // Saturday/Sunday 12am until last arrival
-                return "The shuttle is currently running."
+            } else if [7, 1].contains(currentDay) && (0...2) ~= currentHour { // Saturday/Sunday 12am - 3am
+                return "--"
             } else { // Shuttle is not running today or for the rest of the day
                 return "The shuttle is not currently running. \nIt will run again on \(nextArrivalDescription)."
             }

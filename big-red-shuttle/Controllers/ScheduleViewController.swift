@@ -31,7 +31,7 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
         
         stops = getStops()
         loopStop = stops.first
-        
+
         if loopStop?.nextArrivalToday() == "--" {
             noBusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: noBusLabelHeight))
             noBusLabel.text = getMessage(messageType: .Schedule, stop: loopStop!)
@@ -47,7 +47,8 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
             
             view.addSubview(noBusLabel)
             
-            scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: noBusLabel.frame.height, width: view.frame.width, height: barHeight))
+            let labelY = (noBusLabel.text != "--") ? noBusLabel.frame.height : 0
+            scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: labelY, width: view.frame.width, height: barHeight))
         } else {
             scheduleBar = ScheduleBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: barHeight))
         }
@@ -96,8 +97,12 @@ class ScheduleViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         
-        noBusLabel.text = getMessage(messageType: .Schedule, stop: loopStop!)
-        scheduleBar.frame.origin.y = (loopStop?.nextArrivalToday() == "--") ? noBusLabel.frame.height : 0
+        if let stop = loopStop, let messageLabel = noBusLabel, let scheduleBar = scheduleBar, let tableView = tableView {
+            messageLabel.text = getMessage(messageType: .Schedule, stop: stop)
+            messageLabel.isHidden = (messageLabel.text == "--")
+            scheduleBar.frame.origin.y = (messageLabel.text != "--") ? messageLabel.frame.height : 0
+            tableView.frame.origin.y = scheduleBar.frame.maxY
+        }
     }
     
     // MARK: - Schedule Bar Delegate Methods
