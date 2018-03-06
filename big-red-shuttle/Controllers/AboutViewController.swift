@@ -57,8 +57,8 @@ class AboutViewController: UIViewController {
         brsImageView.center = CGPoint(x: crossImageView.frame.midX - brsImageView.frame.width/2 - 40, y: crossImageView.frame.midY)
         bannerView.addSubview(brsImageView)
         
-        let appdevImageView = UIImageView(image: #imageLiteral(resourceName: "AppDevLogo"))
-        appdevImageView.frame.size = CGSize(width: 60.0, height: 17.0)
+        let appdevImageView = UIImageView(image: #imageLiteral(resourceName: "AppDevRedLogo"))
+        appdevImageView.frame.size = CGSize(width: 45.0, height: 45.0)
         appdevImageView.center = CGPoint(x: crossImageView.frame.midX + appdevImageView.frame.width/2 + 40, y: crossImageView.frame.midY)
         bannerView.addSubview(appdevImageView)
         
