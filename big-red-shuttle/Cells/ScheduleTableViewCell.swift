@@ -56,7 +56,7 @@ class ScheduleTableViewCell: UITableViewCell {
         
         separator.frame = CGRect(x: stopLabel.frame.minX, y: height - 1, width: scheduleViewBounds.width, height: 1)
         
-        let circlePath = UIBezierPath(arcCenter: routeLine.center, radius: CGFloat(4.4), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+        let circlePath = UIBezierPath(arcCenter: routeLine.center, radius: CGFloat(4.4), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         routeDot.path = circlePath.cgPath
         routeDot.fillColor = UIColor.white.cgColor
     }

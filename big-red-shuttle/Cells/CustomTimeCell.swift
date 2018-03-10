@@ -15,7 +15,7 @@ class CustomTimeCell: UICollectionViewCell {
     override init(frame: CGRect) {
         textLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 58, height: 20.5))
         super.init(frame: frame)
-        textLabel.font = .systemFont(ofSize: 13.5, weight: UIFontWeightRegular)
+        textLabel.font = .systemFont(ofSize: 13.5, weight: UIFont.Weight.regular)
         textLabel.textAlignment = .center
         textLabel.textColor = .lightGray
         contentView.addSubview(textLabel)

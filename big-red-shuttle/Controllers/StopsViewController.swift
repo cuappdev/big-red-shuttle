@@ -173,7 +173,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     // Update location pins every 5 seconds
-    func updateLocationPins() {
+    @objc func updateLocationPins() {
         for (_, marker) in markers {
             updateIconView(marker: marker)
         }
@@ -242,8 +242,8 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let needles: [Character] = ["a", "p"]
         
         for needle in needles {
-            if let index = nextArrivalString.characters.index(of: needle) {
-                let timeString = nextArrivalString.substring(to: index)
+            if let index = nextArrivalString.index(of: needle) {
+                let timeString = String(nextArrivalString[..<index])
                 iconView.timeLabel.text = timeString.trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }
@@ -314,7 +314,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.addSubview(aboutButton)
     }
     
-    func didTapAboutButton() {
+    @objc func didTapAboutButton() {
         let aboutVC = AboutViewController()
         aboutVC.modalTransitionStyle = .crossDissolve
         aboutVC.modalPresentationStyle = .overCurrentContext
@@ -536,7 +536,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     // Dismiss popup if user swipes down low enough on popup view 
-    func didPanPopupView(sender: UIPanGestureRecognizer) {
+    @objc func didPanPopupView(sender: UIPanGestureRecognizer) {
         let deltaY = sender.translation(in: view).y
         let newY = max(view.frame.height - popupYOffset, popUpView.frame.minY + deltaY)
         popUpView.frame = CGRect(origin: CGPoint(x: kEdgePadding, y: newY), size: popUpView.frame.size)
@@ -558,7 +558,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     // Redirect user to Apple Maps or Google Maps
-    func directionsButtonPressed(sender: UIButton) {
+    @objc func directionsButtonPressed(sender: UIButton) {
         let location = selectedStop.getLocation()
         let googleURL = "comgooglemaps://?saddr=&daddr=\(location.lat),\(location.long)&directionsmode=walking"
         
@@ -588,7 +588,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomTimeCell
         let cellText = getMessage(messageType: .Popup, stop: selectedStop)
-        let timesStringSize = cellText.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+        let timesStringSize = cellText.size(withAttributes: [NSAttributedStringKey.font: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
         let timeStringWidth = timesStringSize.width + 2*cellXOffset
         let nextArrivalsToday = selectedStop.nextArrivalsToday()
         let labelX = (timeStringWidth > collectionView.bounds.width || nextArrivalsToday.count > 0) ? cell.bounds.midX : collectionView.bounds.midX
@@ -608,7 +608,7 @@ class StopsViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellText = getMessage(messageType: .Popup, stop: selectedStop)
-        let timesStringSize = cellText.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+        let timesStringSize = cellText.size(withAttributes: [NSAttributedStringKey.font: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
         let timeStringWidth = timesStringSize.width + 2*cellXOffset
         let nextArrivalsToday = selectedStop.nextArrivalsToday()
         let cellWidth = (timeStringWidth > collectionView.bounds.width || nextArrivalsToday.count > 0) ? timeStringWidth : collectionView.bounds.width

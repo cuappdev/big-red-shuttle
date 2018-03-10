@@ -90,7 +90,7 @@ class IconView: UIView {
             arcCenter: CGPoint(x: circleView.frame.midX - edgePadding, y: circleView.frame.midY - edgePadding - yOffset),
             radius: CGFloat(circleViewDiameter/2.0 - innerCircleRadiusOffset),
             startAngle: CGFloat(0),
-            endAngle: CGFloat(M_PI * 2),
+            endAngle: CGFloat(Double.pi * 2),
             clockwise: true)
         
         let shapeLayer = CAShapeLayer()
@@ -132,7 +132,7 @@ class IconView: UIView {
             arcCenter: CGPoint(x: frame.midX, y: CGFloat(yGroundPos) + CGFloat(yGroundOffset) + CGFloat(edgePadding)),
             radius: CGFloat(radius),
             startAngle: CGFloat(0),
-            endAngle: CGFloat(M_PI * 2),
+            endAngle: CGFloat(Double.pi * 2),
             clockwise: true)
         
         let shapeLayer = CAShapeLayer()

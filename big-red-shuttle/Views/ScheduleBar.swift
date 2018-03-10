@@ -44,7 +44,7 @@ class ScheduleBar: UIScrollView {
         
         // Set up formatted buttons
         for time in buttonsData {
-            let timeStringSize = time.size(attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+            let timeStringSize = time.size(withAttributes: [NSAttributedStringKey.font: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
             let button = UIButton(frame: CGRect(x: 0, y: 0, width: timeStringSize.width + 2*buttonHPadding, height: timeStringSize.height + 2*buttonVPadding))
             
             contentWidth += button.frame.width
@@ -112,7 +112,7 @@ class ScheduleBar: UIScrollView {
         }
     }
     
-    func buttonPressed(button: UIButton) {
+    @objc func buttonPressed(button: UIButton) {
         select(button: button, animation: true)
         sbDelegate?.scrollToCell(button: button)
     }

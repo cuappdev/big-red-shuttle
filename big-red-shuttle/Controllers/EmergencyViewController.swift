@@ -33,7 +33,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     func phoneNumberToFormattedString(phoneNumber: String) -> String {
         var stringOfPhoneNumber = String(describing: phoneNumber)
         
-        if stringOfPhoneNumber.characters.count == 10 {
+        if stringOfPhoneNumber.count == 10 {
             let startIndex = stringOfPhoneNumber.startIndex
             stringOfPhoneNumber.insert("(", at: startIndex)
             stringOfPhoneNumber.insert(")", at: stringOfPhoneNumber.index(startIndex, offsetBy: 4))

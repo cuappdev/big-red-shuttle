@@ -80,30 +80,30 @@ class AboutViewController: UIViewController {
         
         for (index, aboutSection) in aboutSections.enumerated() {
             if index == 0 {
-                let topPaddingString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Semibold", size: 6)!])
+                let topPaddingString = NSAttributedString(string: "\n", attributes: [NSAttributedStringKey.font: UIFont(name: "SFUIDisplay-Semibold", size: 6)!])
                 textString.append(topPaddingString)
             }
             
-            let titleString = NSAttributedString(string: "\(aboutSection.title)\n", attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Semibold", size: 16)!])
+            let titleString = NSAttributedString(string: "\(aboutSection.title)\n", attributes: [NSAttributedStringKey.font: UIFont(name: "SFUIDisplay-Semibold", size: 16)!])
             textString.append(titleString)
             
-            let spacingString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Semibold", size: 11)!])
+            let spacingString = NSAttributedString(string: "\n", attributes: [NSAttributedStringKey.font: UIFont(name: "SFUIDisplay-Semibold", size: 11)!])
             textString.append(spacingString)
             
             let linkText = "\(aboutSection.title) Website"
             let summaryText = aboutSection.link.isEmpty ? "\(aboutSection.summary)\n" : "\(aboutSection.summary) Learn more at the \(linkText).\n"
-            let summaryString = NSMutableAttributedString(string: summaryText, attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
+            let summaryString = NSMutableAttributedString(string: summaryText, attributes: [NSAttributedStringKey.font: UIFont(name: "SFUIDisplay-Regular", size: 14)!])
             summaryString.hyperlink(text: "\(linkText)", linkURL: "\(aboutSection.link)")
             textString.append(summaryString)
             
             if index != aboutSections.count - 1 {
-                let dividerString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName: UIFont(name: "SFUIDisplay-Semibold", size: 25)!])
+                let dividerString = NSAttributedString(string: "\n", attributes: [NSAttributedStringKey.font: UIFont(name: "SFUIDisplay-Semibold", size: 25)!])
                 textString.append(dividerString)
             }
         }
         
-        textString.addAttribute(NSKernAttributeName, value: CGFloat(0.4), range: NSRange(location: 0, length: textString.length))
-        textString.addAttribute(NSForegroundColorAttributeName, value: UIColor.brsblack, range: NSRange(location: 0, length: textString.length))
+        textString.addAttribute(NSAttributedStringKey.kern, value: CGFloat(0.4), range: NSRange(location: 0, length: textString.length))
+        textString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.brsblack, range: NSRange(location: 0, length: textString.length))
         textView.attributedText = textString
         textViewContainer.addSubview(textView)
         
@@ -128,7 +128,7 @@ class AboutViewController: UIViewController {
         })
     }
     
-    func didTapDismissButton() {
+    @objc func didTapDismissButton() {
         let containerFrame = CGRect(x: kContainerPadding, y: view.frame.height, width: view.frame.width - 2*kContainerPadding, height: view.frame.height - 4*kContainerPadding)
         UIView.animate(withDuration: 0.25, animations: {
             self.containerView.frame = containerFrame
@@ -137,7 +137,7 @@ class AboutViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    func didPanContainerView(sender: UIPanGestureRecognizer) {
+    @objc func didPanContainerView(sender: UIPanGestureRecognizer) {
         let deltaY = sender.translation(in: view).y
         containerView.frame = CGRect(origin: CGPoint(x: kContainerPadding, y: containerView.frame.minY + deltaY), size: containerView.frame.size)
         sender.setTranslation(.zero, in: view)

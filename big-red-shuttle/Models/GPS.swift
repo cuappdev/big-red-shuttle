@@ -58,7 +58,7 @@ import SwiftyJSON
         }
     }
     
-    func logShuttleLocation() {
+    @objc func logShuttleLocation() {
         if !isLoggingShuttleLocation { return }
         
         API.shared.logLocation(success: { (json: JSON?) in

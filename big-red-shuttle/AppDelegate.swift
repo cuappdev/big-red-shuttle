@@ -16,7 +16,7 @@ var appEnteredForeground: Bool = true
 
 extension UINavigationController {
     override open func viewDidLoad() {
-        navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.navtitleblack, NSFontAttributeName: UIFont(name: "SFUIText-Semibold" , size: 16)!]
+        navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.navtitleblack, NSAttributedStringKey.font: UIFont(name: "SFUIText-Semibold" , size: 16)!]
         navigationBar.barTintColor = .brslightgrey
         navigationBar.isTranslucent = false
     }
@@ -66,8 +66,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         tabBarController.tabBar.layer.borderColor = UIColor.lightGray.cgColor
         tabBarController.delegate = self
         
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsblack], for:.normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsred], for:.selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.brsblack], for:.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.brsred], for:.selected)
         
         // Set up window
         window = UIWindow(frame: UIScreen.main.bounds)

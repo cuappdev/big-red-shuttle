@@ -29,8 +29,8 @@ class DriverViewController: UIViewController, UITableViewDelegate, UITableViewDa
         title = "Settings"
         
         let closeButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissVC))
-        closeButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.brsblack,
-            NSFontAttributeName: UIFont(name: "SFUIDisplay-Medium", size: 15.0)!], for: .normal)
+        closeButton.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.brsblack,
+            NSAttributedStringKey.font: UIFont(name: "SFUIDisplay-Medium", size: 15.0)!], for: .normal)
         navigationItem.rightBarButtonItem = closeButton
         
         tableView = UITableView(frame: view.bounds, style: .grouped)
@@ -44,7 +44,7 @@ class DriverViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // MARK: - Action Functions
     
-    func textFieldDidChange(textField: UITextField) {
+    @objc func textFieldDidChange(textField: UITextField) {
         let enteredCorrectKey = (textField.text == masterKey)
         
         loginImage = (keyTextField?.text != "") ? (enteredCorrectKey ? #imageLiteral(resourceName: "CorrectIcon") : #imageLiteral(resourceName: "IncorrectIcon")) : nil
@@ -54,7 +54,7 @@ class DriverViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.reloadData()
     }
     
-    func didToggleLogging(loggingSwitch: UISwitch) {
+    @objc func didToggleLogging(loggingSwitch: UISwitch) {
         isLoggingOn = loggingSwitch.isOn
         
         if isLoggingOn {
@@ -80,7 +80,7 @@ class DriverViewController: UIViewController, UITableViewDelegate, UITableViewDa
         footerLabel?.text = footerString
     }
     
-    func dismissVC() {
+    @objc func dismissVC() {
         dismiss(animated: true, completion: nil)
     }
     
